@@ -112,6 +112,17 @@ CuOOraSystem >> getUserPoints: aUser [
 ]
 
 { #category : #'instance creation' }
+CuOOraSystem >> newTopic: aName desc: aDescription forUser: aUser [
+	| t |
+	"this method would only add a topic to a user if it 
+	also adds it to the system at the same time "
+	t := self newTopic: aName description: aDescription.
+	aUser addInterest: t.
+	topics add: t.
+	^ t
+]
+
+{ #category : #'instance creation' }
 CuOOraSystem >> newTopic: aName description: aDescription [
 	| t |
 	t := Topic newWith: aName desc: aDescription.
