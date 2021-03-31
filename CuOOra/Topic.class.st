@@ -49,3 +49,8 @@ Topic >> initializeWith: aName and: aDescription [
 	name:= aName.
 	description := aDescription. 
 ]
+
+{ #category : #accessing }
+Topic >> relatedQuestions [ 
+	^ questions 
+]

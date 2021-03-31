@@ -45,7 +45,7 @@ Answer >> initializeFor: aQuestion and: aText [
 	text := aText
 ]
 
-{ #category : #accessing }
+{ #category : #obsolete }
 Answer >> question [
 	^ question
 ]

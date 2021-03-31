@@ -26,7 +26,8 @@ Class {
 	#instVars : [
 		'name',
 		'content',
-		'topics'
+		'topics',
+		'answers'
 	],
 	#category : #CuOOra
 }
@@ -37,9 +38,20 @@ Question class >> newWithName: aName andContent: someContent [
 	
 ]
 
+{ #category : #obsolete }
+Question >> allAnswers [
+^ answers
+]
+
+{ #category : #deleting }
+Question >> deleteAnswers [ 
+ answers removeAll.
+]
+
 { #category : #initialization }
 Question >> initialize [
-	super initialize
+	super initialize.
+	answers:= OrderedCollection new.
 ]
 
 { #category : #initialization }

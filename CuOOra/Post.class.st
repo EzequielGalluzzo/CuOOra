@@ -34,40 +34,8 @@ Class {
 	#category : #CuOOra
 }
 
-{ #category : #action }
-Post >> dislikePost: aUser [
-	| interaction |
-	interaction := interactions
-		detect: [ :inter | inter isOfUser: aUser ]
-		ifFound: [ interaction dislike ]
-		ifNone: [ interaction := Dislike newFor: aUser.
-			[ interactions add: interaction ] ]
-]
-
-{ #category : #'math functions' }
-Post >> getInteractionPoints [
-	| totalLikes totalDislikes |
-	totalLikes := interactions
-		inject: 0
-		into: [ :sum :each | sum + each isLike asBit ].
-	totalDislikes := interactions
-		inject: 0
-		into: [ :sum :each | sum + each isDislike asBit ].
-	^ totalLikes + (totalDislikes * -1)
-]
-
 { #category : #initialization }
 Post >> initialize [
 	timeAndDateOfCreation := Date today.
 	interactions := Set new.
-]
-
-{ #category : #action }
-Post >> likePost: aUser [
-	| interaction |
-	interaction := interactions
-		detect: [ :inter | inter isOfUser: aUser ]
-		ifFound: [ interaction like ]
-		ifNone: [ interaction := Like newFor: aUser.
-			[ interactions add: interaction ] ]
 ]

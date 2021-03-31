@@ -24,13 +24,14 @@ Class {
 	#name : #User,
 	#superclass : #Object,
 	#instVars : [
+		'topics',
 		'interactions',
 		'timeAndDate',
 		'username',
 		'password',
 		'answers',
 		'questions',
-		'followsUsers'
+		'follows'
 	],
 	#category : #CuOOra
 }
@@ -40,7 +41,24 @@ User class >> newWithUsername: aUsername andPassword: aPassword [
 	^ self new initializeWith: aUsername and: aPassword.
 ]
 
-{ #category : #obsolete }
+{ #category : #adding }
+User >> addInterest: aTopic [
+	topics add: aTopic
+]
+
+{ #category : #boolean }
+User >> askedQuestion: aQuestion [
+ ^ questions includes:  aQuestion 
+]
+
+{ #category : #action }
+User >> deleteQuestion: aQuestion [
+	(self askedQuestion: aQuestion)
+		ifTrue: [ questions remove: aQuestion ]
+		ifFalse: [ ^ false ]
+]
+
+{ #category : #action }
 User >> dislikePost: aPost [
 	| interaction |
 	interaction := interactions
@@ -52,26 +70,43 @@ User >> dislikePost: aPost [
 
 { #category : #action }
 User >> follow: aUser [
-	followsUsers
+	follows
 		detect: [ :user | user isFollower: aUser ]
-		ifNone: [ followsUsers add: aUser ]
+		ifNone: [ follows add: aUser ]
 ]
 
-{ #category : #'math functions' }
-User >> getPoints [
-	| userPoints  repliedToOthers |
-	userPoints := 0.
-	userPoints sum: questions size * 20.
-	repliedToOthers := self getRepliesToOthers.
-	userPoints sum: repliedToOthers size * 50.
-	userPoints
-		sum: [ answers sumNumbers: [ :answ | answ getInteractionPoints ] ].
-	userPoints
-		sum: [ questions sumNumbers: [ :q | q getInteractionPoints ] ].
-	^ userPoints
+{ #category : #accessing }
+User >> followsUsers [
+	^ follows
+]
+
+{ #category : #accessing }
+User >> getInterests [  
+	^ topics
 ]
 
 { #category : #action }
+User >> getPointsFromUser [
+	| userPoints repliedToOthers |
+	userPoints := 0.
+	userPoints sum: questions size * 20.
+	repliedToOthers := self getRepliesToOtherUsers.
+	userPoints sum: repliedToOthers size * 50.
+	^ userPoints
+]
+
+{ #category : #accessing }
+User >> getQuestions [ 
+	^ questions
+]
+
+{ #category : #action }
+User >> getRepliesToOtherUsers [
+"get all my answers where the answer is not in my questions answers"
+^ questions collect: [:q | q allAnswers ] thenReject: [:a | answers includes: a ]
+]
+
+{ #category : #obsolete }
 User >> getRepliesToOthers [
 	| repliedTo repliedToSelf |
 	repliedTo := answers collect: [ :answ | answ question ].
@@ -98,10 +133,10 @@ User >> initializeWith: aUsername and: aPassword [
 
 { #category : #boolean }
 User >> isFollower: aUser [
-	^ followsUsers includes: aUser 
+	^ follows includes: aUser
 ]
 
-{ #category : #obsolete }
+{ #category : #action }
 User >> likePost: aPost [
 	| interaction |
 	interaction := interactions

@@ -2,6 +2,9 @@ Class {
 	#name : #InteractionTest,
 	#superclass : #TestCase,
 	#instVars : [
+		'userLike',
+		'userDislike',
+		'userNil',
 		'postLike',
 		'postDislike',
 		'postNil',
@@ -12,7 +15,7 @@ Class {
 }
 
 { #category : #setUps }
-InteractionTest >> makePosts [
+InteractionTest >> makeQuestions [
 	"Add any changes to posts constuctor here"
 
 	postLike := Post new.
@@ -21,22 +24,10 @@ InteractionTest >> makePosts [
 ]
 
 { #category : #setUps }
-InteractionTest >> makeUsers [
-	"Add any changes to posts constuctor here"
-
-	userLike := User newWithUsername: 'Elio' andPassword: '123'. 
-	userDislike := User newWithUsername: 'Elio' andPassword: '123'. 
-	userNil := User newWithUsername: 'Elio' andPassword: '123'. 
-]
-
-{ #category : #setUps }
 InteractionTest >> setUp [
 	"Hooks that subclasses may override to define the fixture of test."
 
 	super setUp.
-	postLike := Post new.
-	postDislike := Post new.
-	postNil := Post new.
 	myLike := Like newFor: postLike.
 	myDislike := Dislike newFor: postDislike
 ]

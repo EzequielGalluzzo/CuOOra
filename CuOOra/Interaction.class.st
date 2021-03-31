@@ -29,7 +29,6 @@ Class {
 	#name : #Interaction,
 	#superclass : #Object,
 	#instVars : [
-		'user',
 		'post',
 		'timeAndDate',
 		'reaction'
@@ -56,19 +55,12 @@ Interaction >> dislike: aPost [
 	^ reaction.
 ]
 
-{ #category : #obsolete }
+{ #category : #initialization }
 Interaction >> initializeForPost: aPost [
 	post:= aPost.
 	timeAndDate := Date today.
 	reaction := self.
 
-]
-
-{ #category : #initialization }
-Interaction >> initializeForUser: aUser [
-	user := aUser.
-	timeAndDate := Date today.
-	reaction := self
 ]
 
 { #category : #testing }
@@ -81,15 +73,10 @@ Interaction >> isLike [
 	^ self subclassResponsibility 
 ]
 
-{ #category : #obsolete }
+{ #category : #testing }
 Interaction >> isOfPost: aPost [
 	^ (aPost == post)
 
-]
-
-{ #category : #testing }
-Interaction >> isOfUser: aUser [ 
-	^ user == aUser
 ]
 
 { #category : #action }
