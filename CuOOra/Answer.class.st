@@ -24,8 +24,7 @@ Class {
 	#name : #Answer,
 	#superclass : #Post,
 	#instVars : [
-		'text',
-		'question'
+		'text'
 	],
 	#category : #CuOOra
 }
@@ -43,11 +42,6 @@ Answer >> initialize [
 { #category : #initialization }
 Answer >> initializeFor: aQuestion and: aText [
 	text := aText
-]
-
-{ #category : #obsolete }
-Answer >> question [
-	^ question
 ]
 
 { #category : #accessing }

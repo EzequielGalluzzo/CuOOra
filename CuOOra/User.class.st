@@ -102,16 +102,18 @@ User >> getQuestions [
 
 { #category : #action }
 User >> getRepliesToOtherUsers [
-"get all my answers where the answer is not in my questions answers"
-^ questions collect: [:q | q allAnswers ] thenReject: [:a | answers includes: a ]
-]
+	"get all answers where the answer is not in my question's answers"
 
-{ #category : #obsolete }
-User >> getRepliesToOthers [
+	^ questions
+		collect: [ :q | q allAnswers ]
+		thenReject: [ :a | answers includes: a ].
+		
+
+	"obsolete method as answers no longer know their questions:
 	| repliedTo repliedToSelf |
-	repliedTo := answers collect: [ :answ | answ question ].
+	repliedTo := answers collect: [ :answ | answ question ]. 
 	repliedToSelf := repliedTo intersection: questions.
-	^ answers copyWithoutAll: repliedToSelf.
+	^ answers copyWithoutAll: repliedToSelf"
 ]
 
 { #category : #initialization }
