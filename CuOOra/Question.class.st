@@ -33,9 +33,13 @@ Class {
 }
 
 { #category : #'instance creation' }
-Question class >> newWithName: aName andContent: someContent [
-^ self new initializeWith: aName and: someContent 
-	
+Question class >> newWithName: aName topics: aCollectionOfTopics andContent: someContent [
+	^ (self new) initializeWith: aName topics: aCollectionOfTopics and: someContent.
+]
+
+{ #category : #adding }
+Question >> addAnswer: anAnswer [
+	answers add: anAnswer 
 ]
 
 { #category : #obsolete }
@@ -51,11 +55,14 @@ Question >> deleteAnswers [
 { #category : #initialization }
 Question >> initialize [
 	super initialize.
-	answers:= OrderedCollection new.
+	answers := OrderedCollection new.
+	topics := Set new.
 ]
 
 { #category : #initialization }
-Question >> initializeWith: aName and: someContent [
-super initialize
-
+Question >> initializeWith: aName topics: aCollectionOfTopics and: someContent [.
+	super initialize.
+	name:= aName.
+	topics addAll: aCollectionOfTopics.
+	content := someContent 
 ]

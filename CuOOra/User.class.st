@@ -42,8 +42,28 @@ User class >> newWithUsername: aUsername andPassword: aPassword [
 ]
 
 { #category : #adding }
+User >> addAnswerTo: aQuestion withText: aText [
+	| a |
+	a := Answer newWithText: aText.
+	aQuestion addAnswer: a.
+	answers add: a.
+	^ a
+]
+
+{ #category : #adding }
 User >> addInterest: aTopic [
 	topics add: aTopic
+]
+
+{ #category : #adding }
+User >> addQuestionWith: aTopicOrMore name: aName description: aDescription [
+	| q |
+	q := Question
+		newWithName: aName
+		topics: aTopicOrMore
+		andContent: aDescription.
+	questions add: q.
+	^ q 
 ]
 
 { #category : #boolean }

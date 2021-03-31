@@ -30,8 +30,8 @@ Class {
 }
 
 { #category : #'instance creation' }
-Answer class >> newFor: aQuestion withText: aText [ 
-	^ self new initializeFor: aQuestion and: aText
+Answer class >> newWithText: aText [
+	^ self new initializeWith: aText
 ]
 
 { #category : #initialization }
@@ -40,7 +40,7 @@ Answer >> initialize [
 ]
 
 { #category : #initialization }
-Answer >> initializeFor: aQuestion and: aText [
+Answer >> initializeWith: aText [
 	text := aText
 ]
 
