@@ -39,6 +39,11 @@ Topic class >> newWith: aName desc: aDescription [
 	^ self new initializeWith: aName and: aDescription 
 ]
 
+{ #category : #adding }
+Topic >> addQuestion: aQuestion [
+	questions add: aQuestion 
+]
+
 { #category : #initialization }
 Topic >> initialize [ 
 	questions := Set new.

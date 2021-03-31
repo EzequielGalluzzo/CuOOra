@@ -26,7 +26,6 @@ Class {
 	#instVars : [
 		'name',
 		'content',
-		'topics',
 		'answers'
 	],
 	#category : #CuOOra
@@ -56,13 +55,13 @@ Question >> deleteAnswers [
 Question >> initialize [
 	super initialize.
 	answers := OrderedCollection new.
-	topics := Set new.
+
 ]
 
 { #category : #initialization }
-Question >> initializeWith: aName topics: aCollectionOfTopics and: someContent [.
+Question >> initializeWith: aName topics: aCollectionOfTopics and: someContent [
 	super initialize.
-	name:= aName.
-	topics addAll: aCollectionOfTopics.
-	content := someContent 
+	name := aName.
+	content := someContent.
+	aCollectionOfTopics do: [ :t | t addQuestion: self ]
 ]

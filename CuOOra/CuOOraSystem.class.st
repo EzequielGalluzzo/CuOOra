@@ -34,12 +34,29 @@ Class {
 	#category : #CuOOra
 }
 
+{ #category : #adding }
+CuOOraSystem >> addUser: aName pass: aPassword [
+ | u |
+ u := User newWithUsername: aName andPassword: aPassword.
+ users add: u.
+^ u
+]
+
 { #category : #action }
 CuOOraSystem >> deleteQuestion: aQuestion [ 
 |user |
 	aQuestion deleteAnswers.
 	user := users detect: [ :u | u askedQuestion: aQuestion ].
 	user deleteQuestion: aQuestion.
+]
+
+{ #category : #accessing }
+CuOOraSystem >> getAllTopics [
+	"es necesario que CuOOra conozca topicos? Como se construyen
+	las relaciones bidireccionales?"
+
+	^ topics
+	"^ (users flatCollect: [ :u | u getInterests  ]) asSet."
 ]
 
 { #category : #accessing }

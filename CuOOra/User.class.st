@@ -63,7 +63,8 @@ User >> addQuestionWith: aTopicOrMore name: aName description: aDescription [
 		topics: aTopicOrMore
 		andContent: aDescription.
 	questions add: q.
-	^ q 
+	topics addAll: aTopicOrMore.
+	^ q
 ]
 
 { #category : #boolean }
