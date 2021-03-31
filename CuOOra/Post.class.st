@@ -28,7 +28,8 @@ Class {
 	#name : #Post,
 	#superclass : #Object,
 	#instVars : [
-		'timeDateofCreation'
+		'timeAndDateOfCreation',
+		'interactions'
 	],
 	#category : #CuOOra
 }

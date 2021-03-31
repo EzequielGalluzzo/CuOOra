@@ -23,10 +23,27 @@ Internal Representation and Key Implementation Points.
 Class {
 	#name : #Question,
 	#superclass : #Post,
+	#instVars : [
+		'name',
+		'content',
+		'topics'
+	],
 	#category : #CuOOra
 }
+
+{ #category : #'instance creation' }
+Question class >> newWithName: aName andContent: someContent [
+^ self new initializeWith: aName and: someContent 
+	
+]
 
 { #category : #initialization }
 Question >> initialize [
 	super initialize
+]
+
+{ #category : #initialization }
+Question >> initializeWith: aName and: someContent [
+super initialize
+
 ]

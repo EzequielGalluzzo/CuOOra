@@ -29,7 +29,8 @@ Class {
 		'username',
 		'password',
 		'answers',
-		'questions'
+		'questions',
+		'followsUsers'
 	],
 	#category : #CuOOra
 }
@@ -39,7 +40,7 @@ User class >> newWithUsername: aUsername andPassword: aPassword [
 	^ self new initializeWith: aUsername and: aPassword.
 ]
 
-{ #category : #action }
+{ #category : #obsolete }
 User >> dislikePost: aPost [
 	| interaction |
 	interaction := interactions
@@ -58,16 +59,24 @@ User >> follow: aUser [
 
 { #category : #'math functions' }
 User >> getPoints [
-	| userPoints repliedTo repliedToSelf repliedToOthers |
+	| userPoints  repliedToOthers |
 	userPoints := 0.
 	userPoints sum: questions size * 20.
+	repliedToOthers := self getRepliesToOthers.
+	userPoints sum: repliedToOthers size * 50.
+	userPoints
+		sum: [ answers sumNumbers: [ :answ | answ getInteractionPoints ] ].
+	userPoints
+		sum: [ questions sumNumbers: [ :q | q getInteractionPoints ] ].
+	^ userPoints
+]
+
+{ #category : #action }
+User >> getRepliesToOthers [
+	| repliedTo repliedToSelf |
 	repliedTo := answers collect: [ :answ | answ question ].
 	repliedToSelf := repliedTo intersection: questions.
-	repliedToOthers := answers copyWithoutAll: repliedToSelf.
-	userPoints sum: repliedToOthers size * 50.
-	userPoints sum: [answers sumNumbers: [ :answ | answ getInteractionPoints ] ].
-	userPoints sum: [questions sumNumbers: [ :q | q getInteractionPoints  ]] .
-	^ userPoints
+	^ answers copyWithoutAll: repliedToSelf.
 ]
 
 { #category : #initialization }
@@ -91,7 +100,7 @@ User >> isFollower: aUser [
 	^ followsUsers includes: aUser 
 ]
 
-{ #category : #action }
+{ #category : #obsolete }
 User >> likePost: aPost [
 	| interaction |
 	interaction := interactions
