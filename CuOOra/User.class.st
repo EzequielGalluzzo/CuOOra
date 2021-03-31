@@ -80,13 +80,14 @@ User >> getRepliesToOthers [
 ]
 
 { #category : #initialization }
-User >> initialize [  
-"solo se puede tener una interaccion para cada posteo, un Set evita repeticiones"
+User >> initialize [
+	"solo se puede tener una interaccion para cada posteo, un Set evita repeticiones"
 
-timeAndDate:= Date today.
-answers := OrderedCollection new.
-questions := OrderedCollection new.
-interactions:= Set new.
+	timeAndDate := Date today.
+	answers := OrderedCollection new.
+	questions := OrderedCollection new.
+	"interactions is obsolete - delete this variable"
+	interactions := Set new
 ]
 
 { #category : #initialization }

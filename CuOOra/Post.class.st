@@ -52,7 +52,7 @@ Post >> getInteractionPoints [
 		into: [ :sum :each | sum + each isLike asBit ].
 	totalDislikes := interactions
 		inject: 0
-		into: [ :sum :each | sum + each isLike asBit ].
+		into: [ :sum :each | sum + each isDislike asBit ].
 	^ totalLikes + (totalDislikes * -1)
 ]
 
