@@ -25,3 +25,8 @@ Class {
 	#superclass : #Post,
 	#category : #CuOOra
 }
+
+{ #category : #initialization }
+Question >> initialize [
+	super initialize
+]

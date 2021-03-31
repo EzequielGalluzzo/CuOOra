@@ -21,6 +21,15 @@ InteractionTest >> makePosts [
 ]
 
 { #category : #setUps }
+InteractionTest >> makeUsers [
+	"Add any changes to posts constuctor here"
+
+	userLike := User newWithUsername: 'Elio' andPassword: '123'. 
+	userDislike := User newWithUsername: 'Elio' andPassword: '123'. 
+	userNil := User newWithUsername: 'Elio' andPassword: '123'. 
+]
+
+{ #category : #setUps }
 InteractionTest >> setUp [
 	"Hooks that subclasses may override to define the fixture of test."
 

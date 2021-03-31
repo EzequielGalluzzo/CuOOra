@@ -63,6 +63,13 @@ Interaction >> initializeForPost: aPost [
 
 ]
 
+{ #category : #initialization }
+Interaction >> initializeForUser: aUser [
+	user := aUser.
+	timeAndDate := Date today.
+	reaction := self
+]
+
 { #category : #testing }
 Interaction >> isDislike [
 	^ self subclassResponsibility 
@@ -77,6 +84,11 @@ Interaction >> isLike [
 Interaction >> isOfPost: aPost [
 	^ (aPost == post)
 
+]
+
+{ #category : #testing }
+Interaction >> isOfUser: aUser [ 
+	^ user == aUser
 ]
 
 { #category : #action }

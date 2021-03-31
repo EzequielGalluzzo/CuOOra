@@ -5,6 +5,10 @@ Class {
 }
 
 { #category : #tests }
+UserTest >> testGetPoints [
+]
+
+{ #category : #tests }
 UserTest >> testQuestion [
 ]
 

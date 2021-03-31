@@ -25,3 +25,38 @@ Class {
 	#superclass : #Post,
 	#category : #CuOOra
 }
+
+{ #category : #'instance creation' }
+Answer class >> newFor: aQuestion withText: aText [ 
+	^ self new initializeFor: aQuestion and: aText
+]
+
+{ #category : #'instance creation' }
+Answer class >> newWithText: aText [
+	^ self new initializeWith: aText
+]
+
+{ #category : #initialization }
+Answer >> initialize [ 
+	super initialize.
+]
+
+{ #category : #initialization }
+Answer >> initializeWith: aText [
+	text := aText
+]
+
+{ #category : #initialization }
+Answer >> nitializeFor: aQuestion and: aText [
+	text := aText
+]
+
+{ #category : #accessing }
+Answer >> question [
+	^ question
+]
+
+{ #category : #accessing }
+Answer >> text [
+	^ text
+]

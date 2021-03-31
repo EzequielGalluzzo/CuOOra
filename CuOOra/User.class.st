@@ -49,6 +49,27 @@ User >> dislikePost: aPost [
 			[ interactions add: interaction ] ]
 ]
 
+{ #category : #action }
+User >> follow: aUser [
+	followsUsers
+		detect: [ :user | user isFollower: aUser ]
+		ifNone: [ followsUsers add: aUser ]
+]
+
+{ #category : #'math functions' }
+User >> getPoints [
+	| userPoints repliedTo repliedToSelf repliedToOthers |
+	userPoints := 0.
+	userPoints sum: questions size * 20.
+	repliedTo := answers collect: [ :answ | answ question ].
+	repliedToSelf := repliedTo intersection: questions.
+	repliedToOthers := answers copyWithoutAll: repliedToSelf.
+	userPoints sum: repliedToOthers size * 50.
+	userPoints sum: [answers sumNumbers: [ :answ | answ getInteractionPoints ] ].
+	userPoints sum: [questions sumNumbers: [ :q | q getInteractionPoints  ]] .
+	^ userPoints
+]
+
 { #category : #initialization }
 User >> initialize [  
 "solo se puede tener una interaccion para cada posteo, un Set evita repeticiones"
@@ -63,6 +84,11 @@ interactions:= Set new.
 User >> initializeWith: aUsername and: aPassword [
 	username:= aUsername.
 	password := aPassword.
+]
+
+{ #category : #boolean }
+User >> isFollower: aUser [
+	^ followsUsers includes: aUser 
 ]
 
 { #category : #action }
