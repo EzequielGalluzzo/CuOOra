@@ -35,6 +35,11 @@ Answer class >> newFor: aQuestion withText: aText [
 	^ self new initializeFor: aQuestion and: aText
 ]
 
+{ #category : #testing }
+Answer >> hasQuestion: aQuestion [ 
+	^ question == aQuestion
+]
+
 { #category : #initialization }
 Answer >> initialize [ 
 	super initialize.
@@ -46,7 +51,7 @@ Answer >> initializeFor: aQuestion and: aText [
 ]
 
 { #category : #accessing }
-Answer >> question [
+Answer >> respondsQuestion [
 	^ question
 ]
 

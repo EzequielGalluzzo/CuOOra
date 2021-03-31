@@ -25,6 +25,7 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'interactions',
+		'topics',
 		'timeAndDate',
 		'username',
 		'password',
@@ -38,6 +39,27 @@ Class {
 { #category : #'instance creation' }
 User class >> newWithUsername: aUsername andPassword: aPassword [
 	^ self new initializeWith: aUsername and: aPassword.
+]
+
+{ #category : #'adding item' }
+User >> addTopic: aTopic [
+	topics add: aTopic
+]
+
+{ #category : #boolean }
+User >> askedQuestion: aQuestion [
+	^ (questions includes: aQuestion)
+
+]
+
+{ #category : #deleting }
+User >> deleteAnswers: manyAnswers [
+	answers removeAll: manyAnswers
+]
+
+{ #category : #deleting }
+User >> deleteQuestion: aQuestion [
+	questions remove: aQuestion 
 ]
 
 { #category : #obsolete }
@@ -57,6 +79,11 @@ User >> follow: aUser [
 		ifNone: [ followsUsers add: aUser ]
 ]
 
+{ #category : #accessing }
+User >> followedUserQuestions [
+	^ followsUsers flatCollect: [ :user | user myQuestions]
+]
+
 { #category : #'math functions' }
 User >> getPoints [
 	| userPoints  repliedToOthers |
@@ -74,7 +101,7 @@ User >> getPoints [
 { #category : #action }
 User >> getRepliesToOthers [
 	| repliedTo repliedToSelf |
-	repliedTo := answers collect: [ :answ | answ question ].
+	repliedTo := answers collect: [ :answ | answ respondsQuestion ].
 	repliedToSelf := repliedTo intersection: questions.
 	^ answers copyWithoutAll: repliedToSelf.
 ]
@@ -84,16 +111,25 @@ User >> initialize [
 	"solo se puede tener una interaccion para cada posteo, un Set evita repeticiones"
 
 	timeAndDate := Date today.
+	"Preguntas y respuestas no son Set por que en teoria podria spammear"
 	answers := OrderedCollection new.
 	questions := OrderedCollection new.
+	"topics es Set por que no deberia tener dos veces el mismo topic"
+	topics := Set new.
 	"interactions is obsolete - delete this variable"
 	interactions := Set new
 ]
 
 { #category : #initialization }
 User >> initializeWith: aUsername and: aPassword [
-	username:= aUsername.
+	username := aUsername.
 	password := aPassword.
+
+]
+
+{ #category : #accessing }
+User >> interestedIn [
+	^ topics
 ]
 
 { #category : #boolean }
@@ -109,4 +145,19 @@ User >> likePost: aPost [
 		ifFound: [ interaction like ]
 		ifNone: [ interaction := Like newFor: aPost.
 			[ interactions add: interaction ] ]
+]
+
+{ #category : #accessing }
+User >> myAnswers [
+	^ answers
+]
+
+{ #category : #accessing }
+User >> myInteractions [
+	^ interactions
+]
+
+{ #category : #accessing }
+User >> myQuestions [
+	^ questions.
 ]

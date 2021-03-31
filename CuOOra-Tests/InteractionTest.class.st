@@ -2,6 +2,9 @@ Class {
 	#name : #InteractionTest,
 	#superclass : #TestCase,
 	#instVars : [
+		'userLike',
+		'userDislike',
+		'userNil',
 		'postLike',
 		'postDislike',
 		'postNil',

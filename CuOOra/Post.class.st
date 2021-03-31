@@ -35,13 +35,24 @@ Class {
 }
 
 { #category : #action }
-Post >> dislikePost: aUser [
+Post >> dislikeFrom: aUser [
 	| interaction |
+	interaction := interactions
+		detect: [ :inter | inter isOfUser: aUser ]
+		ifNone: [ interaction := Dislike newFor: aUser.
+			interactions add: interaction.
+			^ self ].
+	interaction dislike
+]
+
+{ #category : #action }
+Post >> dislikePost: aUser [
+| interaction |
 	interaction := interactions
 		detect: [ :inter | inter isOfUser: aUser ]
 		ifFound: [ interaction dislike ]
 		ifNone: [ interaction := Dislike newFor: aUser.
-			[ interactions add: interaction ] ]
+			[ interactions add: interaction ] ].
 ]
 
 { #category : #'math functions' }
@@ -60,6 +71,17 @@ Post >> getInteractionPoints [
 Post >> initialize [
 	timeAndDateOfCreation := Date today.
 	interactions := Set new.
+]
+
+{ #category : #action }
+Post >> likeFrom: aUser [
+	| interaction |
+	interaction := interactions
+		detect: [ :inter | inter isOfUser: aUser ]
+		ifNone: [ interaction := Like newFor: aUser.
+			interactions add: interaction.
+			^ self ].
+	interaction like
 ]
 
 { #category : #action }

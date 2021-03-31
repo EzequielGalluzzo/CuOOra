@@ -26,11 +26,6 @@ Class {
 	#category : #CuOOra
 }
 
-{ #category : #'instance creation' }
-Dislike class >> newFor: aPost [ 
-	^ self new initializeForPost: aPost.
-]
-
 { #category : #testing }
 Dislike >> isDislike [ 
 	^ true

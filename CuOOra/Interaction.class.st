@@ -38,15 +38,20 @@ Class {
 }
 
 { #category : #'instance creation' }
-Interaction class >> newFor: aPost [
+Interaction class >> newFor: aUser [
+	^ (self new) initializeForUser: aUser
+]
+
+{ #category : #'instance creation' }
+Interaction class >> newForPost: aPost [
 	^ self new initializeForPost: aPost
 ]
 
 { #category : #action }
 Interaction >> dislike [
-    (reaction isLike)
-	ifTrue: [ reaction := Dislike newFor: post ].
-	^ reaction.
+	reaction isLike
+		ifTrue: [ reaction := Dislike newFor: user ].
+	^ reaction
 ]
 
 { #category : #obsolete }
@@ -88,15 +93,15 @@ Interaction >> isOfPost: aPost [
 ]
 
 { #category : #testing }
-Interaction >> isOfUser: aUser [ 
-	^ user == aUser
+Interaction >> isOfUser: aUser [
+	^  aUser == user
 ]
 
 { #category : #action }
 Interaction >> like [
-    (reaction isDislike)
-	ifTrue: [ reaction := Like newFor: post ].
-	^ reaction.
+	reaction isDislike
+		ifTrue: [ reaction := Like newFor: user ].
+	^ reaction
 ]
 
 { #category : #obsolete }

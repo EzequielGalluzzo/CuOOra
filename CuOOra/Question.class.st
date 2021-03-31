@@ -47,3 +47,8 @@ Question >> initializeWith: aName and: someContent [
 super initialize
 
 ]
+
+{ #category : #testing }
+Question >> isQuestion: aQuestion [
+	^ self == aQuestion
+]
