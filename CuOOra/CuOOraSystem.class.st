@@ -111,6 +111,15 @@ CuOOraSystem >> getUserPoints: aUser [
 	^ self getInteractionPoints: interactions
 ]
 
+{ #category : #'instance creation' }
+CuOOraSystem >> newTopic: aName description: aDescription [
+	| t |
+	t := Topic newWith: aName desc: aDescription.
+	topics add: t.
+	^ t
+
+]
+
 { #category : #accessing }
 CuOOraSystem >> questionsForTopic: aTopic [
 	^ aTopic relatedQuestions 

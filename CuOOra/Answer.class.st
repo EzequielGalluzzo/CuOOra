@@ -34,6 +34,11 @@ Answer class >> newWithText: aText [
 	^ self new initializeWith: aText
 ]
 
+{ #category : #accessing }
+Answer >> gettext [
+	^ text
+]
+
 { #category : #initialization }
 Answer >> initialize [ 
 	super initialize.
@@ -42,9 +47,4 @@ Answer >> initialize [
 { #category : #initialization }
 Answer >> initializeWith: aText [
 	text := aText
-]
-
-{ #category : #accessing }
-Answer >> text [
-	^ text
 ]

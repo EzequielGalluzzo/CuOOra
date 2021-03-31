@@ -36,7 +36,7 @@ Class {
 
 { #category : #'instance creation' }
 Topic class >> newWith: aName desc: aDescription [
-	^ self new initializeWith: aName and: aDescription 
+	^ self new initializeWith: aName asLowercase and: aDescription asLowercase 
 ]
 
 { #category : #adding }

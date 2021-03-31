@@ -24,7 +24,7 @@ Class {
 	#name : #User,
 	#superclass : #Object,
 	#instVars : [
-		'topics',
+		'interests',
 		'interactions',
 		'timeAndDate',
 		'username',
@@ -52,7 +52,7 @@ User >> addAnswerTo: aQuestion withText: aText [
 
 { #category : #adding }
 User >> addInterest: aTopic [
-	topics add: aTopic
+	interests  add: aTopic
 ]
 
 { #category : #adding }
@@ -63,7 +63,6 @@ User >> addQuestionWith: aTopicOrMore name: aName description: aDescription [
 		topics: aTopicOrMore
 		andContent: aDescription.
 	questions add: q.
-	topics addAll: aTopicOrMore.
 	^ q
 ]
 
@@ -102,8 +101,8 @@ User >> followsUsers [
 ]
 
 { #category : #accessing }
-User >> getInterests [  
-	^ topics
+User >> getInterests [
+	^ interests
 ]
 
 { #category : #action }
