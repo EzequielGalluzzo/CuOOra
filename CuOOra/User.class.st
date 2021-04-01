@@ -56,7 +56,12 @@ User >> addInterest: aTopic [
 ]
 
 { #category : #adding }
-User >> addQuestionWith: aTopicOrMore name: aName description: aDescription [
+User >> addQuestion: aQuestion [ 
+	questions add: aQuestion
+]
+
+{ #category : #adding }
+User >> addQuestionForTopic: aTopicOrMore name: aName description: aDescription [
 	| q |
 	q := Question
 		newWithName: aName
@@ -83,9 +88,10 @@ User >> dislikePost: aPost [
 	| interaction |
 	interaction := interactions
 		detect: [ :inter | inter isOfPost: aPost ]
-	ifFound: [ interaction dislike ]
-		ifNone: [ interaction := Dislike newFor: aPost.
-			[ interactions add: interaction ] ]
+		ifNone: [ Dislike newFor: aPost ].
+	interaction isDislike
+		ifFalse: [ interactions remove: interaction ].
+	interactions add: interaction
 ]
 
 { #category : #action }
@@ -101,6 +107,16 @@ User >> followsUsers [
 ]
 
 { #category : #accessing }
+User >> getAllAnswers [
+	^ answers
+]
+
+{ #category : #accessing }
+User >> getInteractions [
+	^ interactions
+]
+
+{ #category : #accessing }
 User >> getInterests [
 	^ interests
 ]
@@ -109,9 +125,9 @@ User >> getInterests [
 User >> getPointsFromUser [
 	| userPoints repliedToOthers |
 	userPoints := 0.
-	userPoints sum: questions size * 20.
+	userPoints := userPoints + questions size * 20.
 	repliedToOthers := self getRepliesToOtherUsers.
-	userPoints sum: repliedToOthers size * 50.
+	userPoints := userPoints + repliedToOthers size * 50.
 	^ userPoints
 ]
 
@@ -163,7 +179,8 @@ User >> likePost: aPost [
 	| interaction |
 	interaction := interactions
 		detect: [ :inter | inter isOfPost: aPost ]
-		ifFound: [ interaction like ]
-		ifNone: [ interaction := Like newFor: aPost.
-			[ interactions add: interaction ] ]
+		ifNone: [ Like newFor: aPost ].
+	interaction isLike
+		ifFalse: [ interactions remove: interaction ].
+	interactions add: interaction
 ]

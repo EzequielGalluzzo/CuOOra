@@ -3,7 +3,7 @@ Please comment me using the following template inspired by Class Responsibility 
 
 For the Class part:  State a one line summary. For example, ""I represent a paragraph of text"".
 
-For the Responsibility part: Three sentences about my main responsibilities - what I do, what I know.
+For the Responsibility part: A system in which users interact asking questions and giving answers.
 
 For the Collaborators Part: State my main collaborators and one line about how I interact with them. 
 
@@ -34,6 +34,18 @@ Class {
 	#category : #CuOOra
 }
 
+{ #category : #testing }
+CuOOraSystem >> addTopic: aTopic [
+	(aTopic isCollection) 
+	ifFalse: [ topics add: aTopic  ]
+	ifTrue: [ topics addAll: aTopic ]
+]
+
+{ #category : #testing }
+CuOOraSystem >> addUser: aUser [
+	users add: aUser 
+]
+
 { #category : #adding }
 CuOOraSystem >> addUser: aName pass: aPassword [
  | u |
@@ -63,7 +75,7 @@ CuOOraSystem >> getAllTopics [
 CuOOraSystem >> getAnswers: aQuestion [
 	| aCol aColSorted |
 	"given a question, I  need to ask the question for it's answers"
-	aCol := aQuestion myAnswers.
+	aCol := aQuestion allAnswers.
 	"then I need to sort all answers in relation to interaction points for each answer,
 	from most points to least"
 	aColSorted := aCol
@@ -87,28 +99,37 @@ CuOOraSystem >> getInteractionPoints: aCollectionOfInteractions [
 
 { #category : #accessing }
 CuOOraSystem >> getPostInteractions: aPost [
-	| intCol| 
+	| intCol |
 	"for this post, I need to collect all users interactions,
 	and then find all interactions with a post which equals aPost"
-	intCol := users flatCollect: [ :u | u myInteractions  ].
-	^ intCol select: [:i | i hasPost: aPost  ].
-	
+	intCol := users
+		flatCollect: [ :u | 
+			u getInteractions
+				ifNotEmpty: [ ^ u getInteractions ]
+				ifEmpty: [ ^ OrderedCollection new. ] ].
+	^ intCol select: [ :i | i hasPost: aPost ]
 ]
 
 { #category : #numeric }
 CuOOraSystem >> getUserPoints: aUser [
-	| total posts interactions |
+	| total posts in interactions |
 	total := 0.
-	total sum: aUser getPointsFromUser.
-	posts := aUser myQuestions.
-	posts addAll: aUser myAnswers.
+	total := total + aUser getPointsFromUser.
+	posts := aUser getQuestions.
+	posts addAll: aUser getAllAnswers.
 	"now from all users to get the posts from all of their interactions,
 	if the posts of those interactions correspond to the user posts collected above, sum
 	points of the interactions"
-	interactions := users
-		collect: [ :u | u myInteractions ]
-		thenSelect: [ :i | posts do: [ :p | i hasPost: p ] ] flattened.
-	^ self getInteractionPoints: interactions
+	interactions  := (users
+		collect: [ :u | u getInteractions ]) flattened.
+	in := (interactions select: [ :i | posts select: [ :p | i isOfPost: p ] ]) flattened.
+	^ self getInteractionPoints: in
+]
+
+{ #category : #initialization }
+CuOOraSystem >> initialize [ 
+	users:= Set new. 
+	topics:= Set new.
 ]
 
 { #category : #'instance creation' }

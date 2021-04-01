@@ -55,13 +55,14 @@ Question >> deleteAnswers [
 Question >> initialize [
 	super initialize.
 	answers := OrderedCollection new.
-
 ]
 
 { #category : #initialization }
-Question >> initializeWith: aName topics: aCollectionOfTopics and: someContent [
+Question >> initializeWith: aName topics: topics and: someContent [
 	super initialize.
 	name := aName.
 	content := someContent.
-	aCollectionOfTopics do: [ :t | t addQuestion: self ]
+	topics
+	ifNotNil:
+	[topics asOrderedCollection do: [ :t | t addQuestion: self ]].
 ]

@@ -28,8 +28,7 @@ Class {
 	#name : #Post,
 	#superclass : #Object,
 	#instVars : [
-		'timeAndDateOfCreation',
-		'interactions'
+		'timeAndDateOfCreation'
 	],
 	#category : #CuOOra
 }
@@ -37,5 +36,4 @@ Class {
 { #category : #initialization }
 Post >> initialize [
 	timeAndDateOfCreation := Date today.
-	interactions := Set new.
 ]
