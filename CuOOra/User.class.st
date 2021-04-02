@@ -79,7 +79,7 @@ User >> askedQuestion: aQuestion [
 { #category : #action }
 User >> deleteQuestion: aQuestion [
 	(self askedQuestion: aQuestion)
-		ifTrue: [ questions remove: aQuestion ]
+		ifTrue: [ questions remove: aQuestion. ^true ]
 		ifFalse: [ ^ false ]
 ]
 
@@ -125,10 +125,10 @@ User >> getInterests [
 User >> getPointsFromUser [
 	| userPoints repliedToOthers |
 	userPoints := 0.
-	userPoints := userPoints + questions size * 20.
+	userPoints := userPoints + (questions size) * 20.
 	repliedToOthers := self getRepliesToOtherUsers.
-	userPoints := userPoints + repliedToOthers size * 50.
-	^ userPoints
+	userPoints := userPoints + (repliedToOthers size) * 50.
+	^ userPoints.
 ]
 
 { #category : #accessing }

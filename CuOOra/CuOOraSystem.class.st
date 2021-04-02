@@ -62,11 +62,12 @@ CuOOraSystem >> addUser: aName pass: aPassword [
 ]
 
 { #category : #action }
-CuOOraSystem >> deleteQuestion: aQuestion [ 
-|user |
+CuOOraSystem >> deleteQuestion: aQuestion [
+	| user |
 	aQuestion deleteAnswers.
 	user := users detect: [ :u | u askedQuestion: aQuestion ].
-	user deleteQuestion: aQuestion.
+	^ user deleteQuestion: aQuestion.
+	
 ]
 
 { #category : #accessing }
@@ -109,15 +110,16 @@ CuOOraSystem >> getInteractionPoints: aCollectionOfInteractions [
 
 { #category : #accessing }
 CuOOraSystem >> getPostInteractions: aPost [
-	| intCol |
+	| intCol newCol |
 	"for this post, I need to collect all users interactions,
 	and then find all interactions with a post which equals aPost"
 	intCol := users
 		flatCollect: [ :u | 
 			u getInteractions
-				ifNotEmpty: [ ^ u getInteractions ]
-				ifEmpty: [ ^ OrderedCollection new. ] ].
-	^ intCol select: [ :i | i hasPost: aPost ]
+				ifNotEmpty: [ u getInteractions ]
+				ifEmpty: [ OrderedCollection new ] ].
+	newCol := (intCol select: [ :i | i isOfPost: aPost ]) asSet.
+	^ newCol
 ]
 
 { #category : #numeric }

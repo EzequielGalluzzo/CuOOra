@@ -22,7 +22,7 @@ Class {
 { #category : #setUps }
 CuOOraTest >> makeAnswers [
 	user2 addAnswerTo: question1 withText: 'blah blah'.
-	
+		user1 addAnswerTo: question1 withText: 'something'
 ]
 
 { #category : #setUps }
@@ -125,7 +125,7 @@ CuOOraTest >> makeUsers [
 CuOOraTest >> setUp [
 	"Hooks that subclasses may override to define the fixture of test."
 
-	super initialize.
+	super setUp.
 	self makeTopics.
 	self makeUsers.
 	self makeQuestions.
@@ -137,6 +137,13 @@ CuOOraTest >> setUp [
 	cuoora
 		addTopic: topicCollection;
 		addTopic: topic3.
+]
+
+{ #category : #tests }
+CuOOraTest >> testDeleteQuestion [
+	self makeAnswers.
+	self assert: (cuoora deleteQuestion: question1).
+
 ]
 
 { #category : #tests }
@@ -173,7 +180,7 @@ CuOOraTest >> testRelevantQuestionsForUser [
 	cuoora addTopic: topic1 forUser: user1.
 	self
 		assertCollection: (cuoora relevantQuestionsForUser: user1)
-		includesAll:
+		hasSameElements:
 			{question1.
-			question3.} asSet
+			question3} asSet
 ]
