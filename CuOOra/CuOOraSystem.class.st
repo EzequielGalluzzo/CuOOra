@@ -42,6 +42,13 @@ CuOOraSystem >> addTopic: aTopic [
 ]
 
 { #category : #testing }
+CuOOraSystem >> addTopic: aTopic forUser: aUser [
+	(topics includes: aTopic)
+	ifTrue: [ aUser addInterest: aTopic ] 
+	ifFalse: [ ^ false ] 
+]
+
+{ #category : #testing }
 CuOOraSystem >> addUser: aUser [
 	users add: aUser 
 ]
@@ -88,13 +95,16 @@ CuOOraSystem >> getAnswers: aQuestion [
 { #category : #'math functions' }
 CuOOraSystem >> getInteractionPoints: aCollectionOfInteractions [
 	| totalLikes totalDislikes |
+	aCollectionOfInteractions isNotNil
+	ifTrue: [
 	totalLikes := aCollectionOfInteractions
 		inject: 0
 		into: [ :sum :each | sum + each isLike asBit ].
 	totalDislikes := aCollectionOfInteractions
 		inject: 0
 		into: [ :sum :each | sum + each isDislike asBit ].
-	^ totalLikes + (totalDislikes * -1)
+	^ totalLikes + (totalDislikes * -1)]
+	ifFalse: [^ 0]
 ]
 
 { #category : #accessing }
@@ -116,14 +126,15 @@ CuOOraSystem >> getUserPoints: aUser [
 	total := 0.
 	total := total + aUser getPointsFromUser.
 	posts := aUser getQuestions.
-	posts addAll: aUser getAllAnswers.
+	posts addAll: (aUser getAllAnswers).
 	"now from all users to get the posts from all of their interactions,
 	if the posts of those interactions correspond to the user posts collected above, sum
 	points of the interactions"
-	interactions  := (users
-		collect: [ :u | u getInteractions ]) flattened.
-	in := (interactions select: [ :i | posts select: [ :p | i isOfPost: p ] ]) flattened.
-	^ self getInteractionPoints: in
+	interactions  := ((users
+		collect: [ :u | u getInteractions ]) flattened) asOrderedCollection.
+	interactions copy do: [ :i | posts do: [ :p | i isOfPost: p ] ].
+	 total := total + (self getInteractionPoints: interactions).
+	^ total.
 ]
 
 { #category : #initialization }
@@ -159,13 +170,14 @@ CuOOraSystem >> questionsForTopic: aTopic [
 
 { #category : #refactoring }
 CuOOraSystem >> relevantQuestionsForUser: aUser [
-	| questions follows q|
+	| questions follows q |
 	"first we collect all of the questions from all of the topics relevant to the user"
-	questions := aUser getInterests
-		flatCollect: [ :t | t getRelevantQuestions ].
-	"then we need to get all their followers and for each one get their questions"
-	follows:= aUser followsUsers.
-	q := follows flatCollect: [ :u | u getQuestions ].
-	questions addAll:q.
-	^ questions.
+     questions := (aUser getInterests)
+		collect: [ :t | (t relatedQuestions)].
+			"then we need to get all their followers and for each one get their questions"
+			follows := aUser followsUsers.
+			q := follows collect: [ :u | (u getQuestions) ].
+			questions addAll: q.
+			^ questions flattened.
+
 ]

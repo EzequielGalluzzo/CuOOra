@@ -47,6 +47,12 @@ CuOOraTest >> makeInteractions [
 ]
 
 { #category : #setUps }
+CuOOraTest >> makeInterestsForUser [
+	cuoora addTopic: topic1 forUser: user1.
+	cuoora addTopic: topicCollection forUser: user3.
+]
+
+{ #category : #setUps }
 CuOOraTest >> makeQuestions [
 	question1 := Question
 		newWithName: 'Q1'
@@ -150,11 +156,24 @@ CuOOraTest >> testGetPostInteractions [
 
 { #category : #tests }
 CuOOraTest >> testGetUserPoints [
-
+	self makeInteractions.
+	self assert: (cuoora getUserPoints: user1) equals: 3150.
+	self assert: (cuoora getUserPoints: user2) equals: 1050.
+	self assert: (cuoora getUserPoints: user3) equals: 0.
 ]
 
 { #category : #tests }
 CuOOraTest >> testQuestionsForTopic [
 	self denyEmpty: (cuoora questionsForTopic: topic1).
 	self assertCollection:  (cuoora questionsForTopic: topic1) hasSameElements: { question1. question3 }
+]
+
+{ #category : #tests }
+CuOOraTest >> testRelevantQuestionsForUser [
+	cuoora addTopic: topic1 forUser: user1.
+	self
+		assertCollection: (cuoora relevantQuestionsForUser: user1)
+		includesAll:
+			{question1.
+			question3.} asSet
 ]

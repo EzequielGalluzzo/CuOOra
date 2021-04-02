@@ -108,7 +108,7 @@ User >> followsUsers [
 
 { #category : #accessing }
 User >> getAllAnswers [
-	^ answers
+	^ answers 
 ]
 
 { #category : #accessing }
@@ -132,8 +132,8 @@ User >> getPointsFromUser [
 ]
 
 { #category : #accessing }
-User >> getQuestions [ 
-	^ questions
+User >> getQuestions [
+ ^ questions 
 ]
 
 { #category : #action }
@@ -159,7 +159,8 @@ User >> initialize [
 	timeAndDate := Date today.
 	answers := OrderedCollection new.
 	questions := OrderedCollection new.
-	"interactions is obsolete - delete this variable"
+	follows:= Set new.
+	interests := Set new.
 	interactions := Set new
 ]
 
