@@ -33,11 +33,16 @@ Class {
 		'questions',
 		'follows'
 	],
-	#category : #CuOOra
+	#category : #'CuOOra-Model'
 }
 
 { #category : #'instance creation' }
 User class >> newWithUsername: aUsername andPassword: aPassword [
+	^ self new initializeWith: aUsername and: aPassword.
+]
+
+{ #category : #'instance creation' }
+User class >> userName: aUsername password: aPassword [
 	^ self new initializeWith: aUsername and: aPassword.
 ]
 
@@ -184,4 +189,15 @@ User >> likePost: aPost [
 	interaction isLike
 		ifFalse: [ interactions remove: interaction ].
 	interactions add: interaction
+]
+
+{ #category : #accessing }
+User >> name [
+	^ username
+]
+
+{ #category : #accessing }
+User >> password [ 	
+	^password
+	
 ]

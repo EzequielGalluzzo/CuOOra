@@ -26,7 +26,7 @@ Class {
 	#instVars : [
 		'text'
 	],
-	#category : #CuOOra
+	#category : #'CuOOra-Model'
 }
 
 { #category : #'instance creation' }

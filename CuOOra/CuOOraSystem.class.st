@@ -31,8 +31,16 @@ Class {
 		'topics',
 		'users'
 	],
-	#category : #CuOOra
+	#classInstVars : [
+		'soleInstance'
+	],
+	#category : #'CuOOra-Model'
 }
+
+{ #category : #'instance creation' }
+CuOOraSystem class >> soleInstance [
+	^ soleInstance ifNil: [ soleInstance := self new ]
+]
 
 { #category : #testing }
 CuOOraSystem >> addTopic: aTopic [
@@ -181,5 +189,14 @@ CuOOraSystem >> relevantQuestionsForUser: aUser [
 			q := follows collect: [ :u | (u getQuestions) ].
 			questions addAll: q.
 			^ questions flattened.
+
+]
+
+{ #category : #utility }
+CuOOraSystem >> userWithName: aName protectedBy: aPassword [
+	| temp |
+	temp := nil.
+	temp := users detect: [ :each | each name = aName & (each password = aPassword)  ].
+	^temp
 
 ]

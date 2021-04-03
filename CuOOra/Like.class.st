@@ -23,7 +23,7 @@ Internal Representation and Key Implementation Points.
 Class {
 	#name : #Like,
 	#superclass : #Interaction,
-	#category : #CuOOra
+	#category : #'CuOOra-Model'
 }
 
 { #category : #testing }

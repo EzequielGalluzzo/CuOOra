@@ -30,7 +30,7 @@ Class {
 	#instVars : [
 		'timeAndDateOfCreation'
 	],
-	#category : #CuOOra
+	#category : #'CuOOra-Model'
 }
 
 { #category : #initialization }

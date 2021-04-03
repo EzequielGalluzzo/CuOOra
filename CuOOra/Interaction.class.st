@@ -33,7 +33,7 @@ Class {
 		'timeAndDate',
 		'reaction'
 	],
-	#category : #CuOOra
+	#category : #'CuOOra-Model'
 }
 
 { #category : #'instance creation' }
