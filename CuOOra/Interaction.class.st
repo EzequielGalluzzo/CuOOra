@@ -57,10 +57,9 @@ Interaction >> dislike: aPost [
 
 { #category : #initialization }
 Interaction >> initializeForPost: aPost [
-	post:= aPost.
-	timeAndDate := Date today.
-	reaction := self.
-
+	post := aPost.
+	timeAndDate := DateAndTime now.
+	reaction := self
 ]
 
 { #category : #testing }

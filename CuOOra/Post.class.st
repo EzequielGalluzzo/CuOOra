@@ -35,5 +35,5 @@ Class {
 
 { #category : #initialization }
 Post >> initialize [
-	timeAndDateOfCreation := Date today.
+	timeAndDateOfCreation := DateAndTime now
 ]
