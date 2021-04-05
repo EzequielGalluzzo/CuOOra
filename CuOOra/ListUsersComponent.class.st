@@ -13,6 +13,11 @@ ListUsersComponent class >> users: users [
 	users: users; yourself
 ]
 
+{ #category : #protocol }
+ListUsersComponent >> back [
+	self answer
+]
+
 { #category : #rendering }
 ListUsersComponent >> renderContentOn: aCanvas [
 	aCanvas heading: 'Users in System'.
@@ -22,7 +27,11 @@ ListUsersComponent >> renderContentOn: aCanvas [
 				do: [ :each | 
 					aCanvas
 						listItem: [ aCanvas paragraph: 'Username: ' , each name.
-							aCanvas paragraph: 'password length: ' , each password size asString ] ] ]
+							aCanvas
+								paragraph: 'password length: ' , each password size asString ] ] ].
+	aCanvas horizontalRule.
+	aCanvas form: [ 
+		aCanvas button callback:[ self back ]; with:[ aCanvas label: 'volver' ]]
 ]
 
 { #category : #accessing }
