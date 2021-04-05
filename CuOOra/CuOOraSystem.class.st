@@ -158,9 +158,10 @@ CuOOraSystem >> getUsers [
 ]
 
 { #category : #initialization }
-CuOOraSystem >> initialize [ 
-	users:= Set new. 
-	topics:= Set new.
+CuOOraSystem >> initialize [
+	users := Set new.
+	topics := Set
+		newFrom: {'python' . 'java' . 'bash' . 'go' . 'rust' . 'c++' . 'c#' . 'javascript'}
 ]
 
 { #category : #'instance creation' }
