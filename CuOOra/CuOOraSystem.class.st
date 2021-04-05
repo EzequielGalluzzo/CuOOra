@@ -38,6 +38,11 @@ Class {
 }
 
 { #category : #'instance creation' }
+CuOOraSystem class >> clearSoleInstance [ 
+	soleInstance := nil
+]
+
+{ #category : #'instance creation' }
 CuOOraSystem class >> soleInstance [
 	^ soleInstance ifNil: [ soleInstance := self new ]
 ]
@@ -145,6 +150,11 @@ CuOOraSystem >> getUserPoints: aUser [
 	interactions copy do: [ :i | posts do: [ :p | i isOfPost: p ] ].
 	 total := total + (self getInteractionPoints: interactions).
 	^ total.
+]
+
+{ #category : #accessing }
+CuOOraSystem >> getUsers [
+	^ users
 ]
 
 { #category : #initialization }

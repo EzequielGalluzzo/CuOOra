@@ -21,8 +21,8 @@ ListUsersComponent >> renderContentOn: aCanvas [
 		unorderedList: [ users
 				do: [ :each | 
 					aCanvas
-						listItem: [ aCanvas paragraph: 'Username: ', each name.
-							aCanvas paragraph: 'password: ',each password ] ] ]
+						listItem: [ aCanvas paragraph: 'Username: ' , each name.
+							aCanvas paragraph: 'password length: ' , each password size asString ] ] ]
 ]
 
 { #category : #accessing }
