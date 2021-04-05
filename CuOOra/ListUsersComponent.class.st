@@ -20,7 +20,12 @@ ListUsersComponent >> back [
 
 { #category : #rendering }
 ListUsersComponent >> renderContentOn: aCanvas [
-	aCanvas heading: 'Users in System'.
+	aCanvas
+		form: [ aCanvas button
+				callback: [ self back ];
+				with: [ aCanvas label: 'volver' ] ].
+				aCanvas horizontalRule.
+	aCanvas heading: 'Lista de Usuarios'.
 	aCanvas horizontalRule.
 	aCanvas
 		unorderedList: [ users
@@ -30,8 +35,7 @@ ListUsersComponent >> renderContentOn: aCanvas [
 							aCanvas
 								paragraph: 'password length: ' , each password size asString ] ] ].
 	aCanvas horizontalRule.
-	aCanvas form: [ 
-		aCanvas button callback:[ self back ]; with:[ aCanvas label: 'volver' ]]
+
 ]
 
 { #category : #accessing }

@@ -2,7 +2,8 @@ Class {
 	#name : #AUserSession,
 	#superclass : #WASession,
 	#instVars : [
-		'user'
+		'user',
+		'sistem'
 	],
 	#category : #'CuOOra-Pruebas-Inti'
 }
