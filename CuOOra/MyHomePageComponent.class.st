@@ -22,7 +22,6 @@ MyHomePageComponent >> front [
 { #category : #visiting }
 MyHomePageComponent >> logout [
 	self session user: nil.
-	self session logout.
 	self answer
 ]
 
