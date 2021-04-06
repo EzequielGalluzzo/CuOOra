@@ -110,15 +110,12 @@ CuOOraSystem >> getAnswers: aQuestion [
 CuOOraSystem >> getInteractionPoints: aCollectionOfInteractions [
 	| totalLikes totalDislikes |
 	aCollectionOfInteractions isNotNil
-	ifTrue: [
-	totalLikes := aCollectionOfInteractions
-		inject: 0
-		into: [ :sum :each | sum + each isLike asBit ].
-	totalDislikes := aCollectionOfInteractions
-		inject: 0
-		into: [ :sum :each | sum + each isDislike asBit ].
-	^ totalLikes + (totalDislikes * -1)]
-	ifFalse: [^ 0]
+		ifTrue: [ totalLikes := aCollectionOfInteractions
+				sumNumbers: [ :sum :each | sum + each isLike asBit ].
+			totalDislikes := aCollectionOfInteractions
+				sumNumbers: [ :sum :each | sum + each isDislike asBit ].
+			^ totalLikes + (totalDislikes * -1) ]
+		ifFalse: [ ^ 0 ]
 ]
 
 { #category : #accessing }
@@ -213,7 +210,6 @@ CuOOraSystem >> userWithName: aName protectedBy: aPassword [
 	| temp |
 	temp := nil.
 	temp := users
-		detect: [ :each | each name = aName & (each password = aPassword) ].
-		 ^ temp 
-
+		detect: [ :each | each hasName: aName & (each hasPassword: aPassword) ].
+	^ temp
 ]
