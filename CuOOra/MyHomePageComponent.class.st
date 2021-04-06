@@ -2,7 +2,8 @@ Class {
 	#name : #MyHomePageComponent,
 	#superclass : #WAComponent,
 	#instVars : [
-		'user'
+		'user',
+		'topics'
 	],
 	#category : #'CuOOra-Pruebas-Inti'
 }
@@ -14,14 +15,50 @@ self call: AskAQuestionComponent new.
 ]
 
 { #category : #visiting }
-MyHomePageComponent >> front [ 
-		self answer
+MyHomePageComponent >> front [
+	self answer: LandingComponent
 ]
 
 { #category : #visiting }
 MyHomePageComponent >> logout [
 	self session user: nil.
+	self session logout.
 	self answer
+]
+
+{ #category : #rendering }
+MyHomePageComponent >> mostrarPreguntas: aCanvas [
+	aCanvas heading
+		level: 2;
+		with: 'Mis Preguntas: '.
+	aCanvas horizontalRule.
+	aCanvas
+		unorderedList: [ self session user getQuestions
+				do: [ :each | 
+					aCanvas
+						render: [ aCanvas heading level: 3; with: each name.
+							aCanvas break.
+							aCanvas paragraph: each content ].
+					aCanvas horizontalRule ] ].
+	aCanvas anchor
+		callback: [ self agregarPregunta ];
+		with: [ aCanvas button: 'Nueva Pregunta' ].
+	aCanvas horizontalRule
+]
+
+{ #category : #visiting }
+MyHomePageComponent >> mostrarPreguntasDeTopico: aTopic [
+	self call: (TopicoComponent topico: aTopic)
+]
+
+{ #category : #rendering }
+MyHomePageComponent >> mostrarTopicos: aCanvas [
+	aCanvas
+		unorderedList: [ self session topics
+				do: [ :each | 
+					aCanvas anchor
+						callback: [ self mostrarPreguntasDeTopico: each ];
+						with: [ aCanvas label: ' | ' , each name , ' | ' ] ] ]
 ]
 
 { #category : #rendering }
@@ -30,15 +67,13 @@ MyHomePageComponent >> renderContentOn: aCanvas [
 		form: [ aCanvas button
 				callback: [ self logout ];
 				with: [ aCanvas label: 'salir' ].
-				aCanvas button
+			aCanvas button
 				callback: [ self front ];
 				with: [ aCanvas label: 'front page' ] ].
+	aCanvas div: [ self mostrarTopicos: aCanvas ] .
 	aCanvas horizontalRule.
 	aCanvas
 		heading: 'Esta es tu pagina personal, ' , self session user name.
 	aCanvas horizontalRule.
-	aCanvas
-		form: [ aCanvas button
-				callback: [ self agregarPregunta ];
-				with: [ aCanvas label: 'Agregar Pregunta' ] ]
+	self mostrarPreguntas: aCanvas
 ]

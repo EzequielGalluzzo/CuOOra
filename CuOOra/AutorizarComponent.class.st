@@ -24,6 +24,7 @@ AutorizarComponent >> cancel [
 { #category : #visiting }
 AutorizarComponent >> entrarCon: aUser [
 	self session user: user.
+	self session topics: self model getAllTopics.
 	self call: MyHomePageComponent new
 ]
 

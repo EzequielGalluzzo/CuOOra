@@ -5,11 +5,11 @@ Class {
 }
 
 { #category : #visiting }
-EntrarComponent >> accept [	
+EntrarComponent >> accept [
 	(user := self model userWithName: userName protectedBy: password)
 		ifNotNil: [ self entrarCon: user ].
 	userName := nil.
-	password := nil
+	password := nil.
 ]
 
 { #category : #rendering }

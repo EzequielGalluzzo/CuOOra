@@ -161,7 +161,12 @@ CuOOraSystem >> getUsers [
 CuOOraSystem >> initialize [
 	users := Set new.
 	topics := Set
-		newFrom: {'python' . 'java' . 'bash' . 'go' . 'rust' . 'c++' . 'c#' . 'javascript'}
+		newFrom:
+			{(Topic newWith: 'Python' desc: 'about Python language').
+			(Topic newWith: 'Java' desc: 'about Java language').
+			(Topic newWith: 'Rust' desc: 'about Rust language').
+			(Topic newWith: 'Javascript' desc: 'about Javascript language').
+			(Topic newWith: 'C++' desc: 'about C++ language')}
 ]
 
 { #category : #'instance creation' }
@@ -207,7 +212,8 @@ CuOOraSystem >> relevantQuestionsForUser: aUser [
 CuOOraSystem >> userWithName: aName protectedBy: aPassword [
 	| temp |
 	temp := nil.
-	temp := users detect: [ :each | each name = aName & (each password = aPassword)  ].
-	^temp
+	temp := users
+		detect: [ :each | each name = aName & (each password = aPassword) ].
+		 ^ temp 
 
 ]

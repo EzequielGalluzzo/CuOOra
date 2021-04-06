@@ -42,21 +42,21 @@ LandingComponent >> renderContentOn: aCanvas [
 	self session user
 		ifNil: [ aCanvas
 				paragraph:
-					'Hola! Bienvenido. Aqui puedes logearte, o si sos nuevo, registrate gratis!' ]
+					'Hola! Bienvenido. Aqui puedes logearte, o si sos nuevo, registrate gratis!'.
+			aCanvas
+				form: [ aCanvas button
+						callback: [ self registrar ];
+						with: [ aCanvas label: 'registrarte' ].
+					aCanvas button
+						callback: [ self login ];
+						with: [ aCanvas label: 'entrar' ] ] ]
 		ifNotNil: [ aCanvas paragraph: 'Hola, bienvenido ' , self session user name.
 			aCanvas
 				form: [ aCanvas button
 						callback: [ self irACasa ];
 						with: [ aCanvas label: 'Home' ] ] ].
 	aCanvas horizontalRule.
-	aCanvas
-		form: [ aCanvas button
-				callback: [ self registrar ];
-				with: [ aCanvas label: 'registrarte' ].
-			aCanvas button
-				callback: [ self login ];
-				with: [ aCanvas label: 'entrar' ] ].
-	aCanvas horizontalRule.
+
 	aCanvas
 		form: [ aCanvas button
 				callback: [ self listUsers: self model getUsers ];

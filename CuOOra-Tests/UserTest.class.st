@@ -75,9 +75,11 @@ UserTest >> makeQuestions [
 UserTest >> makeTopics [
 	topic1 := Topic newWith: 'Python' desc: 'about Python language'.
 	topic2 := Topic newWith: 'Java' desc: 'about Java language'.
-	topic3 := Topic newWith: 'Rust' desc: 'about Rustn language'.
+	topic3 := Topic newWith: 'Rust' desc: 'about Rust language'.
 	topicCollection := OrderedCollection new.
-	topicCollection add: topic1; add: topic2.
+	topicCollection
+		add: topic1;
+		add: topic2
 ]
 
 { #category : #setUps }

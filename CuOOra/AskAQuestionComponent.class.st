@@ -2,6 +2,7 @@ Class {
 	#name : #AskAQuestionComponent,
 	#superclass : #WAComponent,
 	#instVars : [
+		'question',
 		'questionName',
 		'questionContent',
 		'questionTopics'
@@ -13,6 +14,30 @@ Class {
 AskAQuestionComponent >> addQuestion [ 
 
 self session user addQuestionForTopic: questionTopics  name: questionName  description: questionContent 
+]
+
+{ #category : #adding }
+AskAQuestionComponent >> addTopic: aTopic [
+	questionTopics add: aTopic 
+]
+
+{ #category : #visiting }
+AskAQuestionComponent >> home [
+	self answer: MyHomePageComponent
+]
+
+{ #category : #initialization }
+AskAQuestionComponent >> homeButton: aCanvas [
+	aCanvas
+		form: [ aCanvas button
+				callback: [ self home ];
+				with: [ aCanvas label: 'home page' ] ].
+]
+
+{ #category : #initialization }
+AskAQuestionComponent >> initialize [ 
+	super initialize.
+	questionTopics := Set new.
 ]
 
 { #category : #accessing }
@@ -40,23 +65,51 @@ AskAQuestionComponent >> questionName: anObject [
 	questionName := anObject
 ]
 
-{ #category : #accessing }
-AskAQuestionComponent >> questionTopics [
-	^ questionTopics
-]
-
-{ #category : #accessing }
-AskAQuestionComponent >> questionTopics: anObject [
-	questionTopics := anObject
+{ #category : #rendering }
+AskAQuestionComponent >> renderContentOn: aCanvas [
+	self homeButton: aCanvas.
+	aCanvas horizontalRule.
+	aCanvas heading: 'Nueva Pregunta:'.
+	aCanvas horizontalRule.
+	aCanvas
+		form: [ 	self renderTopicos: aCanvas.
+			aCanvas
+				paragraph: [ aCanvas label: 'Titulo de Pregunta: '.
+					aCanvas break.
+					aCanvas break.
+					aCanvas textInput on: #questionName of: self ].
+			aCanvas break.
+			aCanvas
+				paragraph: [ aCanvas label: 'Contenido de Pregunta: '.
+					aCanvas break.
+					(aCanvas textArea on: #questionContent of: self)
+						columns: 80;
+						rows: 5 ].
+			aCanvas submitButton on: #save of: self ]
 ]
 
 { #category : #rendering }
-AskAQuestionComponent >> renderContentOn: aCanvas [
+AskAQuestionComponent >> renderTopicos: aCanvas [
+	"Checkbox"
 
+	aCanvas text: 'Elegir topicos de la pregunta: '.
+	aCanvas break.
 	aCanvas
-		form: [ aCanvas optionGroup: [: each | self model getAllTopics].
-			aCanvas label: 'Titulo de Pregunta: '.
-			aCanvas textInput on: #questionName of: self.
-			aCanvas label: 'Contenido de Pregunta: '.
-			aCanvas textInput on: #questionContent of: self ]
+		unorderedList: [ self session topics
+				do: [ :each | aCanvas  label: each name asString.
+					aCanvas checkbox 
+						value: each;
+						callback: [ :value | 
+							value
+								ifTrue: [ self addTopic: each ] ] ] ]
+]
+
+{ #category : #actions }
+AskAQuestionComponent >> save [
+	(question := Question
+		newWithName: questionName
+		topics: questionTopics
+		andContent: questionContent) ifNil: [ ^ self ].
+	self session user addQuestion: question.
+	self answer
 ]

@@ -46,6 +46,21 @@ Question >> allAnswers [
 ^ answers
 ]
 
+{ #category : #accessing }
+Question >> answers: anObject [
+	answers := anObject
+]
+
+{ #category : #accessing }
+Question >> content [
+	^ content
+]
+
+{ #category : #accessing }
+Question >> content: anObject [
+	content := anObject
+]
+
 { #category : #deleting }
 Question >> deleteAnswers [ 
  answers removeAll.
@@ -65,4 +80,14 @@ Question >> initializeWith: aName topics: topics and: someContent [
 	topics
 	ifNotNil:
 	[topics asOrderedCollection do: [ :t | t addQuestion: self ]].
+]
+
+{ #category : #accessing }
+Question >> name [
+	^ name
+]
+
+{ #category : #accessing }
+Question >> name: anObject [
+	name := anObject
 ]
