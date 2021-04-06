@@ -110,15 +110,12 @@ CuOOraSystem >> getAnswers: aQuestion [
 CuOOraSystem >> getInteractionPoints: aCollectionOfInteractions [
 	| totalLikes totalDislikes |
 	aCollectionOfInteractions isNotNil
-	ifTrue: [
-	totalLikes := aCollectionOfInteractions
-		inject: 0
-		into: [ :sum :each | sum + each isLike asBit ].
-	totalDislikes := aCollectionOfInteractions
-		inject: 0
-		into: [ :sum :each | sum + each isDislike asBit ].
-	^ totalLikes + (totalDislikes * -1)]
-	ifFalse: [^ 0]
+		ifTrue: [ totalLikes := aCollectionOfInteractions
+				sumNumbers: [ :sum :each | sum + each isLike asBit ].
+			totalDislikes := aCollectionOfInteractions
+				sumNumbers: [ :sum :each | sum + each isDislike asBit ].
+			^ totalLikes + (totalDislikes * -1) ]
+		ifFalse: [ ^ 0 ]
 ]
 
 { #category : #accessing }
@@ -158,9 +155,15 @@ CuOOraSystem >> getUsers [
 ]
 
 { #category : #initialization }
-CuOOraSystem >> initialize [ 
-	users:= Set new. 
-	topics:= Set new.
+CuOOraSystem >> initialize [
+	users := Set new.
+	topics := Set
+		newFrom:
+			{(Topic newWith: 'Python' desc: 'about Python language').
+			(Topic newWith: 'Java' desc: 'about Java language').
+			(Topic newWith: 'Rust' desc: 'about Rust language').
+			(Topic newWith: 'Javascript' desc: 'about Javascript language').
+			(Topic newWith: 'C++' desc: 'about C++ language')}
 ]
 
 { #category : #'instance creation' }
@@ -204,9 +207,7 @@ CuOOraSystem >> relevantQuestionsForUser: aUser [
 
 { #category : #utility }
 CuOOraSystem >> userWithName: aName protectedBy: aPassword [
-	| temp |
-	temp := nil.
-	temp := users detect: [ :each | each name = aName & (each password = aPassword)  ].
-	^temp
-
+	^ users
+		detect: [ :each | each hasName: aName hasPassword: aPassword ]
+		ifNone: [ nil ]
 ]

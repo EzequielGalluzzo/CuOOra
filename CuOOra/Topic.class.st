@@ -44,6 +44,16 @@ Topic >> addQuestion: aQuestion [
 	questions add: aQuestion 
 ]
 
+{ #category : #accessing }
+Topic >> description [
+	^ description
+]
+
+{ #category : #accessing }
+Topic >> description: anObject [
+	description := anObject
+]
+
 { #category : #initialization }
 Topic >> initialize [ 
 	questions := Set new.
@@ -56,6 +66,22 @@ Topic >> initializeWith: aName and: aDescription [
 ]
 
 { #category : #accessing }
-Topic >> relatedQuestions [ 
-	^ questions 
+Topic >> name [
+	^ name
+]
+
+{ #category : #accessing }
+Topic >> name: anObject [
+	name := anObject
+]
+
+{ #category : #accessing }
+Topic >> questions: anObject [
+	questions := anObject
+]
+
+{ #category : #accessing }
+Topic >> relatedQuestions [
+ questions ifNil: [ ^ OrderedCollection new ]
+ifNotNil: [ ^questions ]
 ]

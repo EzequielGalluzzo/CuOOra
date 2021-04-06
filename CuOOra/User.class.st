@@ -157,6 +157,21 @@ User >> getRepliesToOtherUsers [
 	^ answers copyWithoutAll: repliedToSelf"
 ]
 
+{ #category : #testing }
+User >> hasName: aName [
+	^ username = aName
+]
+
+{ #category : #testing }
+User >> hasName: aName hasPassword: aPassword [
+^ username = aName & (password = aPassword )
+]
+
+{ #category : #testing }
+User >> hasPassword: aPassword [
+	^ password = aPassword
+]
+
 { #category : #initialization }
 User >> initialize [
 	"solo se puede tener una interaccion para cada posteo, un Set evita repeticiones"
