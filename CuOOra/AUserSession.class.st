@@ -5,7 +5,7 @@ Class {
 		'user',
 		'topics'
 	],
-	#category : #'CuOOra-Pruebas-Inti'
+	#category : #'CuOOra-UI'
 }
 
 { #category : #accessing }

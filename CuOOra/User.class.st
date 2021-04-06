@@ -163,6 +163,11 @@ User >> hasName: aName [
 ]
 
 { #category : #testing }
+User >> hasName: aName hasPassword: aPassword [
+^ username = aName & (password = aPassword )
+]
+
+{ #category : #testing }
 User >> hasPassword: aPassword [
 	^ password = aPassword
 ]

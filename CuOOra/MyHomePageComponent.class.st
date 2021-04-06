@@ -5,7 +5,7 @@ Class {
 		'user',
 		'topics'
 	],
-	#category : #'CuOOra-Pruebas-Inti'
+	#category : #'CuOOra-UI'
 }
 
 { #category : #visiting }
@@ -16,13 +16,13 @@ self call: AskAQuestionComponent new.
 
 { #category : #visiting }
 MyHomePageComponent >> front [
-	self answer: LandingComponent
+	self call: LandingComponent new
 ]
 
 { #category : #visiting }
 MyHomePageComponent >> logout [
-	self session user: nil.
-	self answer
+    self session unregister. 
+    self requestContext redirectTo: self application url
 ]
 
 { #category : #rendering }

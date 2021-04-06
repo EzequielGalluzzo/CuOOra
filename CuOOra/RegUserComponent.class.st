@@ -1,7 +1,7 @@
 Class {
 	#name : #RegUserComponent,
 	#superclass : #AutorizarComponent,
-	#category : #'CuOOra-Pruebas-Inti'
+	#category : #'CuOOra-UI'
 }
 
 { #category : #visiting }

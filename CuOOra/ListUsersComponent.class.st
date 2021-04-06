@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'users'
 	],
-	#category : #'CuOOra-Pruebas-Inti'
+	#category : #'CuOOra-UI'
 }
 
 { #category : #accessing }

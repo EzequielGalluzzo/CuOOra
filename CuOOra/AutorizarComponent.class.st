@@ -6,7 +6,7 @@ Class {
 		'password',
 		'user'
 	],
-	#category : #'CuOOra-Pruebas-Inti'
+	#category : #'CuOOra-UI'
 }
 
 { #category : #visiting }

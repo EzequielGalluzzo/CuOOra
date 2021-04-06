@@ -7,7 +7,7 @@ Class {
 		'questionContent',
 		'questionTopics'
 	],
-	#category : #'CuOOra-Pruebas-Inti'
+	#category : #'CuOOra-UI'
 }
 
 { #category : #adding }
