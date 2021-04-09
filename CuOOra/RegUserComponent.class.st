@@ -22,7 +22,7 @@ Internal Representation and Key Implementation Points.
 "
 Class {
 	#name : #RegUserComponent,
-	#superclass : #AutorizarComponent,
+	#superclass : #AuthComponent,
 	#category : #'CuOOra-UI'
 }
 

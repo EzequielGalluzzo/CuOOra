@@ -74,7 +74,7 @@ MyHomePageComponent >> mostrarPreguntas: aCanvas [
 
 { #category : #visiting }
 MyHomePageComponent >> mostrarPreguntasDeTopico: aTopic [
-	self call: (TopicoComponent topico: aTopic)
+	self call: (TopicComponent topico: aTopic)
 ]
 
 { #category : #rendering }

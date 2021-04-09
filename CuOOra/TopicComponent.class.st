@@ -18,52 +18,60 @@ Public API and Key Messages
 Internal Representation and Key Implementation Points.
 
     Instance Variables
-	users:		<Object>
+	topico:		<Object>
 
 
     Implementation Points
 "
 Class {
-	#name : #ListUsersComponent,
+	#name : #TopicComponent,
 	#superclass : #WAComponent,
 	#instVars : [
-		'users'
+		'topico'
 	],
 	#category : #'CuOOra-UI'
 }
 
 { #category : #accessing }
-ListUsersComponent class >> users: users [ 
+TopicComponent class >> topico: unTopico [
 	^ self new
-	users: users; yourself
+		topico: unTopico ;
+		yourself
 ]
 
 { #category : #protocol }
-ListUsersComponent >> back [
+TopicComponent >> back [ 
 	self answer
 ]
 
 { #category : #rendering }
-ListUsersComponent >> renderContentOn: aCanvas [
+TopicComponent >> renderContentOn: aCanvas [
 	aCanvas
 		form: [ aCanvas button
 				callback: [ self back ];
 				with: [ aCanvas label: 'volver' ] ].
-				aCanvas horizontalRule.
-	aCanvas heading: 'Lista de Usuarios'.
+	aCanvas horizontalRule.
+	aCanvas heading: 'Preguntas de topico: ' , topico name.
+	aCanvas heading
+		level: 2;
+		with: topico description.
 	aCanvas horizontalRule.
 	aCanvas
-		unorderedList: [ users
+		unorderedList: [ topico relatedQuestions
 				do: [ :each | 
-					aCanvas
-						listItem: [ aCanvas paragraph: 'Username: ' , each name.
-							aCanvas
-								paragraph: 'password length: ' , each password size asString ] ] ].
-	aCanvas horizontalRule.
-
+					aCanvas heading
+						level: 3;
+						with: each name.
+					aCanvas render: each content ].
+			aCanvas horizontalRule ]
 ]
 
 { #category : #accessing }
-ListUsersComponent >> users: someUsers [ 	
-users := someUsers
+TopicComponent >> topico [
+	^ topico 
+]
+
+{ #category : #accessing }
+TopicComponent >> topico: aTopic [ 
+	topico := aTopic 
 ]
