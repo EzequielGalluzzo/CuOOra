@@ -25,3 +25,7 @@ Class {
 	#superclass : #WAComponent,
 	#category : #'CuOOra-UI'
 }
+
+{ #category : #rendering }
+HeaderComponent >> renderContentOn: aCanvas [
+]
