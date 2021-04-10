@@ -12,7 +12,7 @@ Class {
 RegisterComponent >> accept [
 	| aUser |
 	aUser := User userName: userName password: password.
-	self model addUser: aUser.
+	self  model user: aUser.
 	self call: CuOOraHomeComponent new
 ]
 
@@ -38,6 +38,7 @@ RegisterComponent >> password: anObject [
 
 { #category : #rendering }
 RegisterComponent >> renderContentOn: aCanvas [
+aCanvas form: [
 	aCanvas
 		paragraph: [ aCanvas label: 'Ingrese el nombre de usuario que desea:'.
 			aCanvas textInput ].
@@ -50,7 +51,7 @@ RegisterComponent >> renderContentOn: aCanvas [
 	aCanvas space.
 	aCanvas anchor
 		callback: [ self cancel ];
-		with: [ aCanvas button: 'Cancelar' ]
+		with: [ aCanvas button: 'Cancelar' ]]
 ]
 
 { #category : #accessing }

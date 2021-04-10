@@ -38,6 +38,11 @@ Class {
 }
 
 { #category : #'instance creation' }
+CuOOraSystem class >> clearSoleInstance [ 
+	soleInstance := nil
+]
+
+{ #category : #'instance creation' }
 CuOOraSystem class >> soleInstance [
 	^ soleInstance ifNil: [ soleInstance := self new ]
 ]
