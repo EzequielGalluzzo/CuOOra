@@ -80,7 +80,7 @@ MyHomePageComponent >> mostrarPreguntasDeTopico: aTopic [
 { #category : #rendering }
 MyHomePageComponent >> mostrarTopicos: aCanvas [
 	aCanvas
-		unorderedList: [ self session topics
+		unorderedList: [ self session user getInterests
 				do: [ :each | 
 					aCanvas anchor
 						callback: [ self mostrarPreguntasDeTopico: each ];
