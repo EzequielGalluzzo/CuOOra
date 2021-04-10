@@ -39,19 +39,20 @@ RegisterComponent >> password: anObject [
 { #category : #rendering }
 RegisterComponent >> renderContentOn: aCanvas [
 	aCanvas
-		form: [ aCanvas
+		form: "agrege form: []"
+		 [ aCanvas
 				paragraph: [ aCanvas label: 'Ingrese el nombre de usuario que desea:'.
 					aCanvas textInput on: #userName of: self ].	"agregue on: #userName of: self"
 			aCanvas
 				paragraph: [ aCanvas label: 'Ingrese la contraseña:'.
-					aCanvas passwordInput on: #password of: self ]."agregue on: #password of: self"
+					aCanvas passwordInput on: #password of: self ].	"agregue on: #password of: self"
 			aCanvas button
 				callback: [ self accept ];
-				with: [ aCanvas label: 'Aceptar' ].
+				with: [ aCanvas label: 'Aceptar' ]. "achor -> button; button-> label"
 			aCanvas space.
 			aCanvas button
 				callback: [ self cancel ];
-				with: [ aCanvas label: 'Cancelar' ] ]
+				with: [ aCanvas label: 'Cancelar' ] ]	
 ]
 
 { #category : #accessing }
