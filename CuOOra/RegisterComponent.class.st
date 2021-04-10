@@ -12,13 +12,13 @@ Class {
 RegisterComponent >> accept [
 	| aUser |
 	aUser := User userName: userName password: password.
-	self  model user: aUser.
+	self model addUser: aUser.
 	self call: CuOOraHomeComponent new
 ]
 
 { #category : #callbacks }
 RegisterComponent >> cancel [
-	self call: CuOOraHomeComponent new
+	self answer.
 ]
 
 { #category : #model }
@@ -38,20 +38,20 @@ RegisterComponent >> password: anObject [
 
 { #category : #rendering }
 RegisterComponent >> renderContentOn: aCanvas [
-aCanvas form: [
 	aCanvas
-		paragraph: [ aCanvas label: 'Ingrese el nombre de usuario que desea:'.
-			aCanvas textInput ].
-	aCanvas
-		paragraph: [ aCanvas label: 'Ingrese la contraseña:'.
-			aCanvas textInput ].
-	aCanvas anchor
-		callback: [ self accept ];
-		with: [ aCanvas button: 'Aceptar' ].
-	aCanvas space.
-	aCanvas anchor
-		callback: [ self cancel ];
-		with: [ aCanvas button: 'Cancelar' ]]
+		form: [ aCanvas
+				paragraph: [ aCanvas label: 'Ingrese el nombre de usuario que desea:'.
+					aCanvas textInput on: #userName of: self ].	"agregue on: #userName of: self"
+			aCanvas
+				paragraph: [ aCanvas label: 'Ingrese la contraseña:'.
+					aCanvas passwordInput on: #password of: self ]."agregue on: #password of: self"
+			aCanvas button
+				callback: [ self accept ];
+				with: [ aCanvas label: 'Aceptar' ].
+			aCanvas space.
+			aCanvas button
+				callback: [ self cancel ];
+				with: [ aCanvas label: 'Cancelar' ] ]
 ]
 
 { #category : #accessing }

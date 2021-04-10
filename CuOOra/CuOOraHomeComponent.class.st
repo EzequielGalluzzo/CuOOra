@@ -22,11 +22,11 @@ CuOOraHomeComponent >> renderContentOn: aCanvas [
 			aCanvas
 				paragraph:
 					'Tu red social nueva, original, y  nunca antes vista de preguntas y respuestas!'.
-			aCanvas anchor
+			aCanvas button 
 				callback: [ self login ];
-				with: [ aCanvas button: 'Iniciar Sesion' ].
+				with: [ aCanvas label: 'Iniciar Sesion' ]. "anchor -> button; button ->label"
 			aCanvas space.
-			aCanvas anchor
+			aCanvas button
 				callback: [ self register ];
-				with: [ aCanvas button: 'Registrarse' ] ]
+				with: [ aCanvas label: 'Registrarse' ] ] "anchor -> button; button ->label"
 ]

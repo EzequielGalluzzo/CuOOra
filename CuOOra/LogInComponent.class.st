@@ -12,9 +12,10 @@ Class {
 LogInComponent >> accept [
 	(self model userWithName: userName protectedBy: password)
 		ifNotNil: [ :it | self procedeWith: it ]
-		ifNil:[
-	userName := nil.
-	password := nil]
+		ifNil:
+[ 	userName := nil.
+	password := nil.
+	self answer]
 ]
 
 { #category : #callbacks }
@@ -46,20 +47,20 @@ LogInComponent >> procedeWith: aUser [
 { #category : #rendering }
 LogInComponent >> renderContentOn: aCanvas [
 	aCanvas
-		form: "agregue aCanvas form:[]"
-		 [ aCanvas
+		form: [ "agregue aCanvas form:[]"
+			aCanvas
 				paragraph: [ aCanvas label: 'Ingrese su nombre de usuario:'.
 					aCanvas textInput on: #userName of: self ].	"agregue on: #userName of: self"
 			aCanvas
 				paragraph: [ aCanvas label: 'Ingrese su contraseña:'.
 					aCanvas passwordInput on: #password of: self ].	"agregue on: #password of: self"
-			aCanvas anchor
+			aCanvas button
 				callback: [ self accept ];
-				with: [ aCanvas button: 'Aceptar' ].
+				with: [ aCanvas label: 'Aceptar' ].	"anchor -> button; button ->label"
 			aCanvas space.
-			aCanvas anchor
+			aCanvas button
 				callback: [ self cancel ];
-				with: [ aCanvas button: 'Cancelar' ] ]
+				with: [ aCanvas label: 'Cancelar' ] ]
 ]
 
 { #category : #accessing }

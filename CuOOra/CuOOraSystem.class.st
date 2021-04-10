@@ -199,9 +199,7 @@ CuOOraSystem >> relevantQuestionsForUser: aUser [
 
 { #category : #utility }
 CuOOraSystem >> userWithName: aName protectedBy: aPassword [
-	| temp |
-	temp := nil.
-	temp := users detect: [ :each | each name = aName & (each password = aPassword)  ].
-	^temp
-
+	^ users
+		detect: [ :each | each hasName: aName andPassword: aPassword ]
+		ifNone: [ nil ]
 ]
