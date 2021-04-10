@@ -139,11 +139,11 @@ LandingComponent >> renderContentOn: aCanvas [
 				form: [ aCanvas button 
 						callback: [ self irACasa ];
 						with: 'Home'  ] ].
-	aCanvas horizontalRule.
+"	aCanvas horizontalRule.
 
 	aCanvas
 		form: [ aCanvas button 
 				callback: [ self listUsers: self model getUsers ];
 				with: 'Listar Usuarios' ].
-	aCanvas horizontalRule
+	aCanvas horizontalRule"
 ]

@@ -123,7 +123,7 @@ AskAQuestionComponent >> renderTopicos: aCanvas [
 	aCanvas text: 'Elegir topicos de la pregunta: '.
 	aCanvas break.
 	aCanvas
-		unorderedList: [ self session user getInterests
+		unorderedList: [ self model getAllTopics 
 				do: [ :each | 
 					aCanvas label: each name asString.
 					aCanvas checkbox

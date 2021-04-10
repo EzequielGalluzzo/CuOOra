@@ -52,6 +52,11 @@ MyHomePageComponent >> logout [
 	self requestContext redirectTo: self application url
 ]
 
+{ #category : #accessing }
+MyHomePageComponent >> model [
+	^ CuOOraSystem soleInstance 
+]
+
 { #category : #rendering }
 MyHomePageComponent >> mostrarPreguntas: aCanvas [
 	aCanvas heading
@@ -69,7 +74,6 @@ MyHomePageComponent >> mostrarPreguntas: aCanvas [
 	aCanvas anchor
 		callback: [ self agregarPregunta ];
 		with: [ aCanvas button: 'Nueva Pregunta' ].
-	aCanvas horizontalRule
 ]
 
 { #category : #visiting }
@@ -79,12 +83,13 @@ MyHomePageComponent >> mostrarPreguntasDeTopico: aTopic [
 
 { #category : #rendering }
 MyHomePageComponent >> mostrarTopicos: aCanvas [
+aCanvas horizontalRule.
 	aCanvas
-		unorderedList: [ self session user getInterests
+		unorderedList: [ self model getAllTopics 
 				do: [ :each | 
 					aCanvas anchor
 						callback: [ self mostrarPreguntasDeTopico: each ];
-						with: [ aCanvas label: ' | ' , each name , ' | ' ] ] ]
+						with: [ aCanvas button: ' ' , each name , ' ' ] ] ]
 ]
 
 { #category : #rendering }
@@ -97,9 +102,9 @@ MyHomePageComponent >> renderContentOn: aCanvas [
 				callback: [ self front ];
 				with: [ aCanvas label: 'front page' ] ].
 	aCanvas div: [ self mostrarTopicos: aCanvas ] .
-	aCanvas horizontalRule.
+
 	aCanvas
 		heading: 'Esta es tu pagina personal, ' , self session user name.
-	aCanvas horizontalRule.
+
 	self mostrarPreguntas: aCanvas
 ]
