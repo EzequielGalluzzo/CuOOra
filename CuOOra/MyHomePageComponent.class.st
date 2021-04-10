@@ -85,7 +85,7 @@ MyHomePageComponent >> mostrarPreguntasDeTopico: aTopic [
 MyHomePageComponent >> mostrarTopicos: aCanvas [
 aCanvas horizontalRule.
 	aCanvas
-		unorderedList: [ self model getAllTopics 
+		unorderedList: [ self session user getInterests 
 				do: [ :each | 
 					aCanvas anchor
 						callback: [ self mostrarPreguntasDeTopico: each ];

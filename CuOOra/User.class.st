@@ -41,11 +41,6 @@ User class >> newWithUsername: aUsername andPassword: aPassword [
 	^ self new initializeWith: aUsername and: aPassword.
 ]
 
-{ #category : #'instance creation' }
-User class >> userName: aUsername password: aPassword [
-	^ self new initializeWith: aUsername and: aPassword.
-]
-
 { #category : #adding }
 User >> addAnswerTo: aQuestion withText: aText [
 	| a |

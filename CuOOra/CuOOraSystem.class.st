@@ -200,13 +200,22 @@ CuOOraSystem >> relevantQuestionsForUser: aUser [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 CuOOraSystem >> sampleData [ 
- topics addAll:  {(Topic newWith: 'Python' desc: 'about Python language').
-			(Topic newWith: 'Java' desc: 'about Java language').
-			(Topic newWith: 'Rust' desc: 'about Rust language').
-			(Topic newWith: 'Javascript' desc: 'about Javascript language').
-			(Topic newWith: 'C++' desc: 'about C++ language')}
+| inti eze python java rust cpp javascript smalltalk OOP | 
+			inti := User newWithUsername: 'Inti' andPassword: '123'.
+			eze := User newWithUsername: 'Eze' andPassword: 'abc'.
+			python := Topic newWith: 'Python' desc: 'about Python language'.
+			java := Topic newWith: 'Java' desc: 'about Java language'.
+			rust := Topic newWith: 'Rust' desc: 'about Rust language'.
+			javascript := Topic newWith: 'Javascript' desc: 'about Javascript language'.
+			cpp := Topic newWith: 'C++' desc: 'about C++ language'.
+			smalltalk  := Topic newWith: 'Smalltalk' desc: 'about Smalltalk language'.
+			OOP := Topic newWith: 'OOP' desc: 'about Object Oriented Programming'.
+ topics addAll:  {python. java. rust. cpp. javascript. smalltalk. OOP.}.
+			inti addInterest: python; addInterest: javascript.
+			eze addInterest: rust; addInterest: OOP; addInterest: cpp.
+ users addAll: { inti. eze }
 ]
 
 { #category : #utility }
