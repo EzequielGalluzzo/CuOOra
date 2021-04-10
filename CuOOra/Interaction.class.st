@@ -48,28 +48,11 @@ Interaction >> dislike [
 	^ reaction.
 ]
 
-{ #category : #obsolete }
-Interaction >> dislike: aPost [
-    ((self isOfPost: aPost) and: reaction isLike)
-	ifTrue: [ reaction := Dislike newFor: aPost ].
-	^ reaction.
-]
-
 { #category : #initialization }
 Interaction >> initializeForPost: aPost [
 	post := aPost.
 	timeAndDate := DateAndTime now.
 	reaction := self
-]
-
-{ #category : #testing }
-Interaction >> isDislike [
-	^ self subclassResponsibility 
-]
-
-{ #category : #testing }
-Interaction >> isLike [ 
-	^ self subclassResponsibility 
 ]
 
 { #category : #testing }
@@ -82,12 +65,5 @@ Interaction >> isOfPost: aPost [
 Interaction >> like [
     (reaction isDislike)
 	ifTrue: [ reaction := Like newFor: post ].
-	^ reaction.
-]
-
-{ #category : #obsolete }
-Interaction >> like: aPost [
-	((self isOfPost: aPost) and: reaction isDislike)
-	ifTrue: [ reaction := Like newFor: aPost ].
 	^ reaction.
 ]

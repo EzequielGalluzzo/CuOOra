@@ -44,7 +44,7 @@ soleInstance := nil
 
 { #category : #'instance creation' }
 CuOOraSystem class >> soleInstance [
-	^ soleInstance ifNil: [ soleInstance := self new ]
+	^ soleInstance ifNil: [ soleInstance := self new sampleData ].
 ]
 
 { #category : #testing }
@@ -134,7 +134,7 @@ CuOOraSystem >> getPostInteractions: aPost [
 
 { #category : #numeric }
 CuOOraSystem >> getUserPoints: aUser [
-	| total posts in interactions |
+	| total posts interactions |
 	total := 0.
 	total := total + aUser getPointsFromUser.
 	posts := aUser getQuestions.
@@ -158,12 +158,7 @@ CuOOraSystem >> getUsers [
 CuOOraSystem >> initialize [
 	users := Set new.
 	topics := Set
-		newFrom:
-			{(Topic newWith: 'Python' desc: 'about Python language').
-			(Topic newWith: 'Java' desc: 'about Java language').
-			(Topic newWith: 'Rust' desc: 'about Rust language').
-			(Topic newWith: 'Javascript' desc: 'about Javascript language').
-			(Topic newWith: 'C++' desc: 'about C++ language')}
+		new.
 ]
 
 { #category : #'instance creation' }
@@ -203,6 +198,15 @@ CuOOraSystem >> relevantQuestionsForUser: aUser [
 			questions addAll: q.
 			^ questions flattened.
 
+]
+
+{ #category : #'as yet unclassified' }
+CuOOraSystem >> sampleData [ 
+ topics addAll:  {(Topic newWith: 'Python' desc: 'about Python language').
+			(Topic newWith: 'Java' desc: 'about Java language').
+			(Topic newWith: 'Rust' desc: 'about Rust language').
+			(Topic newWith: 'Javascript' desc: 'about Javascript language').
+			(Topic newWith: 'C++' desc: 'about C++ language')}
 ]
 
 { #category : #utility }
