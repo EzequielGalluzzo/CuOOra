@@ -47,7 +47,7 @@ MyHomePageComponent >> botonVolver: aCanvas [
 		class: 'inline';
 		with: [ aCanvas button
 				callback: [ self front ];
-				with: [ aCanvas label: 'Pagina Principal' ] ]
+				with: [ aCanvas label: 'Pagina Principal' ]]
 ]
 
 { #category : #rendering }
@@ -71,6 +71,21 @@ MyHomePageComponent >> logout [
 	self session logout.
 	self session unregister.
 	self requestContext redirectTo: self application url
+]
+
+{ #category : #rendering }
+MyHomePageComponent >> menu: aCanvas [
+	aCanvas form
+		class: 'inline';
+		with: [ aCanvas button
+				callback: [ self front ];
+				with: [ aCanvas label: 'Pagina Principal' ].
+				 aCanvas
+					unorderedList: [ self session user getInterests
+						do: [ :each | 
+							aCanvas anchor
+								callback: [ self mostrarPreguntasDeTopico: each ];
+								with: [ aCanvas button: each name ] ] ] ]
 ]
 
 { #category : #accessing }
@@ -120,32 +135,37 @@ MyHomePageComponent >> mostrarPreguntasDeTopico: aTopic [
 
 { #category : #rendering }
 MyHomePageComponent >> mostrarTopicos: aCanvas [
-aCanvas horizontalRule.
 	aCanvas
-		unorderedList: [ aCanvas label: 'Mis intereses: '. self session user getInterests 
+		unorderedList: [ 
+			self session user getInterests
 				do: [ :each | 
-					aCanvas anchor
-						callback: [ self mostrarPreguntasDeTopico: each ];
-						with: [ aCanvas button: ' ' , each name , ' ' ] ] ]
+					aCanvas listItem
+						class: 'list';
+						with: [ aCanvas anchor
+								callback: [ self mostrarPreguntasDeTopico: each ];
+								with: [ aCanvas button: each name ] ] ] ]
 ]
 
 { #category : #rendering }
 MyHomePageComponent >> renderContentOn: aCanvas [
 	aCanvas render: header.
+	self botonVolver: aCanvas.
+	self mostrarTopicos:aCanvas .
 	aCanvas heading
 		level: 2;
 		with: 'Esta es tu pagina personal, ' , self session user name.
-	self botonVolver: aCanvas.
-	aCanvas div
-		with: [ self mostrarPreguntas: aCanvas ]
+	self mostrarPreguntas: aCanvas
 ]
 
 { #category : #hooks }
 MyHomePageComponent >> style [
 	^ '
-.inline { 
- display: inline; }
-.bold { 
- font-weight: bold; }
+
+.list { 
+  list-style-type: none;
+	display: inline;
+	float:right;
+  margin: 0;
+  padding: 0; }
 '
 ]

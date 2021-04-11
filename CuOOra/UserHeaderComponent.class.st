@@ -54,8 +54,8 @@ UserHeaderComponent >> mostrarTopicos: aCanvas [
 UserHeaderComponent >> renderContentOn: aCanvas [
 	aCanvas div
 		class: 'top';
-		with: [ self mostrarTopicos: aCanvas.
-			 self mostrarLogout: aCanvas ]
+		with: [ 
+			self mostrarLogout: aCanvas ]
 ]
 
 { #category : #hooks }
@@ -63,9 +63,7 @@ UserHeaderComponent >> style [
 	^ '
 .top {
     padding: 1em;
-    margin-bottom: 1em;
-    border: 1px solid #008aff;
-    background-color: #e6f4ff;
+    background-color: lightgrey;
 }
 .em {
 	font-style: italic;
@@ -76,8 +74,11 @@ UserHeaderComponent >> style [
 	}
 .right{ 
   font-weight: bold;
-  float: right;
-  display: inline;  
+  text-align: right;
+  display: block;  
+  padding: 5px;
+  margin: 0;
+  background-color: lightgrey;
 }
 '
 ]

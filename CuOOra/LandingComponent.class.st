@@ -81,6 +81,25 @@ Class {
 	#category : #'CuOOra-UI'
 }
 
+{ #category : #rendering }
+LandingComponent >> autorizar: aCanvas [
+	self session isLoggedIn
+		ifFalse: [ aCanvas div class:'loggedout'; with: [aCanvas
+				small:
+					'Hola! Bienvenido. Aqui puedes logearte, o si sos nuevo, registrate gratis!'.
+			aCanvas
+				form: [ aCanvas button
+						callback: [ self registrar ];
+						with: 'registrarse'.
+					aCanvas button
+						callback: [ self login ];
+						with: 'entrar' ] ]]
+		ifTrue: [ aCanvas
+				form: [ aCanvas button
+						callback: [ self irACasa ];
+						with: 'Home' ] ]
+]
+
 { #category : #hooks }
 LandingComponent >> children [ 
 ^ Array with: header
@@ -164,25 +183,10 @@ LandingComponent >> registrar [
 { #category : #rendering }
 LandingComponent >> renderContentOn: aCanvas [
 	self session user ifNotNil: [ aCanvas render: header ].
+	self autorizar: aCanvas.
 	aCanvas heading
 		class: 'head';
 		with: 'Bienvenido a CuOOra: Tu red social de preguntas'.
-	aCanvas horizontalRule.
-	self session user
-		ifNil: [ aCanvas
-				paragraph:
-					'Hola! Bienvenido. Aqui puedes logearte, o si sos nuevo, registrate gratis!'.
-			aCanvas
-				form: [ aCanvas button
-						callback: [ self registrar ];
-						with: 'registrarse'.
-					aCanvas button
-						callback: [ self login ];
-						with: 'entrar' ] ]
-		ifNotNil: [ aCanvas
-				form: [ aCanvas button
-						callback: [ self irACasa ];
-						with: 'Home' ] ].
 	aCanvas horizontalRule.
 	self mostrarPreguntas: aCanvas
 	"
@@ -195,10 +199,15 @@ LandingComponent >> renderContentOn: aCanvas [
 
 { #category : #hooks }
 LandingComponent >> style [
-^ 
-'
+	^ '
 .head {
-   color: seaGreen;
+   color: MediumSeaGreen;
 	}
+.loggedout { 
+  display: block;
+  padding: 5px;
+  background-color: rgba(255, 99, 71, 0.5); 
+  text-align: center;
+  padding: 10px;
 }'
 ]
