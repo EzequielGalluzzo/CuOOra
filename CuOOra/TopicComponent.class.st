@@ -25,7 +25,7 @@ Internal Representation and Key Implementation Points.
 "
 Class {
 	#name : #TopicComponent,
-	#superclass : #LoggedUserComponent,
+	#superclass : #MainComponent,
 	#instVars : [
 		'topico'
 	],
@@ -44,19 +44,33 @@ TopicComponent >> back [
 	self answer
 ]
 
+{ #category : #rendering }
+TopicComponent >> detalles: aCanvas paraPost: each [.
+							aCanvas
+								small: (self model getUserForQuestion: each) name;
+								small: ' | ';
+								small: each date;
+								small: ' | ';
+								small: 'likes: ' , (self model getPostLikes: each) asString;
+								small: ' ';
+								small: 'dislikes: ' , (self model getPostDislikes: each) asString.
+]
+
+{ #category : #accessing }
+TopicComponent >> header: aCanvas [
+	aCanvas
+		form: [ aCanvas button
+				callback: [ self back ];
+				with: [ aCanvas label: 'volver' ] ].
+]
+
 { #category : #accessing }
 TopicComponent >> model [
 ^ CuOOraSystem soleInstance 
 ]
 
 { #category : #rendering }
-TopicComponent >> renderContent: aCanvas [
-	aCanvas
-		form: [ aCanvas button
-				callback: [ self back ];
-				with: [ aCanvas label: 'volver' ] ].
-	aCanvas horizontalRule.
-	aCanvas heading: 'Preguntas de topico: ' , topico name.
+TopicComponent >> mostrarBotones: aCanvas [
 	aCanvas form
 		class: 'follow';
 		with: [ aCanvas button
@@ -66,10 +80,10 @@ TopicComponent >> renderContent: aCanvas [
 			aCanvas button
 				callback: [ self session user removeInterest: topico ];
 				with: [ aCanvas label: 'dejar de seguir' ] ].
-	aCanvas heading
-		level: 2;
-		with: topico description.
-	aCanvas horizontalRule.
+]
+
+{ #category : #rendering }
+TopicComponent >> preguntas: aCanvas [
 	aCanvas
 		unorderedList: [ topico relatedQuestions
 				do: [ :each | 
@@ -77,15 +91,14 @@ TopicComponent >> renderContent: aCanvas [
 						render: [ aCanvas heading
 								level: 4;
 								with: each name.
-							aCanvas
-								small: (self model getUserForQuestion: each) name;
-								small: ' | ';
-								small: each date;
-								small: ' | ';
-								small: 'likes: ' , (self model getPostLikes: each) asString;
-								small: ' ';
-								small: 'dislikes: ' , (self model getPostDislikes: each) asString.
+							self detalles: aCanvas paraPost: each.
 							aCanvas paragraph: each content.
+							self reacciones: aCanvas dePost: each.
+							aCanvas horizontalRule ] ] ].
+]
+
+{ #category : #rendering }
+TopicComponent >> reacciones: aCanvas dePost: each [
 							aCanvas anchor
 								callback: [ self session user likePost: each ];
 								with: [ aCanvas label: 'like' ].
@@ -93,7 +106,19 @@ TopicComponent >> renderContent: aCanvas [
 							aCanvas anchor
 								callback: [ self session user dislikePost: each ];
 								with: [ aCanvas label: 'dislike' ].
-							aCanvas horizontalRule ] ] ].
+]
+
+{ #category : #rendering }
+TopicComponent >> renderContent: aCanvas [
+   self header: aCanvas.
+	aCanvas horizontalRule.
+	aCanvas heading: 'Preguntas de topico: ' , topico name.
+	self mostrarBotones: aCanvas.
+	aCanvas heading
+		level: 2;
+		with: topico description.
+	aCanvas horizontalRule.
+	self preguntas: aCanvas.
 	aCanvas horizontalRule
 ]
 

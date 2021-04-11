@@ -71,7 +71,7 @@ cuoora := CuOOraSystem new.
 "
 Class {
 	#name : #LandingComponent,
-	#superclass : #LoggedUserComponent,
+	#superclass : #MainComponent,
 	#instVars : [
 		'userName',
 		'password',

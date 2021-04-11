@@ -28,7 +28,7 @@ Internal Representation and Key Implementation Points.
 "
 Class {
 	#name : #AskAQuestionComponent,
-	#superclass : #LoggedUserComponent,
+	#superclass : #MainComponent,
 	#instVars : [
 		'question',
 		'questionName',
@@ -101,29 +101,6 @@ AskAQuestionComponent >> renderContent: aCanvas [
 	aCanvas horizontalRule.
 	aCanvas
 		form: [ self renderTopicos: aCanvas.
-			aCanvas
-				paragraph: [ aCanvas label: 'Titulo de Pregunta: '.
-					aCanvas break.
-					aCanvas break.
-					aCanvas textInput on: #questionName of: self ].
-			aCanvas break.
-			aCanvas
-				paragraph: [ aCanvas label: 'Contenido de Pregunta: '.
-					aCanvas break.
-					(aCanvas textArea on: #questionContent of: self)
-						columns: 80;
-						rows: 5 ].
-			aCanvas submitButton on: #save of: self ]
-]
-
-{ #category : #rendering }
-AskAQuestionComponent >> renderContentOn: aCanvas [
-	self homeButton: aCanvas.
-	aCanvas horizontalRule.
-	aCanvas heading: 'Nueva Pregunta:'.
-	aCanvas horizontalRule.
-	aCanvas
-		form: [ 	self renderTopicos: aCanvas.
 			aCanvas
 				paragraph: [ aCanvas label: 'Titulo de Pregunta: '.
 					aCanvas break.

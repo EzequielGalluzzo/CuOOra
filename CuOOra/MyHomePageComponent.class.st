@@ -26,7 +26,7 @@ Internal Representation and Key Implementation Points.
 "
 Class {
 	#name : #MyHomePageComponent,
-	#superclass : #LoggedUserComponent,
+	#superclass : #MainComponent,
 	#instVars : [
 		'user',
 		'topics'
@@ -150,17 +150,6 @@ MyHomePageComponent >> renderContent: aCanvas [
 	aCanvas render: header.
 	self botonVolver: aCanvas.
 	self mostrarTopicos: aCanvas.
-	aCanvas heading
-		level: 2;
-		with: 'Esta es tu pagina personal, ' , self session user name.
-	self mostrarPreguntas: aCanvas
-]
-
-{ #category : #rendering }
-MyHomePageComponent >> renderContentOn: aCanvas [
-	aCanvas render: header.
-	self botonVolver: aCanvas.
-	self mostrarTopicos:aCanvas .
 	aCanvas heading
 		level: 2;
 		with: 'Esta es tu pagina personal, ' , self session user name.

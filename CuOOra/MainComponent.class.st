@@ -24,7 +24,7 @@ Internal Representation and Key Implementation Points.
     Implementation Points
 "
 Class {
-	#name : #LoggedUserComponent,
+	#name : #MainComponent,
 	#superclass : #WAComponent,
 	#instVars : [
 		'header'
@@ -33,23 +33,23 @@ Class {
 }
 
 { #category : #hooks }
-LoggedUserComponent >> children [
+MainComponent >> children [
 	^ Array with: header
 ]
 
 { #category : #initialization }
-LoggedUserComponent >> initialize [
+MainComponent >> initialize [
 	super initialize.
 	header := UserHeaderComponent new
 ]
 
 { #category : #rendering }
-LoggedUserComponent >> renderContent: aCanvas [
+MainComponent >> renderContent: aCanvas [
 	self subclassResponsibility 
 ]
 
 { #category : #rendering }
-LoggedUserComponent >> renderContentOn: aCanvas [
+MainComponent >> renderContentOn: aCanvas [
 	aCanvas render: header.
 	self renderContent: aCanvas.
 ]
