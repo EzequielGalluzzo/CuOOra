@@ -111,6 +111,7 @@ MyHomePageComponent >> mostrarPreguntas: aCanvas [
 										with: each name ].
 							aCanvas space.
 							self detalles: aCanvas dePost: each.
+							aCanvas small: ' | respuestas: ',  each allAnswers size asString.
 							self topicos: aCanvas dePost: each.
 							aCanvas paragraph: each content.
 							self reacciones: aCanvas conPost: each.

@@ -77,7 +77,10 @@ QuestionHomeComponent >> respuestas: aCanvas [
 		unorderedList: [ question allAnswers
 				do: [ :each | 
 					aCanvas paragraph: each gettext.
-					aCanvas small class: 'det'; with: [ self detalles: aCanvas dePost: each ] ] ]
+					aCanvas small
+						class: 'det';
+						with: [ self detalles: aCanvas dePost: each. aCanvas space.
+							self reacciones: aCanvas conPost: each ] ] ]
 ]
 
 { #category : #hooks }
