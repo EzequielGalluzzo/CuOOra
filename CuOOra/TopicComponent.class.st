@@ -100,16 +100,15 @@ TopicComponent >> renderContent: aCanvas [
 TopicComponent >> style [
 	^ '
 .follow{
-display: inline;
-float: right;
+  display: inline;
+  float: right;
 }
 .follow button:hover {
-cursor: grab;
-color:white;
+  cursor: grab;
+  color:white;
   background-color: #C984DE;
 }
-button:active {
-  background-color: #3e8e41;
+.follow button:active {
   box-shadow: 0 5px #666;
   transform: translateY(4px);
 }
