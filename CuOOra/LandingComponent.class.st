@@ -126,6 +126,35 @@ aCanvas
 						with: [ aCanvas label: 'entrar' ] ]
 ]
 
+{ #category : #rendering }
+LandingComponent >> mostrarPreguntas: aCanvas [
+	aCanvas
+		unorderedList: [ self model getAllQuestions
+				do: [ :each | 
+					aCanvas
+						render: [ aCanvas heading
+								level: 3;
+								with: each name.
+							aCanvas
+								small: (self model getUserForQuestion: each) name;
+								small: ' | ';
+								small: each date;
+								small: ' | ';
+								small: 'likes: ' , (self model getPostLikes: each) asString;
+								small: ' ';
+								small: 'dislikes:' , (self model getPostDislikes: each) asString.
+							aCanvas paragraph: each content.
+							self session user
+								ifNotNil: [ aCanvas anchor
+										callback: [ self session user likePost: each ];
+										with: [ aCanvas label: 'like' ].
+									aCanvas space.
+									aCanvas anchor
+										callback: [ self session user dislikePost: each ];
+										with: [ aCanvas label: 'dislike' ] ].
+							aCanvas horizontalRule ] ] ]
+]
+
 { #category : #visiting }
 LandingComponent >> registrar [
 	self call: RegUserComponent new.
@@ -150,14 +179,13 @@ LandingComponent >> renderContentOn: aCanvas [
 					aCanvas button
 						callback: [ self login ];
 						with: 'entrar' ] ]
-		ifNotNil: [ 
-			aCanvas
+		ifNotNil: [ aCanvas
 				form: [ aCanvas button
 						callback: [ self irACasa ];
 						with: 'Home' ] ].
-				
-			"	aCanvas horizontalRule.
-
+	aCanvas horizontalRule.
+	self mostrarPreguntas: aCanvas
+	"
 	aCanvas
 		form: [ aCanvas button 
 				callback: [ self listUsers: self model getUsers ];

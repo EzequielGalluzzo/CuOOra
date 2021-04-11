@@ -84,6 +84,11 @@ CuOOraSystem >> deleteQuestion: aQuestion [
 ]
 
 { #category : #accessing }
+CuOOraSystem >> getAllQuestions [
+ ^ users flatCollect: [ :u | u getQuestions]
+]
+
+{ #category : #accessing }
 CuOOraSystem >> getAllTopics [
 	"es necesario que CuOOra conozca topicos? Como se construyen
 	las relaciones bidireccionales?"
@@ -118,6 +123,12 @@ CuOOraSystem >> getInteractionPoints: aCollectionOfInteractions [
 		ifFalse: [ ^ 0 ]
 ]
 
+{ #category : #'math functions' }
+CuOOraSystem >> getPostDislikes: aPost [
+	^ (self getPostInteractions: aPost)
+		sumNumbers: [ :each | each isDislike asBit ]
+]
+
 { #category : #accessing }
 CuOOraSystem >> getPostInteractions: aPost [
 	| intCol newCol |
@@ -130,6 +141,13 @@ CuOOraSystem >> getPostInteractions: aPost [
 				ifEmpty: [ OrderedCollection new ] ].
 	newCol := (intCol select: [ :i | i isOfPost: aPost ]) asSet.
 	^ newCol
+]
+
+{ #category : #'math functions' }
+CuOOraSystem >> getPostLikes: aPost [
+
+	^ (self getPostInteractions: aPost)
+		sumNumbers: [ :each | each isLike asBit ]
 ]
 
 { #category : #accessing }

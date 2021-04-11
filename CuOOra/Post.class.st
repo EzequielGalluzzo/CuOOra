@@ -28,7 +28,6 @@ Class {
 	#name : #Post,
 	#superclass : #Object,
 	#instVars : [
-		'timeAndDateOfCreation',
 		'time',
 		'date'
 	],

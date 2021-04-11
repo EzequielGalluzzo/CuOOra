@@ -94,7 +94,11 @@ MyHomePageComponent >> mostrarPreguntas: aCanvas [
 							aCanvas
 								small: (self model getUserForQuestion: each) name;
 								small: ' | ';
-								small: each date.
+								small: each date;
+								small: ' | ';
+								small: 'likes: ' , (self model getPostLikes: each) asString;
+								small: ' ';
+								small: 'dislikes: ' , (self model getPostDislikes: each) asString.
 							aCanvas paragraph: each content.
 							aCanvas anchor
 								callback: [ self session user likePost: each ];
