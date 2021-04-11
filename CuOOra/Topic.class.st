@@ -54,6 +54,11 @@ Topic >> description: anObject [
 	description := anObject
 ]
 
+{ #category : #testing }
+Topic >> hasRelatedQuestion: aQuestion [
+	^ (questions includes: aQuestion)
+]
+
 { #category : #initialization }
 Topic >> initialize [ 
 	questions := Set new.

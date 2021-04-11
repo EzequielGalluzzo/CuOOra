@@ -241,9 +241,11 @@ CuOOraSystem >> sampleData [
  users addAll: { inti. eze }
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 CuOOraSystem >> topicsForQuestion: aQuestion [
-	^ (topics flatCollect: [ :t | t relatedQuestions ]) asSet.
+
+	"tengo que para topico preguntar si tiene esa pregunta en su coleccionn y si es asi "
+	^ (topics select: [ :t | t hasRelatedQuestion: aQuestion ]) asSet.
 ]
 
 { #category : #utility }

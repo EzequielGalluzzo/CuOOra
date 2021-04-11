@@ -57,8 +57,9 @@ TopicComponent >> renderContent: aCanvas [
 				with: [ aCanvas label: 'volver' ] ].
 	aCanvas horizontalRule.
 	aCanvas heading: 'Preguntas de topico: ' , topico name.
-	aCanvas
-		form class: 'follow'; with: [ aCanvas button
+	aCanvas form
+		class: 'follow';
+		with: [ aCanvas button
 				callback: [ self session user addInterest: topico ];
 				with: [ aCanvas label: 'seguir' ].
 			aCanvas space.
@@ -74,7 +75,7 @@ TopicComponent >> renderContent: aCanvas [
 				do: [ :each | 
 					aCanvas
 						render: [ aCanvas heading
-								level: 3;
+								level: 4;
 								with: each name.
 							aCanvas
 								small: (self model getUserForQuestion: each) name;
