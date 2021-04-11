@@ -50,16 +50,6 @@ AUserSession >> logout [
 ]
 
 { #category : #accessing }
-AUserSession >> topics [
-	^ topics
-]
-
-{ #category : #accessing }
-AUserSession >> topics: anObject [
-	topics := anObject
-]
-
-{ #category : #accessing }
 AUserSession >> user [
 	^ user
 ]

@@ -75,10 +75,22 @@ Class {
 	#instVars : [
 		'userName',
 		'password',
-		'user'
+		'user',
+		'header'
 	],
 	#category : #'CuOOra-UI'
 }
+
+{ #category : #hooks }
+LandingComponent >> children [ 
+^ Array with: header
+]
+
+{ #category : #initialization }
+LandingComponent >> initialize [
+	super initialize.
+	header := UserHeaderComponent new
+]
 
 { #category : #visiting }
 LandingComponent >> irACasa [
@@ -122,28 +134,43 @@ LandingComponent >> registrar [
 
 { #category : #rendering }
 LandingComponent >> renderContentOn: aCanvas [
-	aCanvas heading: 'Bienvenido a CuOOra: Tu red social de preguntas'.
+	self session user ifNotNil: [ aCanvas render: header ].
+	aCanvas heading
+		class: 'head';
+		with: 'Bienvenido a CuOOra: Tu red social de preguntas'.
 	aCanvas horizontalRule.
 	self session user
-		ifNil: [ aCanvas paragraph:
+		ifNil: [ aCanvas
+				paragraph:
 					'Hola! Bienvenido. Aqui puedes logearte, o si sos nuevo, registrate gratis!'.
 			aCanvas
 				form: [ aCanvas button
 						callback: [ self registrar ];
 						with: 'registrarse'.
-					aCanvas button 
+					aCanvas button
 						callback: [ self login ];
 						with: 'entrar' ] ]
-		ifNotNil: [ aCanvas paragraph: 'Hola, bienvenido ' , self session user name.
+		ifNotNil: [ 
 			aCanvas
-				form: [ aCanvas button 
+				form: [ aCanvas button
 						callback: [ self irACasa ];
-						with: 'Home'  ] ].
-"	aCanvas horizontalRule.
+						with: 'Home' ] ].
+				
+			"	aCanvas horizontalRule.
 
 	aCanvas
 		form: [ aCanvas button 
 				callback: [ self listUsers: self model getUsers ];
 				with: 'Listar Usuarios' ].
 	aCanvas horizontalRule"
+]
+
+{ #category : #hooks }
+LandingComponent >> style [
+^ 
+'
+.head {
+   color: seaGreen;
+	}
+}'
 ]

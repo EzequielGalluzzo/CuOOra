@@ -32,17 +32,5 @@ HeaderComponent >> renderContentOn: aCanvas [
 
 { #category : #rendering }
 HeaderComponent >> renderTopicos: aCanvas [
-	"Checkbox"
 
-	aCanvas text: 'Elegir topicos de la pregunta: '.
-	aCanvas break.
-	aCanvas
-		unorderedList: [ self session user getInterests
-				do: [ :each | 
-					aCanvas label: each name asString.
-					aCanvas checkbox
-						value: false;
-						callback: [ :value | 
-							value
-								ifTrue: [ self addTopic: each ] ] ] ]
 ]

@@ -29,7 +29,8 @@ Class {
 	#superclass : #WAComponent,
 	#instVars : [
 		'user',
-		'topics'
+		'topics',
+		'header'
 	],
 	#category : #'CuOOra-UI'
 }
@@ -40,9 +41,29 @@ self call: AskAQuestionComponent new.
 	
 ]
 
+{ #category : #rendering }
+MyHomePageComponent >> botonVolver: aCanvas [
+	aCanvas form
+		class: 'inline';
+		with: [ aCanvas button
+				callback: [ self front ];
+				with: [ aCanvas label: 'Pagina Principal' ] ]
+]
+
+{ #category : #rendering }
+MyHomePageComponent >> children [ 	
+^ Array with: header
+]
+
 { #category : #visiting }
 MyHomePageComponent >> front [
 	self call: LandingComponent new
+]
+
+{ #category : #initialization }
+MyHomePageComponent >> initialize [ 
+super initialize .
+header := UserHeaderComponent new. 
 ]
 
 { #category : #visiting }
@@ -60,7 +81,7 @@ MyHomePageComponent >> model [
 { #category : #rendering }
 MyHomePageComponent >> mostrarPreguntas: aCanvas [
 	aCanvas heading
-		level: 2;
+		level: 3;
 		with: 'Mis Preguntas: '.
 	aCanvas horizontalRule.
 	aCanvas
@@ -85,7 +106,7 @@ MyHomePageComponent >> mostrarPreguntasDeTopico: aTopic [
 MyHomePageComponent >> mostrarTopicos: aCanvas [
 aCanvas horizontalRule.
 	aCanvas
-		unorderedList: [ self session user getInterests 
+		unorderedList: [ aCanvas label: 'Mis intereses: '. self session user getInterests 
 				do: [ :each | 
 					aCanvas anchor
 						callback: [ self mostrarPreguntasDeTopico: each ];
@@ -94,17 +115,19 @@ aCanvas horizontalRule.
 
 { #category : #rendering }
 MyHomePageComponent >> renderContentOn: aCanvas [
-	aCanvas
-		form: [ aCanvas button
-				callback: [ self logout ];
-				with: [ aCanvas label: 'salir' ].
-			aCanvas button
-				callback: [ self front ];
-				with: [ aCanvas label: 'front page' ] ].
-	aCanvas div: [ self mostrarTopicos: aCanvas ] .
+	aCanvas render: header.
+	aCanvas heading
+		level: 2;
+		with: 'Esta es tu pagina personal, ' , self session user name.
+	self botonVolver: aCanvas.
+	aCanvas div
+		with: [ self mostrarPreguntas: aCanvas ]
+]
 
-	aCanvas
-		heading: 'Esta es tu pagina personal, ' , self session user name.
-
-	self mostrarPreguntas: aCanvas
+{ #category : #hooks }
+MyHomePageComponent >> style [
+	^ '
+.inline { 
+ display: inline; }
+'
 ]

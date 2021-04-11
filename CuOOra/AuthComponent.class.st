@@ -51,7 +51,6 @@ AuthComponent >> cancel [
 { #category : #visiting }
 AuthComponent >> entrarCon: aUser [
 	self session login: user.
-	self session topics: self model getAllTopics.
 	self call: MyHomePageComponent new
 ]
 
