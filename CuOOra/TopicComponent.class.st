@@ -44,6 +44,11 @@ TopicComponent >> back [
 	self answer
 ]
 
+{ #category : #accessing }
+TopicComponent >> model [
+^ CuOOraSystem soleInstance 
+]
+
 { #category : #rendering }
 TopicComponent >> renderContentOn: aCanvas [
 	aCanvas
@@ -52,18 +57,60 @@ TopicComponent >> renderContentOn: aCanvas [
 				with: [ aCanvas label: 'volver' ] ].
 	aCanvas horizontalRule.
 	aCanvas heading: 'Preguntas de topico: ' , topico name.
+	aCanvas form
+		class: 'follow';
+		with: [ aCanvas button
+				callback: [ self session user addInterest: topico ];
+				with: [ aCanvas label: 'seguir' ] ].
 	aCanvas heading
 		level: 2;
 		with: topico description.
 	aCanvas horizontalRule.
 	aCanvas
 		unorderedList: [ topico relatedQuestions
-				do: [ :each | 
-					aCanvas heading
-						level: 3;
-						with: each name.
-					aCanvas render: each content ].
-			aCanvas horizontalRule ]
+					do: [ :each | 
+					aCanvas
+						render: [ aCanvas heading
+								level: 3;
+								with: each name.
+							aCanvas
+								small: (self model getUserForQuestion: each) name;
+								small: ' | ';
+								small: each date;
+								small: ' | ';
+								small: 'likes: ' , (self model getPostLikes: each) asString;
+								small: ' ';
+								small: 'dislikes: ' , (self model getPostDislikes: each) asString.
+							aCanvas paragraph: each content.
+							aCanvas anchor
+								callback: [ self session user likePost: each ];
+								with: [ aCanvas label: 'like' ].
+							aCanvas space.
+							aCanvas anchor
+								callback: [ self session user dislikePost: each ];
+								with: [ aCanvas label: 'dislike' ].
+							aCanvas horizontalRule ] ] ].
+			aCanvas horizontalRule.
+]
+
+{ #category : #hooks }
+TopicComponent >> style [
+	^ '
+.follow{
+display: inline;
+float: right;
+
+}
+.follow button {
+
+  padding: 14px 40px;
+  background-color: violet; 
+  text-align: center;
+  padding: 10px;
+  border-radius: 5px;
+font-size: 16px;
+border-style: none;
+}'
 ]
 
 { #category : #accessing }

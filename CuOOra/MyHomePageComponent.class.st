@@ -136,8 +136,7 @@ MyHomePageComponent >> mostrarPreguntasDeTopico: aTopic [
 { #category : #rendering }
 MyHomePageComponent >> mostrarTopicos: aCanvas [
 	aCanvas
-		unorderedList: [ 
-			self session user getInterests
+		unorderedList: [ self model getAllTopics
 				do: [ :each | 
 					aCanvas listItem
 						class: 'list';
