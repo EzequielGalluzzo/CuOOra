@@ -173,7 +173,13 @@ LandingComponent >> renderContent: aCanvas [
 { #category : #hooks }
 LandingComponent >> style [
 	^ '
-.topic  { 
+.topic { 
+  list-style-type: none;
+  display: inline-block;
+  padding-right: 5px;
+  float:right;
+}
+.topicsmall  { 
   color: grey;
   font-size: small;
   list-style-type: none;
@@ -181,15 +187,16 @@ LandingComponent >> style [
   padding-right: 5px;
 }
 .topic:hover{
-
 cursor: grab;
 }
 .list { 
   list-style-type: none;
-	display: inline;
-	float:right;
+  display: inline;
+  float:right;
   margin: 0;
   padding: 0; }
+
+
 .head {
    color: MediumSeaGreen;
 	}

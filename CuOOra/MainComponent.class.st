@@ -138,39 +138,16 @@ MainComponent >> renderContentOn: aCanvas [
 	self renderContent: aCanvas.
 ]
 
-{ #category : #hooks }
-MainComponent >> style [
-	^ '
-.topic  { 
-  color: grey;
-  font-size: small;
-  list-style-type: none;
-  display: inline-block;
-  padding-right: 5px;
-}
-.topic:hover{
-
-cursor: grab;
-}
-.list { 
-  list-style-type: none;
-  display: inline;
-  float:right;
-  margin: 0;
-  padding: 0; 
-}'
-]
-
 { #category : #rendering }
 MainComponent >> topicos: aCanvas dePost: each [
 	aCanvas
 		unorderedList: [ aCanvas label
-				class: 'topic';
+				class: 'topicsmall';
 				with: 'topicos: '.
 			(self model topicsForQuestion: each)
 				do: [ :t | 
 					aCanvas listItem
-						class: 'topic';
+						class: 'topicsmall';
 						with: [ aCanvas anchor
 								callback: [ self mostrarPreguntasDeTopico: t ];
 								with: [ aCanvas label: t name ] ] ] ]
