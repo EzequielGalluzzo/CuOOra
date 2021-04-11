@@ -57,9 +57,8 @@ TopicComponent >> renderContent: aCanvas [
 				with: [ aCanvas label: 'volver' ] ].
 	aCanvas horizontalRule.
 	aCanvas heading: 'Preguntas de topico: ' , topico name.
-	aCanvas form
-		class: 'follow';
-		with: [ aCanvas button
+	aCanvas
+		form class: 'follow'; with: [ aCanvas button
 				callback: [ self session user addInterest: topico ];
 				with: [ aCanvas label: 'seguir' ].
 			aCanvas space.
@@ -103,17 +102,26 @@ TopicComponent >> style [
 .follow{
 display: inline;
 float: right;
-
+}
+.follow button:hover {
+cursor: grab;
+color:white;
+  background-color: #C984DE;
+}
+button:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
 }
 .follow button {
-
-  padding: 14px 40px;
+  padding: 10px;
   background-color: violet;
   text-align: center;
-  padding: 10px;
-  border-radius: 5px;
-font-size: 16px;
-border-style: none;
+  font-size: 16px;
+  border-style: none;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 5px #999;
 }'
 ]
 
