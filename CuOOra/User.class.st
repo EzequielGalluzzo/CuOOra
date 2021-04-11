@@ -211,3 +211,8 @@ User >> password [
 	^password
 	
 ]
+
+{ #category : #removing }
+User >> removeInterest: aTopic [
+	interests remove: aTopic ifAbsent: [ false ]
+]

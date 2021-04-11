@@ -28,9 +28,5 @@ Class {
 
 { #category : #rendering }
 HeaderComponent >> renderContentOn: aCanvas [
-]
-
-{ #category : #rendering }
-HeaderComponent >> renderTopicos: aCanvas [
-
+ self subclassResponsibility 
 ]

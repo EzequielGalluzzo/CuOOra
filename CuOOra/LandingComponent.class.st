@@ -71,12 +71,11 @@ cuoora := CuOOraSystem new.
 "
 Class {
 	#name : #LandingComponent,
-	#superclass : #WAComponent,
+	#superclass : #LoggedUserComponent,
 	#instVars : [
 		'userName',
 		'password',
-		'user',
-		'header'
+		'user'
 	],
 	#category : #'CuOOra-UI'
 }
@@ -181,8 +180,8 @@ LandingComponent >> registrar [
 ]
 
 { #category : #rendering }
-LandingComponent >> renderContentOn: aCanvas [
-	self session user ifNotNil: [ aCanvas render: header ].
+LandingComponent >> renderContent: aCanvas [
+
 	self autorizar: aCanvas.
 	aCanvas heading
 		class: 'head';

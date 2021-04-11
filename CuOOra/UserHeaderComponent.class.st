@@ -54,21 +54,20 @@ UserHeaderComponent >> mostrarTopicos: aCanvas [
 UserHeaderComponent >> renderContentOn: aCanvas [
 	aCanvas div
 		class: 'top';
-		with: [ 
-			self mostrarLogout: aCanvas ]
+		with: [ self session isLoggedIn ifTrue: [self mostrarTopicos: aCanvas.
+			self mostrarLogout: aCanvas ]]
 ]
 
 { #category : #hooks }
 UserHeaderComponent >> style [
 	^ '
-.top {
-    padding: 1em;
-    background-color: lightgrey;
-}
+
 .em {
 	font-style: italic;
 	}
 .left {
+   float: left;
+   margin: 0;
 	padding: 5px;
 	display: inline; 
 	}
@@ -80,5 +79,6 @@ UserHeaderComponent >> style [
   margin: 0;
   background-color: lightgrey;
 }
+
 '
 ]

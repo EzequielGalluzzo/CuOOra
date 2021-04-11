@@ -25,7 +25,7 @@ Internal Representation and Key Implementation Points.
 "
 Class {
 	#name : #TopicComponent,
-	#superclass : #WAComponent,
+	#superclass : #LoggedUserComponent,
 	#instVars : [
 		'topico'
 	],
@@ -50,7 +50,7 @@ TopicComponent >> model [
 ]
 
 { #category : #rendering }
-TopicComponent >> renderContentOn: aCanvas [
+TopicComponent >> renderContent: aCanvas [
 	aCanvas
 		form: [ aCanvas button
 				callback: [ self back ];
@@ -61,14 +61,18 @@ TopicComponent >> renderContentOn: aCanvas [
 		class: 'follow';
 		with: [ aCanvas button
 				callback: [ self session user addInterest: topico ];
-				with: [ aCanvas label: 'seguir' ] ].
+				with: [ aCanvas label: 'seguir' ].
+			aCanvas space.
+			aCanvas button
+				callback: [ self session user removeInterest: topico ];
+				with: [ aCanvas label: 'dejar de seguir' ] ].
 	aCanvas heading
 		level: 2;
 		with: topico description.
 	aCanvas horizontalRule.
 	aCanvas
 		unorderedList: [ topico relatedQuestions
-					do: [ :each | 
+				do: [ :each | 
 					aCanvas
 						render: [ aCanvas heading
 								level: 3;
@@ -90,7 +94,7 @@ TopicComponent >> renderContentOn: aCanvas [
 								callback: [ self session user dislikePost: each ];
 								with: [ aCanvas label: 'dislike' ].
 							aCanvas horizontalRule ] ] ].
-			aCanvas horizontalRule.
+	aCanvas horizontalRule
 ]
 
 { #category : #hooks }
@@ -104,7 +108,7 @@ float: right;
 .follow button {
 
   padding: 14px 40px;
-  background-color: violet; 
+  background-color: violet;
   text-align: center;
   padding: 10px;
   border-radius: 5px;

@@ -26,11 +26,10 @@ Internal Representation and Key Implementation Points.
 "
 Class {
 	#name : #MyHomePageComponent,
-	#superclass : #WAComponent,
+	#superclass : #LoggedUserComponent,
 	#instVars : [
 		'user',
-		'topics',
-		'header'
+		'topics'
 	],
 	#category : #'CuOOra-UI'
 }
@@ -50,20 +49,9 @@ MyHomePageComponent >> botonVolver: aCanvas [
 				with: [ aCanvas label: 'Pagina Principal' ]]
 ]
 
-{ #category : #rendering }
-MyHomePageComponent >> children [ 	
-^ Array with: header
-]
-
 { #category : #visiting }
 MyHomePageComponent >> front [
 	self call: LandingComponent new
-]
-
-{ #category : #initialization }
-MyHomePageComponent >> initialize [ 
-super initialize .
-header := UserHeaderComponent new. 
 ]
 
 { #category : #visiting }
@@ -143,6 +131,17 @@ MyHomePageComponent >> mostrarTopicos: aCanvas [
 						with: [ aCanvas anchor
 								callback: [ self mostrarPreguntasDeTopico: each ];
 								with: [ aCanvas button: each name ] ] ] ]
+]
+
+{ #category : #rendering }
+MyHomePageComponent >> renderContent: aCanvas [
+	aCanvas render: header.
+	self botonVolver: aCanvas.
+	self mostrarTopicos: aCanvas.
+	aCanvas heading
+		level: 2;
+		with: 'Esta es tu pagina personal, ' , self session user name.
+	self mostrarPreguntas: aCanvas
 ]
 
 { #category : #rendering }
