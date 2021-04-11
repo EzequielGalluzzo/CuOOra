@@ -241,6 +241,11 @@ CuOOraSystem >> sampleData [
  users addAll: { inti. eze }
 ]
 
+{ #category : #'as yet unclassified' }
+CuOOraSystem >> topicsForQuestion: aQuestion [
+	^ (topics flatCollect: [ :t | t relatedQuestions ]) asSet.
+]
+
 { #category : #utility }
 CuOOraSystem >> userWithName: aName protectedBy: aPassword [
 	^ users
