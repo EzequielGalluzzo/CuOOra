@@ -82,19 +82,31 @@ MyHomePageComponent >> model [
 MyHomePageComponent >> mostrarPreguntas: aCanvas [
 	aCanvas heading
 		level: 3;
-		with: 'Mis Preguntas: '.
+		with: 'Preguntas de Interes: '.
 	aCanvas horizontalRule.
 	aCanvas
-		unorderedList: [ self session user getQuestions
+		unorderedList: [ (self model relevantQuestionsForUser: self session user)
 				do: [ :each | 
 					aCanvas
-						render: [ aCanvas heading level: 3; with: each name.
-							aCanvas break.
-							aCanvas paragraph: each content ].
-					aCanvas horizontalRule ] ].
+						render: [ aCanvas heading
+								level: 3;
+								with: each name.
+							aCanvas
+								small: (self model getUserForQuestion: each) name;
+								small: ' | ';
+								small: each date.
+							aCanvas paragraph: each content.
+							aCanvas anchor
+								callback: [ self session user likePost: each ];
+								with: [ aCanvas label: 'like' ].
+							aCanvas space.
+							aCanvas anchor
+								callback: [ self session user dislikePost: each ];
+								with: [ aCanvas label: 'dislike' ].
+							aCanvas horizontalRule ] ] ].
 	aCanvas anchor
 		callback: [ self agregarPregunta ];
-		with: [ aCanvas button: 'Nueva Pregunta' ].
+		with: [ aCanvas button: 'Nueva Pregunta' ]
 ]
 
 { #category : #visiting }
@@ -129,5 +141,7 @@ MyHomePageComponent >> style [
 	^ '
 .inline { 
  display: inline; }
+.bold { 
+ font-weight: bold; }
 '
 ]

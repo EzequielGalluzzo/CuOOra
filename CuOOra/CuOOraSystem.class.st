@@ -132,6 +132,11 @@ CuOOraSystem >> getPostInteractions: aPost [
 	^ newCol
 ]
 
+{ #category : #accessing }
+CuOOraSystem >> getUserForQuestion: aQuestion [
+	^ users detect: [ :each | each askedQuestion: aQuestion ] ifNone: [ nil ]	
+]
+
 { #category : #numeric }
 CuOOraSystem >> getUserPoints: aUser [
 	| total posts interactions |
