@@ -69,11 +69,6 @@ AskAQuestionComponent >> initialize [
 ]
 
 { #category : #accessing }
-AskAQuestionComponent >> model [ 	
-^ CuOOraSystem soleInstance 
-]
-
-{ #category : #accessing }
 AskAQuestionComponent >> questionContent [
 	^ questionContent
 ]

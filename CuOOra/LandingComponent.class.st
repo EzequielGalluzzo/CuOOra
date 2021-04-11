@@ -99,17 +99,6 @@ LandingComponent >> autorizar: aCanvas [
 						with: 'Home' ] ]
 ]
 
-{ #category : #hooks }
-LandingComponent >> children [ 
-^ Array with: header
-]
-
-{ #category : #initialization }
-LandingComponent >> initialize [
-	super initialize.
-	header := UserHeaderComponent new
-]
-
 { #category : #visiting }
 LandingComponent >> irACasa [
 	self call: MyHomePageComponent new.
@@ -123,11 +112,6 @@ LandingComponent >> listUsers: someUsers [
 { #category : #'private protocol' }
 LandingComponent >> login [ 	
 self call: EntryComponent new.
-]
-
-{ #category : #accessing }
-LandingComponent >> model [
-	^ CuOOraSystem soleInstance
 ]
 
 { #category : #rendering }
@@ -148,29 +132,19 @@ aCanvas
 LandingComponent >> mostrarPreguntas: aCanvas [
 	aCanvas
 		unorderedList: [ self model getAllQuestions
-				do: [ :each | 
+			do: [ :each | 
 					aCanvas
 						render: [ aCanvas heading
 								level: 3;
 								with: each name.
-							aCanvas
-								small: (self model getUserForQuestion: each) name;
-								small: ' | ';
-								small: each date;
-								small: ' | ';
-								small: 'likes: ' , (self model getPostLikes: each) asString;
-								small: ' ';
-								small: 'dislikes:' , (self model getPostDislikes: each) asString.
+							aCanvas space.
+							self detalles: aCanvas dePost: each.
+							self topicos: aCanvas dePost: each.
 							aCanvas paragraph: each content.
+							
 							self session user
-								ifNotNil: [ aCanvas anchor
-										callback: [ self session user likePost: each ];
-										with: [ aCanvas label: 'like' ].
-									aCanvas space.
-									aCanvas anchor
-										callback: [ self session user dislikePost: each ];
-										with: [ aCanvas label: 'dislike' ] ].
-							aCanvas horizontalRule ] ] ]
+								ifNotNil: [ 							self reacciones: aCanvas conPost: each. ].
+							aCanvas horizontalRule ] ] ].
 ]
 
 { #category : #visiting }
@@ -199,6 +173,23 @@ LandingComponent >> renderContent: aCanvas [
 { #category : #hooks }
 LandingComponent >> style [
 	^ '
+.topic  { 
+  color: grey;
+  font-size: small;
+  list-style-type: none;
+  display: inline-block;
+  padding-right: 5px;
+}
+.topic:hover{
+
+cursor: grab;
+}
+.list { 
+  list-style-type: none;
+	display: inline;
+	float:right;
+  margin: 0;
+  padding: 0; }
 .head {
    color: MediumSeaGreen;
 	}
@@ -208,5 +199,6 @@ LandingComponent >> style [
   background-color: rgba(255, 99, 71, 0.5); 
   text-align: center;
   padding: 10px;
-}'
+}
+'
 ]

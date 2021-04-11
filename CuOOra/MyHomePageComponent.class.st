@@ -35,33 +35,6 @@ Class {
 }
 
 { #category : #visiting }
-MyHomePageComponent >> agregarPregunta [
-self call: AskAQuestionComponent new.
-	
-]
-
-{ #category : #rendering }
-MyHomePageComponent >> botonVolver: aCanvas [
-	aCanvas form
-		class: 'inline';
-		with: [ aCanvas button
-				callback: [ self front ];
-				with: [ aCanvas label: 'Pagina Principal' ]]
-]
-
-{ #category : #rendering }
-MyHomePageComponent >> detalles: aCanvas dePost: each [
-	aCanvas
-		small: (self model getUserForQuestion: each) name;
-		small: ' | ';
-		small: each date;
-		small: ' | ';
-		small: (self model getPostLikes: each) asString , ' likes';
-		small: ' ';
-		small: (self model getPostDislikes: each) asString , ' dislikes'.
-]
-
-{ #category : #visiting }
 MyHomePageComponent >> front [
 	self call: LandingComponent new
 ]
@@ -88,11 +61,6 @@ MyHomePageComponent >> menu: aCanvas [
 								with: [ aCanvas button: each name ] ] ] ]
 ]
 
-{ #category : #accessing }
-MyHomePageComponent >> model [
-	^ CuOOraSystem soleInstance 
-]
-
 { #category : #rendering }
 MyHomePageComponent >> mostrarPreguntas: aCanvas [
 	aCanvas heading
@@ -117,37 +85,8 @@ MyHomePageComponent >> mostrarPreguntas: aCanvas [
 		with: [ aCanvas button: 'Nueva Pregunta' ]
 ]
 
-{ #category : #visiting }
-MyHomePageComponent >> mostrarPreguntasDeTopico: aTopic [
-	self call: (TopicComponent topico: aTopic)
-]
-
-{ #category : #rendering }
-MyHomePageComponent >> mostrarTopicos: aCanvas [
-	aCanvas
-		unorderedList: [ self model getAllTopics
-				do: [ :each | 
-					aCanvas listItem
-						class: 'list';
-						with: [ aCanvas anchor
-								callback: [ self mostrarPreguntasDeTopico: each ];
-								with: [ aCanvas button: each name ] ] ] ]
-]
-
-{ #category : #rendering }
-MyHomePageComponent >> reacciones: aCanvas conPost: aPost [
-							aCanvas anchor
-								callback: [ self session user likePost: aPost ];
-								with: [ aCanvas label: 'like' ].
-							aCanvas space.
-							aCanvas anchor
-								callback: [ self session user dislikePost: aPost ];
-								with: [ aCanvas label: 'dislike' ]
-]
-
 { #category : #rendering }
 MyHomePageComponent >> renderContent: aCanvas [
-	aCanvas render: header.
 	self botonVolver: aCanvas.
 	self mostrarTopicos: aCanvas.
 	aCanvas heading
@@ -177,19 +116,4 @@ cursor: grab;
   margin: 0;
   padding: 0; }
 '
-]
-
-{ #category : #rendering }
-MyHomePageComponent >> topicos: aCanvas dePost: each [
-	aCanvas
-		unorderedList: [ aCanvas label
-				class: 'topic';
-				with: 'topicos: '.
-			(self model topicsForQuestion: each)
-				do: [ :t | 
-					aCanvas listItem
-						class: 'topic';
-						with: [ aCanvas anchor
-								callback: [ self mostrarPreguntasDeTopico: t ];
-								with: [ aCanvas label: t name ] ] ] ]
 ]

@@ -64,11 +64,6 @@ TopicComponent >> header: aCanvas [
 				with: [ aCanvas label: 'volver' ] ].
 ]
 
-{ #category : #accessing }
-TopicComponent >> model [
-^ CuOOraSystem soleInstance 
-]
-
 { #category : #rendering }
 TopicComponent >> mostrarBotones: aCanvas [
 	aCanvas form
