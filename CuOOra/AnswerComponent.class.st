@@ -86,6 +86,6 @@ AnswerComponent >> renderContent: aCanvas [
 { #category : #actions }
 AnswerComponent >> save [
 	(answer := Answer newWithText: text) ifNil: [ ^ self ].
-	self session user addAnswer: question.
-	self answer
+	self session user addAnswerTo: question withText: text.
+	self call: MyHomePageComponent new
 ]

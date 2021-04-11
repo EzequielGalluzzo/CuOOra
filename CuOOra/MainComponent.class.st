@@ -39,12 +39,27 @@ self call: AskAQuestionComponent new.
 ]
 
 { #category : #rendering }
-MainComponent >> botonVolver: aCanvas [
-	aCanvas form
-		class: 'inline';
-		with: [ aCanvas button
-				callback: [ self front ];
-				with: [ aCanvas label: 'Pagina Principal' ]]
+MainComponent >> agregarPregunta: aCanvas [
+	aCanvas anchor
+		callback: [ self agregarPregunta ];
+		with: [ aCanvas button: 'Nueva Pregunta' ]
+]
+
+{ #category : #visiting }
+MainComponent >> agregarRespuesta: aPost [
+self call: (AnswerComponent paraPregunta: aPost)
+]
+
+{ #category : #rendering }
+MainComponent >> agregarRespuesta: aCanvas aPost: aPost [
+	self session isLoggedIn
+		ifTrue: [ aCanvas
+				form: [ aCanvas button
+						callback: [ self agregarRespuesta: aPost ];
+						with: [ aCanvas label: 'Agregar Respuesta' ] ] ]
+		ifFalse: [ aCanvas
+				small:
+					' Debe estar logeado para poder responder preguntas. ' ]
 ]
 
 { #category : #hooks }
@@ -55,13 +70,13 @@ MainComponent >> children [
 { #category : #rendering }
 MainComponent >> detalles: aCanvas dePost: each [
 	aCanvas
-		small: (self model getUserForQuestion: each) name;
+		small: 'de ', (self model getUserForPost: each) name;
 		small: ' | ';
 		small: each date;
 		small: ' | ';
 		small: (self model getPostLikes: each) asString , ' likes';
 		small: ' ';
-		small: (self model getPostDislikes: each) asString , ' dislikes'.
+		small: (self model getPostDislikes: each) asString , ' dislikes'
 ]
 
 { #category : #initialization }
@@ -85,18 +100,19 @@ MainComponent >> mostrarPreguntas: aCanvas [
 		unorderedList: [ (self model relevantQuestionsForUser: self session user)
 				do: [ :each | 
 					aCanvas
-						render: [ aCanvas heading
-								level: 3;
-								with: each name.
+						render: [ aCanvas anchor
+								callback: [ self preguntaConRespuestas: each];
+								with: [ aCanvas heading
+										level: 3;
+										with: each name ].
 							aCanvas space.
 							self detalles: aCanvas dePost: each.
 							self topicos: aCanvas dePost: each.
 							aCanvas paragraph: each content.
 							self reacciones: aCanvas conPost: each.
-							aCanvas horizontalRule ] ] ].
-	aCanvas anchor
-		callback: [ self agregarPregunta ];
-		with: [ aCanvas button: 'Nueva Pregunta' ]
+							self session user
+								ifNotNil: [ self agregarRespuesta: aCanvas aPost: each ].
+							aCanvas horizontalRule ] ] ]
 ]
 
 { #category : #visiting }
@@ -114,6 +130,11 @@ MainComponent >> mostrarTopicos: aCanvas [
 						with: [ aCanvas anchor
 								callback: [ self mostrarPreguntasDeTopico: each ];
 								with: [ aCanvas button: each name ] ] ] ]
+]
+
+{ #category : #visiting }
+MainComponent >> preguntaConRespuestas: aQuestion [
+	self call: (QuestionHomeComponent question: aQuestion)
 ]
 
 { #category : #rendering }
@@ -136,6 +157,13 @@ MainComponent >> renderContent: aCanvas [
 MainComponent >> renderContentOn: aCanvas [
 	aCanvas render: header.
 	self renderContent: aCanvas.
+]
+
+{ #category : #hooks }
+MainComponent >> style [ 
+^ '
+.det 
+{ color: grey; }'
 ]
 
 { #category : #rendering }

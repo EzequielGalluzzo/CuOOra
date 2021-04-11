@@ -132,19 +132,20 @@ aCanvas
 LandingComponent >> mostrarPreguntas: aCanvas [
 	aCanvas
 		unorderedList: [ self model getAllQuestions
-			do: [ :each | 
+				do: [ :each | 
 					aCanvas
-						render: [ aCanvas heading
-								level: 3;
-								with: each name.
+						render: [ aCanvas anchor
+								callback: [ self preguntaConRespuestas: each ];
+								with: [ aCanvas heading
+										level: 3;
+										with: each name ].
 							aCanvas space.
 							self detalles: aCanvas dePost: each.
 							self topicos: aCanvas dePost: each.
 							aCanvas paragraph: each content.
-							
-							self session user
-								ifNotNil: [ 							self reacciones: aCanvas conPost: each. ].
-							aCanvas horizontalRule ] ] ].
+							self reacciones: aCanvas conPost: each.
+							self agregarRespuesta: aCanvas aPost: each.
+							aCanvas horizontalRule ] ] ]
 ]
 
 { #category : #visiting }
@@ -195,8 +196,6 @@ cursor: grab;
   float:right;
   margin: 0;
   padding: 0; }
-
-
 .head {
    color: MediumSeaGreen;
 	}

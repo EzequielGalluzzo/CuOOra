@@ -151,6 +151,13 @@ CuOOraSystem >> getPostLikes: aPost [
 ]
 
 { #category : #accessing }
+CuOOraSystem >> getUserForPost: aPost [
+	^ users
+		detect: [ :each | each hasPost: aPost ]
+		ifNone: [ nil ]
+]
+
+{ #category : #accessing }
 CuOOraSystem >> getUserForQuestion: aQuestion [
 	^ users detect: [ :each | each askedQuestion: aQuestion ] ifNone: [ nil ]	
 ]

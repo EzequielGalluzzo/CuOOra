@@ -167,6 +167,11 @@ User >> hasPassword: aPassword [
 	^ password = aPassword
 ]
 
+{ #category : #boolean }
+User >> hasPost: aPost [
+	^ ((questions includes: aPost) or: (answers includes: aPost))
+]
+
 { #category : #initialization }
 User >> initialize [
 	"solo se puede tener una interaccion para cada posteo, un Set evita repeticiones"

@@ -58,6 +58,15 @@ MyHomePageComponent >> __mostrarPreguntas: aCanvas [
 		with: [ aCanvas button: 'Nueva Pregunta' ]
 ]
 
+{ #category : #rendering }
+MyHomePageComponent >> botonVolver: aCanvas [
+	aCanvas form
+		class: 'inline';
+		with: [ aCanvas button
+				callback: [ self front ];
+				with: [ aCanvas label: 'Pagina Principal' ]]
+]
+
 { #category : #visiting }
 MyHomePageComponent >> front [
 	self call: LandingComponent new
@@ -95,18 +104,18 @@ MyHomePageComponent >> mostrarPreguntas: aCanvas [
 		unorderedList: [ (self model relevantQuestionsForUser: self session user)
 				do: [ :each | 
 					aCanvas
-						render: [ aCanvas heading
-								level: 3;
-								with: each name.
+						render: [ aCanvas anchor
+								callback: [ self preguntaConRespuestas: each ];
+								with: [ aCanvas heading
+										level: 3;
+										with: each name ].
 							aCanvas space.
 							self detalles: aCanvas dePost: each.
-														self topicos: aCanvas dePost: each.
+							self topicos: aCanvas dePost: each.
 							aCanvas paragraph: each content.
 							self reacciones: aCanvas conPost: each.
-							aCanvas horizontalRule ] ] ].
-	aCanvas anchor
-		callback: [ self agregarPregunta ];
-		with: [ aCanvas button: 'Nueva Pregunta' ]
+							self agregarRespuesta: aCanvas aPost: each.
+							aCanvas horizontalRule ] ] ]
 ]
 
 { #category : #rendering }
@@ -116,7 +125,8 @@ MyHomePageComponent >> renderContent: aCanvas [
 	aCanvas heading
 		level: 2;
 		with: 'Esta es tu pagina personal, ' , self session user name.
-	self mostrarPreguntas: aCanvas
+	self mostrarPreguntas: aCanvas.
+	self agregarPregunta: aCanvas
 ]
 
 { #category : #hooks }
