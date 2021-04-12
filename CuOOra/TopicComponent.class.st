@@ -61,7 +61,7 @@ TopicComponent >> header: aCanvas [
 	aCanvas
 		form: [ aCanvas button
 				callback: [ self back ];
-				with: [ aCanvas label: 'volver' ] ].
+				with: 'volver'].
 ]
 
 { #category : #rendering }
@@ -70,11 +70,11 @@ TopicComponent >> mostrarBotones: aCanvas [
 		class: 'follow';
 		with: [ aCanvas button
 				callback: [ self session user addInterest: topico ];
-				with: [ aCanvas label: 'seguir' ].
+				with: 'seguir' .
 			aCanvas space.
 			aCanvas button
 				callback: [ self session user removeInterest: topico ];
-				with: [ aCanvas label: 'dejar de seguir' ] ].
+				with: 'dejar de seguir' ].
 ]
 
 { #category : #rendering }

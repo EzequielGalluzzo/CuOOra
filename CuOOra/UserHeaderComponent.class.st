@@ -39,7 +39,7 @@ aCanvas
 		form class: 'right'; with: [ aCanvas label:'Hola, ', self session user name, '  '.
 			   aCanvas button
 				callback: [ self logout ];
-				with: [ aCanvas label: 'salir' ]]
+				with: 'salir']
 ]
 
 { #category : #rendering }

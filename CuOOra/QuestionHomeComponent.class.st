@@ -47,7 +47,7 @@ QuestionHomeComponent >> back [
 QuestionHomeComponent >> botonVolver: aCanvas [
 	aCanvas form: [ aCanvas button
 				callback: [ self back ];
-				with: [ aCanvas label: 'Volver' ] ]
+				with: 'Volver'  ]
 ]
 
 { #category : #accessing }

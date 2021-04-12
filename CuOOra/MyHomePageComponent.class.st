@@ -64,7 +64,7 @@ MyHomePageComponent >> botonVolver: aCanvas [
 		class: 'inline';
 		with: [ aCanvas button
 				callback: [ self front ];
-				with: [ aCanvas label: 'Pagina Principal' ]]
+				with: 'Pagina Principal' ]
 ]
 
 { #category : #visiting }

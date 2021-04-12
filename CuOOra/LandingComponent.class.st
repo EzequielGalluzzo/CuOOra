@@ -122,10 +122,10 @@ aCanvas
 			aCanvas
 				form: [ aCanvas button
 						callback: [ self registrar ];
-						with: [ aCanvas label: 'registrarte' ].
+						with: 'registrarte' .
 					aCanvas button
 						callback: [ self login ];
-						with: [ aCanvas label: 'entrar' ] ]
+						with: 'entrar' ]
 ]
 
 { #category : #rendering }

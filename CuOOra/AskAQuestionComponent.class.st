@@ -59,7 +59,7 @@ AskAQuestionComponent >> homeButton: aCanvas [
 	aCanvas
 		form: [ aCanvas button
 				callback: [ self home ];
-				with: [ aCanvas label: 'home page' ] ].
+				with: 'home page' ].
 ]
 
 { #category : #initialization }

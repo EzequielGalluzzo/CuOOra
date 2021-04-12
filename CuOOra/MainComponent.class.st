@@ -56,7 +56,7 @@ MainComponent >> agregarRespuesta: aCanvas aPost: aPost [
 		ifTrue: [ aCanvas
 				form: [ aCanvas button
 						callback: [ self agregarRespuesta: aPost ];
-						with: [ aCanvas label: 'Agregar Respuesta' ] ] ]
+						with: 'Agregar Respuesta' ] ]
 		ifFalse: [ aCanvas
 				small:
 					' Debe estar logeado para poder responder preguntas. ' ]
@@ -142,11 +142,11 @@ MainComponent >> preguntaConRespuestas: aQuestion [
 MainComponent >> reacciones: aCanvas conPost: aPost [
 							aCanvas anchor
 								callback: [ self session user likePost: aPost ];
-								with: [ aCanvas label: 'like' ].
+								with: 'like'.
 							aCanvas space.
 							aCanvas anchor
 								callback: [ self session user dislikePost: aPost ];
-								with: [ aCanvas label: 'dislike' ]
+								with: 'dislike'
 ]
 
 { #category : #rendering }
