@@ -88,9 +88,8 @@ User >> dislikePost: aPost [
 	| interaction |
 	interaction := interactions
 		detect: [ :inter | inter isOfPost: aPost ]
-		ifNone: [ Dislike newFor: aPost ].
-	interaction isDislike
-		ifFalse: [ interactions remove: interaction ].
+		ifNone: [ Interaction newFor: aPost With: false ].
+	interaction dislike.
 	interactions add: interaction
 ]
 
@@ -200,9 +199,8 @@ User >> likePost: aPost [
 	| interaction |
 	interaction := interactions
 		detect: [ :inter | inter isOfPost: aPost ]
-		ifNone: [ Like newFor: aPost ].
-	interaction isLike
-		ifFalse: [ interactions remove: interaction ].
+		ifNone: [ Interaction newFor: aPost With: true ].
+	interaction like.
 	interactions add: interaction
 ]
 

@@ -41,29 +41,45 @@ Interaction class >> newFor: aPost [
 	^ self new initializeForPost: aPost
 ]
 
-{ #category : #action }
-Interaction >> dislike [
-    (reaction isLike)
-	ifTrue: [ reaction := Dislike newFor: post ].
-	^ reaction.
+{ #category : #'instance creation' }
+Interaction class >> newFor: aPost With: status [
+	^ self new initializeForPost: aPost With: status
 ]
 
-{ #category : #initialization }
-Interaction >> initializeForPost: aPost [
-	post := aPost.
+{ #category : #action }
+Interaction >> dislike [
+	reaction
+		ifTrue: [ reaction := false ].
+	^ reaction
+]
+
+{ #category : #'temporal for remove' }
+Interaction >> initialize [
 	timeAndDate := DateAndTime now.
 	reaction := self
 ]
 
+{ #category : #initialization }
+Interaction >> initializeForPost: aPost With: status [ 
+	post := aPost.
+	timeAndDate := DateAndTime now.
+	reaction := status
+]
+
 { #category : #testing }
 Interaction >> isOfPost: aPost [
-	^ (aPost == post)
+	^ (aPost = post)
 
 ]
 
 { #category : #action }
 Interaction >> like [
-    (reaction isDislike)
-	ifTrue: [ reaction := Like newFor: post ].
+    (reaction)
+	ifFalse: [ reaction := false  ].
 	^ reaction.
+]
+
+{ #category : #'temporal for remove' }
+Interaction >> reaction [
+	^reaction 
 ]

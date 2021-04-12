@@ -116,9 +116,9 @@ CuOOraSystem >> getInteractionPoints: aCollectionOfInteractions [
 	| totalLikes totalDislikes |
 	aCollectionOfInteractions isNotNil
 		ifTrue: [ totalLikes := aCollectionOfInteractions
-				sumNumbers: [ :sum :each | sum + each isLike asBit ].
+				sumNumbers: [ :sum :each | sum + (each reaction)  ].
 			totalDislikes := aCollectionOfInteractions
-				sumNumbers: [ :sum :each | sum + each isDislike asBit ].
+				sumNumbers: [ :sum :each | sum + (each reaction)not  ].
 			^ totalLikes + (totalDislikes * -1) ]
 		ifFalse: [ ^ 0 ]
 ]
@@ -126,7 +126,7 @@ CuOOraSystem >> getInteractionPoints: aCollectionOfInteractions [
 { #category : #'math functions' }
 CuOOraSystem >> getPostDislikes: aPost [
 	^ (self getPostInteractions: aPost)
-		sumNumbers: [ :each | each isDislike asBit ]
+		collect: [ :each | each reaction  ] size asString
 ]
 
 { #category : #accessing }
@@ -145,9 +145,8 @@ CuOOraSystem >> getPostInteractions: aPost [
 
 { #category : #'math functions' }
 CuOOraSystem >> getPostLikes: aPost [
-
 	^ (self getPostInteractions: aPost)
-		sumNumbers: [ :each | each isLike asBit ]
+		collect: [ :each | each reaction ] size asString
 ]
 
 { #category : #accessing }

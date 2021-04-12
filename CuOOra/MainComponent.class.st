@@ -74,9 +74,9 @@ MainComponent >> detalles: aCanvas dePost: each [
 		small: ' | ';
 		small: each date;
 		small: ' | ';
-		small: (self model getPostLikes: each) asString , ' likes';
+		small: (self model getPostLikes: each)asString ,' likes';
 		small: ' ';
-		small: (self model getPostDislikes: each) asString , ' dislikes'
+		small: (self model getPostDislikes: each)asString,' dislikes'
 ]
 
 { #category : #initialization }
