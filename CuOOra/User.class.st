@@ -85,12 +85,11 @@ User >> deleteQuestion: aQuestion [
 
 { #category : #action }
 User >> dislikePost: aPost [
-	| interaction |
-	interaction := interactions
-		detect: [ :inter | inter isOfPost: aPost ]
-		ifNone: [ Dislike newFor: aPost ].
-	interaction isDislike
-		ifFalse: [ interactions remove: interaction ].
+	| i interaction |
+	interaction := Dislike newFor: aPost.
+	i := interactions
+		detect: [ :inter | inter isOfPost: aPost ] ifNone:[ nil ].
+	i ifNotNil:[ interactions remove: i ].
 	interactions add: interaction
 ]
 
@@ -197,13 +196,13 @@ User >> isFollower: aUser [
 
 { #category : #action }
 User >> likePost: aPost [
-	| interaction |
-	interaction := interactions
+	| i like |
+	i := interactions
 		detect: [ :inter | inter isOfPost: aPost ]
-		ifNone: [ Like newFor: aPost ].
-	interaction isLike
-		ifFalse: [ interactions remove: interaction ].
-	interactions add: interaction
+		ifNone: [nil].
+	i ifNotNil:[ interactions remove: i ].
+	like:= Like newFor: aPost.
+	interactions add: like
 ]
 
 { #category : #accessing }

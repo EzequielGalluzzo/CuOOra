@@ -41,29 +41,15 @@ Interaction class >> newFor: aPost [
 	^ self new initializeForPost: aPost
 ]
 
-{ #category : #action }
-Interaction >> dislike [
-    (reaction isLike)
-	ifTrue: [ reaction := Dislike newFor: post ].
-	^ reaction.
-]
-
 { #category : #initialization }
 Interaction >> initializeForPost: aPost [
 	post := aPost.
 	timeAndDate := DateAndTime now.
-	reaction := self
+	reaction := self.
 ]
 
 { #category : #testing }
 Interaction >> isOfPost: aPost [
 	^ (aPost == post)
 
-]
-
-{ #category : #action }
-Interaction >> like [
-    (reaction isDislike)
-	ifTrue: [ reaction := Like newFor: post ].
-	^ reaction.
 ]

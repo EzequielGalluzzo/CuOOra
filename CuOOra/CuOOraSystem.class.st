@@ -116,9 +116,9 @@ CuOOraSystem >> getInteractionPoints: aCollectionOfInteractions [
 	| totalLikes totalDislikes |
 	aCollectionOfInteractions isNotNil
 		ifTrue: [ totalLikes := aCollectionOfInteractions
-				sumNumbers: [ :sum :each | sum + each isLike asBit ].
+				sumNumbers: [ :each  | each isLike asBit ].
 			totalDislikes := aCollectionOfInteractions
-				sumNumbers: [ :sum :each | sum + each isDislike asBit ].
+				sumNumbers: [ :each | each isDislike asBit ].
 			^ totalLikes + (totalDislikes * -1) ]
 		ifFalse: [ ^ 0 ]
 ]

@@ -158,15 +158,16 @@ CuOOraTest >> testGetAnswers [
 CuOOraTest >> testGetPostInteractions [
 	self assertEmpty: (cuoora getPostInteractions: question1).
 	self makeInteractions.
-	self denyEmpty: (cuoora getPostInteractions: question1)
+	self denyEmpty: (cuoora getPostInteractions: question1).
+	
 ]
 
 { #category : #tests }
 CuOOraTest >> testGetUserPoints [
 	self makeInteractions.
-	self assert: (cuoora getUserPoints: user1) equals: 3150.
-	self assert: (cuoora getUserPoints: user2) equals: 1050.
-	self assert: (cuoora getUserPoints: user3) equals: 0.
+	self assert: (cuoora getUserPoints: user1) equals: 3152.
+	self assert: (cuoora getUserPoints: user2) equals: 1052.
+	self assert: (cuoora getUserPoints: user3) equals: 2.
 ]
 
 { #category : #tests }

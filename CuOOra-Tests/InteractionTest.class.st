@@ -9,7 +9,9 @@ Class {
 		'postDislike',
 		'postNil',
 		'myLike',
-		'myDislike'
+		'myDislike',
+		'user1',
+		'cuoora'
 	],
 	#category : #'CuOOra-Tests'
 }
@@ -24,6 +26,11 @@ InteractionTest >> makeQuestions [
 ]
 
 { #category : #setUps }
+InteractionTest >> makeUsers [
+	user1 := User newWithUsername: 'myname' andPassword: '123'
+]
+
+{ #category : #setUps }
 InteractionTest >> setUp [
 	"Hooks that subclasses may override to define the fixture of test."
 
@@ -34,25 +41,15 @@ InteractionTest >> setUp [
 
 { #category : #tests }
 InteractionTest >> testDislike [
-	| newDislike newLike |
-	self assert: myDislike dislike equals: myDislike.
-	newLike := myDislike like.
-	self assert: myDislike like equals: newLike.
-	newDislike := myDislike dislike.
-	self assert: myDislike dislike equals: newDislike.
-	self deny: myDislike dislike equals: newLike.
-	self deny: myDislike like equals: newDislike
+
+self assert: (myDislike  isDislike ).
+self deny: (myDislike  isLike )
 ]
 
 { #category : #tests }
 InteractionTest >> testLike [
 
-	| newDislike newLike |
-	self assert: myLike like equals: myLike.
-	newDislike := myLike dislike.
-	self assert: myLike dislike equals: newDislike.
-	newLike := myLike like.
-	self assert: myLike like equals: newLike.
-	self deny: myLike dislike equals: newDislike.
-	self deny: myLike like equals: newLike
+	self assert: myLike isLike.
+		self deny: myLike isDislike.
+
 ]
