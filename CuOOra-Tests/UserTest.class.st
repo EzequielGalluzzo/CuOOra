@@ -83,30 +83,6 @@ UserTest >> makeTopics [
 ]
 
 { #category : #setUps }
-UserTest >> makeUserQuestions [
-	user1
-		addQuestionForTopic: topicCollection
-		name: 'Q1'
-		description: 'How are Java and Python different?'.
-	user1
-		addQuestionForTopic: topicCollection
-		name: 'Q2'
-		description: 'Which is best for OOP, Python or Java?'.
-	user2
-		addQuestionForTopic: topic1
-		name: 'Q3'
-		description: 'What is a lambda function in Python?'.
-	user2
-		addQuestionForTopic: topic3
-		name: 'Q4'
-		description: 'Is there something like a lambda function in Java?'.
-	user3
-		addQuestionForTopic: topic3
-		name: 'Q5'
-		description: 'What are some uses for Rust?'
-]
-
-{ #category : #setUps }
 UserTest >> makeUsers [
 	"Add any changes to posts constuctor here"
 
@@ -161,9 +137,9 @@ UserTest >> testFollow [
 
 { #category : #tests }
 UserTest >> testGetPointsFromUser [
-	self makeInteractions.
-	self assert: user1 getPointsFromUser equals: 3150.
-	self assert: user2 getPointsFromUser equals: 1050.
+	self makeQuestions .
+	self assert: user1 getPointsFromUser equals: 65.
+	self assert: user2 getPointsFromUser equals: 17.
 	self assert: user3 getPointsFromUser equals: 0
 ]
 

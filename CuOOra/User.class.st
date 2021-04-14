@@ -124,11 +124,13 @@ User >> getInterests [
 
 { #category : #action }
 User >> getPointsFromUser [
-	| userPoints repliedToOthers |
+	| userPoints  temp |
 	userPoints := 0.
-	userPoints := userPoints + (questions size) * 20.
-	repliedToOthers := self getRepliesToOtherUsers.
-	userPoints := userPoints + (repliedToOthers size) * 50.
+	userPoints := userPoints + (questions  size * 20).
+	temp := self getRepliesOfMyQuestions.
+	temp := answers intersection: temp.
+	temp := answers difference: temp.
+	userPoints := userPoints + (temp size * 50).
 	^ userPoints.
 ]
 
@@ -138,19 +140,10 @@ User >> getQuestions [
 ]
 
 { #category : #action }
-User >> getRepliesToOtherUsers [
-	"get all answers where the answer is not in my question's answers"
-
-	^ questions
-		collect: [ :q | q allAnswers ]
-		thenReject: [ :a | answers includes: a ].
-		
-
-	"obsolete method as answers no longer know their questions:
-	| repliedTo repliedToSelf |
-	repliedTo := answers collect: [ :answ | answ question ]. 
-	repliedToSelf := repliedTo intersection: questions.
-	^ answers copyWithoutAll: repliedToSelf"
+User >> getRepliesOfMyQuestions [
+	| temp |
+	temp := questions asSet addAll: [ :q | q allAnswers asSet ] .
+	^temp
 ]
 
 { #category : #testing }
