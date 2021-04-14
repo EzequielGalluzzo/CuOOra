@@ -124,6 +124,14 @@ CuOOraSystem >> getInteractionPoints: aCollectionOfInteractions [
 ]
 
 { #category : #'math functions' }
+CuOOraSystem >> getPostBalance: aPost [
+	| temp |
+	temp := (self getPostLikes: aPost) asNumber.
+	temp := temp - (self getPostDislikes: aPost) asNumber.
+	^temp
+]
+
+{ #category : #'math functions' }
 CuOOraSystem >> getPostDislikes: aPost [
 	^ (self getPostInteractions: aPost)
 		sumNumbers: [ :each | each isDislike asBit ]
