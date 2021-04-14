@@ -142,7 +142,7 @@ User >> getQuestions [
 { #category : #action }
 User >> getRepliesOfMyQuestions [
 	| temp |
-	temp := questions asSet addAll: [ :q | q allAnswers asSet ] .
+	temp := (questions collect: [ :q | q allAnswers  ]) asSet.
 	^temp
 ]
 
