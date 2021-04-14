@@ -230,9 +230,8 @@ CuOOraSystem >> relevantQuestionsForUser: aUser [
 
 { #category : #initialization }
 CuOOraSystem >> sampleData [ 
-| inti eze python java rust cpp javascript smalltalk OOP | 
-			inti := User newWithUsername: 'Inti' andPassword: '123'.
-			eze := User newWithUsername: 'Eze' andPassword: 'abc'.
+| pedro diego juan python java rust cpp javascript smalltalk OOP TDU OO1 PreguntaPedro RespuestaPedro PreguntaDiego RespuestaDiego| 
+"topicos"
 			python := Topic newWith: 'Python' desc: 'about Python language'.
 			java := Topic newWith: 'Java' desc: 'about Java language'.
 			rust := Topic newWith: 'Rust' desc: 'about Rust language'.
@@ -240,10 +239,39 @@ CuOOraSystem >> sampleData [
 			cpp := Topic newWith: 'C++' desc: 'about C++ language'.
 			smalltalk  := Topic newWith: 'Smalltalk' desc: 'about Smalltalk language'.
 			OOP := Topic newWith: 'OOP' desc: 'about Object Oriented Programming'.
- topics addAll:  {python. java. rust. cpp. javascript. smalltalk. OOP.}.
-			inti addInterest: python; addInterest: javascript.
-			eze addInterest: rust; addInterest: OOP; addInterest: cpp.
- users addAll: { inti. eze }
+			TDU := Topic newWith: 'Test De Unidad' desc: 'about Unit Testing'.
+			OO1 := Topic newWith: 'OO1' desc: 'about Object Oriented 1'.
+ topics addAll:  {python. java. rust. cpp. javascript. smalltalk. OOP. TDU. OO1}.
+
+"topicos"
+
+
+"users"
+			pedro := User newWithUsername: 'pedro@cuoora.com' andPassword: 'pedro'.
+			diego := User newWithUsername: 'diego@cuoora.com' andPassword: 'diego'.
+			juan := User newWithUsername: 'juan@cuoora.com' andPassword: 'juan'.
+			juan follow: diego.
+			pedro follow: juan.
+ users addAll: { pedro. diego. juan }.
+"users"
+
+"preguntas"
+			PreguntaPedro := Question new.
+			PreguntaPedro initializeWith:'¿Para que sirve el método SetUp?' topics: {OO1. TDU} and: 'No se para que sirve el metodo setUp.' .
+			pedro addQuestion: PreguntaPedro .
+			PreguntaDiego := Question new.
+			PreguntaDiego initializeWith: '¿Qué significa #mesageNotUnderstood?' topics: {OO1. smalltalk } and: 'salta ese error y no se que significa.' .
+			diego addQuestion: PreguntaDiego .
+"preguntas"
+
+"respuestas"
+			pedro addAnswerTo: PreguntaDiego  withText: 'Sirve para instanciar los objetos que son evaluados por el test en un único método y que se ejecute siempre antes de cada test'.
+			diego addAnswerTo: PreguntaPedro  withText: 'Singifica que el objeto que recibió el mensaje no encontró ningún método para ejecutar en respuesta'.
+
+"respuestas"
+
+
+
 ]
 
 { #category : #accessing }
