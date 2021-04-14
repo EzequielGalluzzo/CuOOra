@@ -35,30 +35,6 @@ Class {
 }
 
 { #category : #rendering }
-MyHomePageComponent >> __mostrarPreguntas: aCanvas [
-	aCanvas heading
-		level: 3;
-		with: 'Preguntas de Interes: '.
-	aCanvas horizontalRule.
-	aCanvas
-		unorderedList: [ (self model relevantQuestionsForUser: self session user)
-				do: [ :each | 
-					aCanvas
-						render: [ aCanvas heading
-								level: 3;
-								with: each name.
-							aCanvas space.
-							self detalles: aCanvas dePost: each.
-							self topicos: aCanvas dePost: each.
-							aCanvas paragraph: each content.
-							self reacciones: aCanvas conPost: each.
-							aCanvas horizontalRule ] ] ].
-	aCanvas anchor
-		callback: [ self agregarPregunta ];
-		with: [ aCanvas button: 'Nueva Pregunta' ]
-]
-
-{ #category : #rendering }
 MyHomePageComponent >> botonVolver: aCanvas [
 	aCanvas form
 		class: 'inline';
@@ -70,6 +46,11 @@ MyHomePageComponent >> botonVolver: aCanvas [
 { #category : #visiting }
 MyHomePageComponent >> front [
 	self call: LandingComponent new
+]
+
+{ #category : #accessing }
+MyHomePageComponent >> getQuestions [
+	^ (self model relevantQuestionsForUser: self session user)
 ]
 
 { #category : #visiting }
@@ -92,31 +73,6 @@ MyHomePageComponent >> menu: aCanvas [
 							aCanvas anchor
 								callback: [ self mostrarPreguntasDeTopico: each ];
 								with: [ aCanvas button: each name ] ] ] ]
-]
-
-{ #category : #rendering }
-MyHomePageComponent >> mostrarPreguntas: aCanvas [
-	aCanvas heading
-		level: 3;
-		with: 'Preguntas de Interes: '.
-	aCanvas horizontalRule.
-	aCanvas
-		unorderedList: [ (self model relevantQuestionsForUser: self session user)
-				do: [ :each | 
-					aCanvas
-						render: [ aCanvas anchor
-								callback: [ self preguntaConRespuestas: each ];
-								with: [ aCanvas heading
-										level: 3;
-										with: each name ].
-							aCanvas space.
-							self detalles: aCanvas dePost: each.
-							aCanvas small: ' | respuestas: ',  each allAnswers size asString.
-							self topicos: aCanvas dePost: each.
-							aCanvas paragraph: each content.
-							self reacciones: aCanvas conPost: each.
-							self agregarRespuesta: aCanvas aPost: each.
-							aCanvas horizontalRule ] ] ]
 ]
 
 { #category : #rendering }

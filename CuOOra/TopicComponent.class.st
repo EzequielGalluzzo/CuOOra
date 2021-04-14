@@ -44,18 +44,6 @@ TopicComponent >> back [
 	self answer
 ]
 
-{ #category : #rendering }
-TopicComponent >> detalles: aCanvas paraPost: each [.
-							aCanvas
-								small: (self model getUserForQuestion: each) name;
-								small: ' | ';
-								small: each date;
-								small: ' | ';
-								small: 'likes: ' , (self model getPostLikes: each) asString;
-								small: ' ';
-								small: 'dislikes: ' , (self model getPostDislikes: each) asString.
-]
-
 { #category : #accessing }
 TopicComponent >> header: aCanvas [
 	aCanvas
@@ -86,29 +74,19 @@ TopicComponent >> preguntas: aCanvas [
 						render: [ aCanvas heading
 								level: 4;
 								with: each name.
-							self detalles: aCanvas paraPost: each.
+							self detalles: aCanvas dePost: each.
 							aCanvas paragraph: each content.
-							self reacciones: aCanvas dePost: each.
-							aCanvas horizontalRule ] ] ].
-]
-
-{ #category : #rendering }
-TopicComponent >> reacciones: aCanvas dePost: each [
-							aCanvas anchor
-								callback: [ self session user likePost: each ];
-								with: [ aCanvas label: 'like' ].
-							aCanvas space.
-							aCanvas anchor
-								callback: [ self session user dislikePost: each ];
-								with: [ aCanvas label: 'dislike' ].
+							self reacciones: aCanvas conPost: each.
+							aCanvas horizontalRule ] ] ]
 ]
 
 { #category : #rendering }
 TopicComponent >> renderContent: aCanvas [
-   self header: aCanvas.
+	self header: aCanvas.
 	aCanvas horizontalRule.
 	aCanvas heading: 'Preguntas de topico: ' , topico name.
-	self mostrarBotones: aCanvas.
+	self session user
+		ifNotNil: [ self mostrarBotones: aCanvas ].
 	aCanvas heading
 		level: 2;
 		with: topico description.

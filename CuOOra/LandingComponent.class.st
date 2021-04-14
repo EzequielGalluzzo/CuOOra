@@ -131,7 +131,7 @@ aCanvas
 { #category : #rendering }
 LandingComponent >> mostrarPreguntas: aCanvas [
 	aCanvas
-		unorderedList: [ self model getAllQuestions
+		unorderedList: [ self getQuestions
 				do: [ :each | 
 					aCanvas
 						render: [ aCanvas anchor

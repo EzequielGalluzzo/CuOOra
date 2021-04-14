@@ -65,7 +65,7 @@ QuestionHomeComponent >> renderContent: aCanvas [
 	self detalles: aCanvas dePost: question.
 	self topicos: aCanvas dePost: question.
 	aCanvas paragraph: question content.
-	self reacciones: aCanvas conPost: question.
+	 self reacciones: aCanvas conPost: question.
 	self session user
 		ifNotNil: [ self agregarRespuesta: aCanvas aPost: question ].
 	self respuestas: aCanvas

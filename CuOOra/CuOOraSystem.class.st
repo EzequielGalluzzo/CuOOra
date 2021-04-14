@@ -220,14 +220,12 @@ CuOOraSystem >> questionsForTopic: aTopic [
 CuOOraSystem >> relevantQuestionsForUser: aUser [
 	| questions follows q |
 	"first we collect all of the questions from all of the topics relevant to the user"
-     questions := (aUser getInterests)
-		collect: [ :t | (t relatedQuestions)].
-			"then we need to get all their followers and for each one get their questions"
-			follows := aUser followsUsers.
-			q := follows collect: [ :u | (u getQuestions) ].
-			questions addAll: q.
-			^ questions flattened.
-
+	questions := aUser getInterests collect: [ :t | t relatedQuestions ].
+	"then we need to get all their followers and for each one get their questions"
+	follows := aUser followsUsers.
+	q := follows collect: [ :u | u getQuestions ].
+	questions addAll: q.
+	^ (questions flattened) asSet
 ]
 
 { #category : #initialization }

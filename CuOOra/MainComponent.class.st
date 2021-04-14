@@ -27,7 +27,8 @@ Class {
 	#name : #MainComponent,
 	#superclass : #WAComponent,
 	#instVars : [
-		'header'
+		'header',
+		'questions'
 	],
 	#category : #'CuOOra-UI'
 }
@@ -58,8 +59,7 @@ MainComponent >> agregarRespuesta: aCanvas aPost: aPost [
 						callback: [ self agregarRespuesta: aPost ];
 						with: 'Agregar Respuesta' ] ]
 		ifFalse: [ aCanvas
-				small:
-					' Debe estar logeado para poder responder preguntas. ' ]
+				small: '' ]
 ]
 
 { #category : #hooks }
@@ -77,6 +77,11 @@ MainComponent >> detalles: aCanvas dePost: each [
 		small: (self model getPostLikes: each) asString , ' likes';
 		small: ' ';
 		small: (self model getPostDislikes: each) asString , ' dislikes'
+]
+
+{ #category : #accessing }
+MainComponent >> getQuestions [ 
+	^ self model getAllQuestions
 ]
 
 { #category : #initialization }
@@ -97,7 +102,7 @@ MainComponent >> mostrarPreguntas: aCanvas [
 		with: 'Preguntas de Interes: '.
 	aCanvas horizontalRule.
 	aCanvas
-		unorderedList: [ (self model relevantQuestionsForUser: self session user)
+		unorderedList: [ self getQuestions
 				do: [ :each | 
 					aCanvas
 						render: [ aCanvas anchor
@@ -107,7 +112,7 @@ MainComponent >> mostrarPreguntas: aCanvas [
 										with: each name ].
 							aCanvas space.
 							self detalles: aCanvas dePost: each.
-							aCanvas small: each allAnswers size asString.
+							aCanvas small: ' | respuestas: ' , each allAnswers size asString.
 							self topicos: aCanvas dePost: each.
 							aCanvas paragraph: each content.
 							self reacciones: aCanvas conPost: each.
@@ -140,13 +145,15 @@ MainComponent >> preguntaConRespuestas: aQuestion [
 
 { #category : #rendering }
 MainComponent >> reacciones: aCanvas conPost: aPost [
-							aCanvas anchor
-								callback: [ self session user likePost: aPost ];
-								with: 'like'.
-							aCanvas space.
-							aCanvas anchor
-								callback: [ self session user dislikePost: aPost ];
-								with: 'dislike'
+	self session user
+		ifNotNil: [ aCanvas anchor
+				callback: [ self session user likePost: aPost ];
+				with: 'like'.
+			aCanvas space.
+			aCanvas anchor
+				callback: [ self session user dislikePost: aPost ];
+				with: 'dislike' ]
+		ifNil: [ aCanvas small: '' ]
 ]
 
 { #category : #rendering }
