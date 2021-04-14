@@ -123,14 +123,6 @@ CuOOraSystem >> getInteractionPoints: aCollectionOfInteractions [
 		ifFalse: [ ^ 0 ]
 ]
 
-{ #category : #accessing }
-CuOOraSystem >> getPostBalance: aPost [
-	| sum |
-	sum := self getPostLikes: aPost.
-	sum := sum - self getPostDislikes: aPost.
-	^sum  
-]
-
 { #category : #'math functions' }
 CuOOraSystem >> getPostDislikes: aPost [
 	^ (self getPostInteractions: aPost)
