@@ -136,11 +136,12 @@ LandingComponent >> registrar [
 
 { #category : #rendering }
 LandingComponent >> renderContent: aCanvas [
-
 	self autorizar: aCanvas.
 	aCanvas heading
 		class: 'head';
 		with: 'Bienvenido a CuOOra: Tu red social de preguntas'.
+	self session user ifNotNil: [
+	self agregarPregunta: aCanvas.].
 	aCanvas horizontalRule.
 	self mostrarPreguntas: aCanvas
 	"

@@ -65,15 +65,15 @@ UserProfileComponent >> renderContent: aCanvas [
 	aCanvas heading
 		level: 1;
 		with: 'Esta es el perfil de ' , user name.
-	aCanvas
-		form: [ aCanvas button
-				callback: [ self follow ];
-				with: 'Seguir' ].
-		aCanvas heading
+	self session user
+		ifNotNil: [ aCanvas
+				form: [ aCanvas button
+						callback: [ self follow ];
+						with: 'Seguir' ] ].
+	aCanvas heading
 		level: 2;
 		with: 'Mis preguntas:'.
 	aCanvas horizontalRule.
-
 	self mostrarPreguntas: aCanvas
 ]
 

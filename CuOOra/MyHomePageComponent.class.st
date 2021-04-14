@@ -75,19 +75,30 @@ MyHomePageComponent >> menu: aCanvas [
 								with: [ aCanvas button: each name ] ] ] ]
 ]
 
+{ #category : #visiting }
+MyHomePageComponent >> perfil [
+
+self call:( UserProfileComponent user: self session user).
+]
+
 { #category : #rendering }
 MyHomePageComponent >> renderContent: aCanvas [
 	self botonVolver: aCanvas.
 	self mostrarTopicos: aCanvas.
+	aCanvas form
+		class: 'inline';
+		with: [ aCanvas button
+				callback: [ self perfil ];
+				with: 'Ver mi perfil' ].
 	aCanvas heading
 		level: 1;
 		with: 'Esta es tu pagina personal, ' , self session user name.
-		aCanvas heading
+	aCanvas heading
 		level: 2;
 		with: 'Preguntas de Interes: '.
+		self agregarPregunta: aCanvas.
 	aCanvas horizontalRule.
-	self mostrarPreguntas: aCanvas.
-	self agregarPregunta: aCanvas
+	self mostrarPreguntas: aCanvas
 ]
 
 { #category : #hooks }
