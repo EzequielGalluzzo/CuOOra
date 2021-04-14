@@ -45,6 +45,11 @@ TopicComponent >> back [
 ]
 
 { #category : #accessing }
+TopicComponent >> getQuestions [ 
+^ topico relatedQuestions
+]
+
+{ #category : #accessing }
 TopicComponent >> header: aCanvas [
 	aCanvas
 		form: [ aCanvas button
@@ -85,13 +90,12 @@ TopicComponent >> renderContent: aCanvas [
 	self header: aCanvas.
 	aCanvas horizontalRule.
 	aCanvas heading: 'Preguntas de topico: ' , topico name.
-	self session user
-		ifNotNil: [ self mostrarBotones: aCanvas ].
+	self session user ifNotNil: [ self mostrarBotones: aCanvas ].
 	aCanvas heading
 		level: 2;
 		with: topico description.
 	aCanvas horizontalRule.
-	self preguntas: aCanvas.
+	self mostrarPreguntas: aCanvas.
 	aCanvas horizontalRule
 ]
 

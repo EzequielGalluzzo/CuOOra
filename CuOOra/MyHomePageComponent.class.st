@@ -80,8 +80,12 @@ MyHomePageComponent >> renderContent: aCanvas [
 	self botonVolver: aCanvas.
 	self mostrarTopicos: aCanvas.
 	aCanvas heading
-		level: 2;
+		level: 1;
 		with: 'Esta es tu pagina personal, ' , self session user name.
+		aCanvas heading
+		level: 2;
+		with: 'Preguntas de Interes: '.
+	aCanvas horizontalRule.
 	self mostrarPreguntas: aCanvas.
 	self agregarPregunta: aCanvas
 ]

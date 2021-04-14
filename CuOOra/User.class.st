@@ -95,9 +95,11 @@ User >> dislikePost: aPost [
 
 { #category : #action }
 User >> follow: aUser [
+ (aUser = self)
+ ifFalse: [
 	follows
 		detect: [ :user | user isFollower: aUser ]
-		ifNone: [ follows add: aUser ]
+		ifNone: [ follows add: aUser ]]
 ]
 
 { #category : #accessing }

@@ -128,28 +128,6 @@ aCanvas
 						with: 'entrar' ]
 ]
 
-{ #category : #rendering }
-LandingComponent >> mostrarPreguntas: aCanvas [
-	aCanvas
-		unorderedList: [ self getQuestions
-				do: [ :each | 
-					aCanvas
-						render: [ aCanvas anchor
-								callback: [ self preguntaConRespuestas: each ];
-								with: [ aCanvas heading
-										level: 3;
-										with: each name ].
-							aCanvas space.
-							self detalles: aCanvas dePost: each.
-							aCanvas
-								small: ' | respuestas: ' , each allAnswers size asString.
-							self topicos: aCanvas dePost: each.
-							aCanvas paragraph: each content.
-							self reacciones: aCanvas conPost: each.
-							self agregarRespuesta: aCanvas aPost: each.
-							aCanvas horizontalRule ] ] ]
-]
-
 { #category : #visiting }
 LandingComponent >> registrar [
 	self call: RegUserComponent new.

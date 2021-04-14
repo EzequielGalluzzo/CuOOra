@@ -62,6 +62,11 @@ MainComponent >> agregarRespuesta: aCanvas aPost: aPost [
 				small: '' ]
 ]
 
+{ #category : #accessing }
+MainComponent >> author: aPost [
+	^ (self model getUserForPost: aPost)
+]
+
 { #category : #hooks }
 MainComponent >> children [
 	^ Array with: header
@@ -70,17 +75,20 @@ MainComponent >> children [
 { #category : #rendering }
 MainComponent >> detalles: aCanvas dePost: each [
 	aCanvas
-		small: 'de ', (self model getUserForPost: each) name;
+		form: [ aCanvas anchor
+				callback: [ self userProfile: (self author: each) ];
+				with: 'de ' , (self author: each) name ].
+	aCanvas
 		small: ' | ';
 		small: each date;
 		small: ' | ';
 		small: (self model getPostLikes: each) asString , ' likes';
 		small: ' ';
-		small: (self model getPostDislikes: each) asString , ' dislikes'
+		small: (self model getPostDislikes: each) asString , ' dislikes'.
 ]
 
 { #category : #accessing }
-MainComponent >> getQuestions [ 
+MainComponent >> getQuestions [
 	^ self model getAllQuestions
 ]
 
@@ -97,10 +105,6 @@ MainComponent >> model [
 
 { #category : #rendering }
 MainComponent >> mostrarPreguntas: aCanvas [
-	aCanvas heading
-		level: 3;
-		with: 'Preguntas de Interes: '.
-	aCanvas horizontalRule.
 	aCanvas
 		unorderedList: [ self getQuestions
 				do: [ :each | 
@@ -112,7 +116,8 @@ MainComponent >> mostrarPreguntas: aCanvas [
 										with: each name ].
 							aCanvas space.
 							self detalles: aCanvas dePost: each.
-							aCanvas small: ' | respuestas: ' , each allAnswers size asString.
+							aCanvas
+								small: ' | respuestas: ' , (each allAnswers) size asString.
 							self topicos: aCanvas dePost: each.
 							aCanvas paragraph: each content.
 							self reacciones: aCanvas conPost: each.
@@ -187,4 +192,9 @@ MainComponent >> topicos: aCanvas dePost: each [
 						with: [ aCanvas anchor
 								callback: [ self mostrarPreguntasDeTopico: t ];
 								with: [ aCanvas label: t name ] ] ] ]
+]
+
+{ #category : #visiting }
+MainComponent >> userProfile: aUser [ 
+	self call: (UserProfileComponent user: aUser).
 ]
