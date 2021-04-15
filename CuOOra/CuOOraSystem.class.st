@@ -146,8 +146,8 @@ CuOOraSystem >> getPostInteractions: aPost [
 		flatCollect: [ :u | 
 			u getInteractions
 				ifNotEmpty: [ u getInteractions ]
-				ifEmpty: [ OrderedCollection new ] ].
-	newCol := (intCol select: [ :i | i isOfPost: aPost ]) asSet.
+				ifEmpty: [ OrderedCollection new] ].
+	newCol :=  (intCol select: [ :i | i isOfPost: aPost ]) asSet.
 	^ newCol
 ]
 
