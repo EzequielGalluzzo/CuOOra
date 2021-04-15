@@ -35,7 +35,7 @@ Answer class >> newWithText: aText [
 ]
 
 { #category : #accessing }
-Answer >> gettext [
+Answer >> getText [
 	^ text
 ]
 

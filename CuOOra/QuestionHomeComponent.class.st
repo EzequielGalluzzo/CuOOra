@@ -78,7 +78,7 @@ QuestionHomeComponent >> respuestas: aCanvas [
 	aCanvas
 		unorderedList: [ question allAnswers
 				do: [ :each | 
-					aCanvas paragraph: each gettext.
+					aCanvas paragraph: each getText.
 					aCanvas small
 						class: 'det';
 						with: [ self detalles: aCanvas dePost: each.
