@@ -73,11 +73,14 @@ AnswerComponent >> question: anObject [
 
 { #category : #rendering }
 AnswerComponent >> renderContent: aCanvas [
+	aCanvas heading
+		level: 2;
+		with: question name.
+	aCanvas paragraph: question content.
+	aCanvas horizontalRule.
 	aCanvas
-		form: [
-			aCanvas
-				paragraph: [
-					(aCanvas textArea on: #answerText of: self)
+		form: [ aCanvas
+				paragraph: [ (aCanvas textArea on: #answerText of: self)
 						columns: 80;
 						rows: 5 ].
 			aCanvas submitButton on: #save of: self ]

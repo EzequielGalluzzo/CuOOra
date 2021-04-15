@@ -76,12 +76,13 @@ QuestionHomeComponent >> renderContent: aCanvas [
 { #category : #rendering }
 QuestionHomeComponent >> respuestas: aCanvas [
 	aCanvas
-		unorderedList: [ question allAnswers
+		unorderedList: [ question allAnswersOrderedByDate
 				do: [ :each | 
 					aCanvas paragraph: each gettext.
 					aCanvas small
 						class: 'det';
-						with: [ self detalles: aCanvas dePost: each. aCanvas space.
+						with: [ self detalles: aCanvas dePost: each.
+							aCanvas space.
 							self reacciones: aCanvas conPost: each ] ] ]
 ]
 
