@@ -89,7 +89,7 @@ MainComponent >> detalles: aCanvas dePost: each [
 
 { #category : #accessing }
 MainComponent >> getQuestions [
-	^ self model getAllQuestions
+	^ self model allQuestionsOrderedByDate 
 ]
 
 { #category : #initialization }

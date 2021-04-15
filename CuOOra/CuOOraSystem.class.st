@@ -54,7 +54,7 @@ CuOOraSystem >> addTopic: aTopic [
 	ifTrue: [ topics addAll: aTopic ]
 ]
 
-{ #category : #adding }
+{ #category : #'private-helpers' }
 CuOOraSystem >> addTopic: aTopic forUser: aUser [
 	(topics includes: aTopic)
 	ifTrue: [ aUser addInterest: aTopic ] 
@@ -72,6 +72,14 @@ CuOOraSystem >> addUser: aName pass: aPassword [
  u := User newWithUsername: aName andPassword: aPassword.
  users add: u.
 ^ u
+]
+
+{ #category : #collection }
+CuOOraSystem >> allQuestionsOrderedByDate [
+	| aCol aColSorted |
+	aCol := (users collect: [ :u | u getQuestions ]) flattened.
+	aColSorted := aCol sort: [ :a :b | a postTimeDate > b postTimeDate ].
+	^ aColSorted
 ]
 
 { #category : #deleting }

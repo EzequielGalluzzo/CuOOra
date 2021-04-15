@@ -4,6 +4,7 @@ Class {
 	#instVars : [
 		'user1',
 		'user2',
+		'user3',
 		'topic1',
 		'topic2',
 		'topic3',

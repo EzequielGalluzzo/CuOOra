@@ -71,6 +71,11 @@ User >> addQuestionForTopic: aTopicOrMore name: aName description: aDescription 
 	^ q
 ]
 
+{ #category : #reordering }
+User >> allMyQuestionsOrderedByDate [
+	^ questions sort: [ :a :b | a postTimeDate > b postTimeDate ].
+]
+
 { #category : #'evaluating-private' }
 User >> askedQuestion: aQuestion [
  ^ questions includes:  aQuestion 
