@@ -17,7 +17,7 @@ Class {
 }
 
 { #category : #setUps }
-InteractionTest >> makeQuestions [
+InteractionTest >> makeQuestionsAndAddToUsers [
 	"Add any changes to posts constuctor here"
 
 	postLike := Post new.

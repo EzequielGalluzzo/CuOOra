@@ -31,7 +31,7 @@ CuOOraSystemTest >> makeInterestsForUser [
 ]
 
 { #category : #setUps }
-CuOOraSystemTest >> makeQuestions [
+CuOOraSystemTest >> makeQuestionsAndAddToUsers [
 	question1 := Question newWithName: '' topics: topic1 andContent: ''.
 	question2 := Question
 		newWithName: ''
@@ -66,7 +66,7 @@ CuOOraSystemTest >> setUp [
 		addTopic: topic2;
 		addTopic: topic3.
 		self makeUsers.
-	self makeQuestions.
+	self makeQuestionsAndAddToUsers.
 	user1
 		addQuestion: question1;
 		addQuestion: question2.

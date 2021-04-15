@@ -29,7 +29,7 @@ CuOOraSystemTestInteractions >> makeLikes [
 ]
 
 { #category : #setUps }
-CuOOraSystemTestInteractions >> makeQuestions [
+CuOOraSystemTestInteractions >> makeQuestionsAndAddToUsers [
 	question1 := Question new.
 	question2 := Question new.
 	question3 := Question new
@@ -51,7 +51,7 @@ CuOOraSystemTestInteractions >> setUp [
 	"genera 3 usuarios"
 	self makeUsers.
 	"agrega 3 preguntas"
-	self makeQuestions.
+	self makeQuestionsAndAddToUsers.
 	user3
 		addQuestion: question1;
 		addQuestion: question2.

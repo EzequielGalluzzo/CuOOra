@@ -2,97 +2,81 @@ Class {
 	#name : #UserTest,
 	#superclass : #TestCase,
 	#instVars : [
-		'user1',
-		'user2',
-		'user3',
-		'topicCollection',
-		'question1',
-		'topic3',
-		'question2',
-		'topic1',
-		'question3',
-		'topic2',
-		'question4',
+		'u1',
+		'u2',
+		'u3',
+		'topics',
+		'q1',
+		'q2',
+		'q3',
+		't1',
+		't2',
 		'cuoora'
 	],
 	#category : #'CuOOra-Tests'
 }
 
-{ #category : #adding }
-UserTest >> addQuestionsToUsers [
-	user1
-		addQuestion: question1;
-		addQuestion: question2;
-		addQuestion: question3.
-	user2 addQuestion: question4.
-]
-
 { #category : #setUps }
-UserTest >> makeInteractions [
-	"three likes for q1"
-	user1 likePost: question1.
-	user2 likePost: question1.
-	user3 likePost: question1.
-	user3 likePost: question1.
-	"two likes q2"
-	user1 likePost: question2.
-	user2 likePost: question2.
-	"one like one dislike q2"
-	user1 dislikePost: question3.
-	user1 likePost: question3.
-	user3 dislikePost: question3.
-	user3 dislikePost: question3.
-	"three dislikes for q4"
-	user3 dislikePost: question4.
-	user1 dislikePost: question4.
-	user2 dislikePost: question4
+UserTest >> makeAnswersFromUsers [
+	u2 addAnswerTo: q1 withText: 'text' .
+	u2 addAnswerTo: q3 withText: 'text' .
+	
+	u3 addAnswerTo: q1 withText: 'text' .
+	 
 ]
 
 { #category : #setUps }
 UserTest >> makeInterestsForUser [
-	cuoora addTopic: topic1 forUser: user1.
-	cuoora addTopic: topicCollection forUser: user3.
+	cuoora addTopic: t1 forUser: u1.
+	cuoora addTopic: topics forUser: u2.
 ]
 
 { #category : #setUps }
-UserTest >> makeQuestions [
-	question1 := Question
-		new"WithName: 'Q1'
-		topics: topicCollection
-		andContent: 'How are Java and Python different?'".
-	question2 := Question
-		new"WithName: 'Q2'
-		topics: topic3
-		andContent: 'What are some uses for Rust?'".
-	question3 := Question
-		new"WithName: 'Q3'
-		topics: topic1
-		andContent: 'What is a lambda function in Python?'".
-	question4 := Question
-		new"WithName: 'Q4'
-		topics: topic2
-		andContent: 'Can I work with memory in Java?'".
+UserTest >> makeQuestionsAndAddToUsers [
+	q1 := Question new.
+	q2 := Question new.
+	q3 := Question new.
+	
+	u1 addQuestion: q1.
+	u2 addQuestion: q2.
+	u3 addQuestion: q3.	
+		
+	u2 likePost: q1.
+	u3 likePost: q1.
 
+	u3 dislikePost: q2.
+	u1 dislikePost: q2.
+	
+	u2 addAnswerTo: q3 withText: 'a1'.
+	u2 addAnswerTo: q1 withText: 'a3'.
+	
+	u3 addAnswerTo: q1 withText: 'a2'.
+	
+
+]
+
+{ #category : #setUps }
+UserTest >> makeQuestionsForUsers [
+	u1 addQuestionForTopic: t1 name: 'q1' description: 'this is q1'.
 ]
 
 { #category : #setUps }
 UserTest >> makeTopics [
-	topic1 := Topic newWith: 'Python' desc: 'about Python language'.
-	topic2 := Topic newWith: 'Java' desc: 'about Java language'.
-	topic3 := Topic newWith: 'Rust' desc: 'about Rust language'.
-	topicCollection := OrderedCollection new.
-	topicCollection
-		add: topic1;
-		add: topic2
+	t1 := Topic newWith: 'Python' desc: 'about Python language'.
+	t2 := Topic newWith: 'Java' desc: 'about Java language'.
+	
 ]
 
 { #category : #setUps }
 UserTest >> makeUsers [
 	"Add any changes to posts constuctor here"
 
-	user1 := User new" WithUsername: 'Elio' andPassword: '123'".
-	user2 := User new "WithUsername: 'Marco' andPassword: 'abc'".
-	user3 := User new "WithUsername: 'Pablo' andPassword: '900'"
+	u1 := User new" WithUsername: 'Elio' andPassword: '123'".
+	u2 := User new "WithUsername: 'Marco' andPassword: 'abc'".
+	u3 := User new "WithUsername: 'Pablo' andPassword: '900'".
+	
+	u1 follow: u2.
+	u3 follow: u2.
 ]
 
 { #category : #running }
@@ -101,64 +85,64 @@ UserTest >> setUp [
 
 	super setUp.
 	cuoora := CuOOraSystem new.
-	"	self makeTopics."
+	self makeTopics.
 	self makeUsers.
-	self makeQuestions.
+	self makeInterestsForUser .
+	self makeQuestionsAndAddToUsers.
+	self makeAnswersFromUsers .
 		cuoora
-		addUser: user1;
-		addUser: user2;
-		addUser: user3.
+		addUser: u1;
+		addUser: u2;
+		addUser: u3;
+		addTopic: t1;
+		addTopic: t2.
 ]
 
 { #category : #tests }
-UserTest >> testDeleteQuestion [
-	self
-		assert: (user1 deleteQuestion: question1). self
-		deny: (user3 deleteQuestion: question3)
+UserTest >> testAddAndRemoveInterest [
+	| u t |
+	u := User new.
+	t := Topic new.
+	u addInterest: t.
+	self assert: (u getInterests includes: t ).
+	u removeInterest: t.
+	self deny: (u getInterests includes: t).
 ]
 
 { #category : #tests }
-UserTest >> testDislikePost [
-	| a |
-	a := user1 addAnswerTo: question1 withText: 'something or other'.
-	user1 dislikePost: a.
-	self assert: (cuoora getPostInteractions: a) size equals: 1
+UserTest >> testAddAnswers [
+	self setUp;
+	assert: ( u2 getAllAnswers size > 0 );
+	assert: ( u1 getAllAnswers size = 0 );
+	deny: ( u3 getAllAnswers size = 0 )
 ]
 
 { #category : #tests }
-UserTest >> testFollow [
-	| f |
-	user1 follow: user2.
-	f := user1 followsUsers.
-	self denyEmpty: f.
-	self assertCollection: f equals: {user2} asSet.
+UserTest >> testAllQuestions [
+	self setUp;
+	assert: (u1 getQuestions  includes: q1  );
+	deny: (u1 getQuestions includes: q2);
+	makeQuestionsForUsers ;
+   assert: ( t1 relatedQuestions size > 0 ).
+	u1 deleteQuestion: q1.
+	self deny: (u1 getQuestions includes: q1);
+	assert: ( u2 hasPost: q2);
+	deny: ( u3 hasPost: q1)
 	
 ]
 
 { #category : #tests }
-UserTest >> testGetPointsFromUser [
-	| a |
-	self addQuestionsToUsers.
-	self assert: user1 getPointsFromUser equals: 60.
-	self assert: user2 getPointsFromUser equals: 20.
-	self assert: user3 getPointsFromUser equals: 0.
-	"responde su propia pregunta"
-	a := user1 addAnswerTo: question1 withText: 'something or other'.
-	"responde pregunta ajena"
-	self assert: user1 getPointsFromUser equals: 60.
-	a := user1 addAnswerTo: question4 withText: 'something or other'.
-	self assert: user1 getPointsFromUser equals: 110.
-
+UserTest >> testFollowing [
+	self setUp;
+	assert: ( u1 isFollower: u2 );
+	deny: ( u2 isFollower: u1 ).
+	u2 follow: u1.
+	self assert: ( u2 isFollower: u1)
 ]
 
 { #category : #tests }
-UserTest >> testGetRepliesToOtherUsers [
-]
-
-{ #category : #tests }
-UserTest >> testLikePost [
-		| a |
-	a := user1 addAnswerTo: question1 withText: 'something or other'.
-	user1 likePost: a.
-	self assert: (cuoora getPostInteractions: a) size equals: 1
+UserTest >> testLikeDislikeYPuntos [
+	self setUp;
+	assert: ( u1 getInteractions size = 1 );
+	deny: ( u2 getInteractions size = 0)
 ]

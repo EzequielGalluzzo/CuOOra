@@ -12,7 +12,7 @@ Class {
 }
 
 { #category : #setUps }
-TopicTest >> makeQuestions [
+TopicTest >> makeQuestionsAndAddToUsers [
 	question1 := Question
 		newWithName: 'Q1'
 		topics: topic2
@@ -39,7 +39,7 @@ TopicTest >> setUp [
 super setUp.
 	"Hooks that subclasses may override to define the fixture of test."
 	self makeTopics.
-	self makeQuestions.
+	self makeQuestionsAndAddToUsers.
 	
  
 ]
