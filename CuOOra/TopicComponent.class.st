@@ -45,8 +45,8 @@ TopicComponent >> back [
 ]
 
 { #category : #accessing }
-TopicComponent >> getQuestions [ 
-^ topico relatedQuestions
+TopicComponent >> getQuestions [
+	^ topico relatedQuestionsOrderedByDate
 ]
 
 { #category : #accessing }
@@ -102,6 +102,13 @@ TopicComponent >> renderContent: aCanvas [
 { #category : #hooks }
 TopicComponent >> style [
 	^ '
+.topicsmall  { 
+  color: grey;
+  font-size: small;
+  list-style-type: none;
+  display: inline-block;
+  padding-right: 5px;
+}
 .follow{
   display: inline;
   float: right;
@@ -124,7 +131,7 @@ TopicComponent >> style [
   border: none;
   border-radius: 10px;
   box-shadow: 0 5px #999;
-}'
+'
 ]
 
 { #category : #accessing }

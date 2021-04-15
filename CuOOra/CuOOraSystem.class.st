@@ -241,7 +241,13 @@ CuOOraSystem >> relevantQuestionsForUser: aUser [
 	follows := aUser followsUsers.
 	q := follows collect: [ :u | u getQuestions ].
 	questions addAll: q.
-	^ (questions flattened) asSet
+	^ questions flattened asSet
+]
+
+{ #category : #reordering }
+CuOOraSystem >> relevantQuestionsForUserOrderedByDate: aUser [
+	^ (self relevantQuestionsForUser: aUser)
+		asSortedCollection: [ :a :b | a postTimeDate > b postTimeDate ]
 ]
 
 { #category : #initialization }

@@ -73,7 +73,8 @@ User >> addQuestionForTopic: aTopicOrMore name: aName description: aDescription 
 
 { #category : #reordering }
 User >> allMyQuestionsOrderedByDate [
-	^ questions sort: [ :a :b | a postTimeDate > b postTimeDate ].
+	^ questions
+		asSortedCollection: [ :a :b | a postTimeDate > b postTimeDate ]
 ]
 
 { #category : #'evaluating-private' }

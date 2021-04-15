@@ -50,7 +50,7 @@ MyHomePageComponent >> front [
 
 { #category : #accessing }
 MyHomePageComponent >> getQuestions [
-	^ (self model relevantQuestionsForUser: self session user)
+	^ self model relevantQuestionsForUserOrderedByDate:  self session user
 ]
 
 { #category : #visiting }

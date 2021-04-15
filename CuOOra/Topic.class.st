@@ -90,3 +90,9 @@ Topic >> relatedQuestions [
  questions ifNil: [ ^ OrderedCollection new ]
 ifNotNil: [ ^questions ]
 ]
+
+{ #category : #reordering }
+Topic >> relatedQuestionsOrderedByDate [
+	^ self relatedQuestions
+		asSortedCollection: [ :a :b | a postTimeDate > b postTimeDate ]
+]

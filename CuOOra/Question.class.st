@@ -48,7 +48,7 @@ Question >> allAnswers [
 
 { #category : #reordering }
 Question >> allAnswersOrderedByDate [
-	^ answers sort: [ :a :b | a postTimeDate > b postTimeDate ].
+	^ answers asSortedCollection: [ :a :b | a postTimeDate > b postTimeDate ]
 ]
 
 { #category : #accessing }

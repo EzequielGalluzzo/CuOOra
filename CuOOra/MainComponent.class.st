@@ -176,7 +176,14 @@ MainComponent >> renderContentOn: aCanvas [
 MainComponent >> style [
 	^ '
 .det 
-{ color: grey; }'
+{ color: grey; }
+.topicsmall  { 
+  color: grey;
+  font-size: small;
+  list-style-type: none;
+  display: inline-block;
+  padding-right: 5px;
+}'
 ]
 
 { #category : #rendering }
