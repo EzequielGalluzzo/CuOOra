@@ -100,21 +100,25 @@ CuOOraSystem >> getAllQuestions [
 CuOOraSystem >> getAllTopics [
 	"es necesario que CuOOra conozca topicos? Como se construyen
 	las relaciones bidireccionales?"
-
 	^ topics
-	"^ (users flatCollect: [ :u | u getInterests  ]) asSet."
+
 ]
 
 { #category : #'private-helpers' }
 CuOOraSystem >> getInteractionPoints: aCollectionOfInteractions [
 	| totalLikes totalDislikes |
+		"SE TRANSFORMA EL BOOLEANO QUE DEVUELVE isLike A UN 
+	UNO O UN CERO CON asBit PARA CADA INTERACCION Y LO MISMO PARA
+	isDislike"
 	aCollectionOfInteractions isNotNil
 		ifTrue: [ totalLikes := aCollectionOfInteractions
-				sumNumbers: [ :each  | each isLike asBit ].
+				sumNumbers: [ :each | each isLike asBit ].
 			totalDislikes := aCollectionOfInteractions
 				sumNumbers: [ :each | each isDislike asBit ].
+			"LA CANTIDAD DE DISLIKES LA CONVIERTO EN NEGATIVA"
 			^ totalLikes + (totalDislikes * -1) ]
 		ifFalse: [ ^ 0 ]
+
 ]
 
 { #category : #'private-helpers' }
@@ -133,10 +137,10 @@ CuOOraSystem >> getNumberOfLikes: aPost [
 { #category : #reordering }
 CuOOraSystem >> getOrderedAnswers: aQuestion [
 	| aCol aColSorted |
-	"given a question, I  need to ask the question for it's answers"
+	"DADA UNA PREGUNTA LE PIDO TODAS SUS RESPUESTAS"
 	aCol := aQuestion allAnswers.
-	"then I need to sort all answers in relation to interaction points for each answer,
-	from most points to least"
+	"LUEGO NECESITO ORDENAR CADA RESPUESTA POR LA CANTIDAD DE PUNTOS QUE 
+	TIENE POR INTERACCIONES DE MAYOR A MENOR"
 	aColSorted := aCol
 		sort: [ :a :b | 
 			(self getInteractionPoints: (self getPostInteractions: a))
@@ -147,6 +151,7 @@ CuOOraSystem >> getOrderedAnswers: aQuestion [
 { #category : #'private-helpers' }
 CuOOraSystem >> getPostBalance: aPost [
 	| temp |
+	"DEVUELVE PUNTOS TOTALES PARA UN POST"
 	temp := (self getNumberOfLikes: aPost) asNumber.
 	temp := temp - (self getNumberOfDislikes: aPost) asNumber.
 	^ temp
@@ -155,14 +160,15 @@ CuOOraSystem >> getPostBalance: aPost [
 { #category : #'private-helpers' }
 CuOOraSystem >> getPostInteractions: aPost [
 	| intCol newCol |
-	"for this post, I need to collect all users interactions,
-	and then find all interactions with a post which equals aPost"
+	"DADO UN POST (PREGUNTA O RESPUESTA) NECESITO TODAS LAS INTERACCIONES
+	DE TODOS LOS USUARIOS Y LUEGO ENCONTRAR CUALES INTERACCIONES CORRESPONDEN
+	A ESE POST" 
 	intCol := users
 		flatCollect: [ :u | 
 			u getInteractions
 				ifNotEmpty: [ u getInteractions ]
-				ifEmpty: [ OrderedCollection new] ].
-	newCol :=  (intCol select: [ :i | i isOfPost: aPost ]) asSet.
+				ifEmpty: [ OrderedCollection new ] ].
+	newCol := (intCol select: [ :i | i isOfPost: aPost ]) asSet.
 	^ newCol
 ]
 
@@ -210,8 +216,6 @@ CuOOraSystem >> initialize [
 { #category : #'instance creation' }
 CuOOraSystem >> newTopic: aName desc: aDescription forUser: aUser [
 	| t |
-	"this method would only add a topic to a user if it 
-	also adds it to the system at the same time "
 	t := self newTopic: aName description: aDescription.
 	aUser addInterest: t.
 	topics add: t.
@@ -235,17 +239,23 @@ CuOOraSystem >> questionsForTopic: aTopic [
 { #category : #collection }
 CuOOraSystem >> relevantQuestionsForUser: aUser [
 	| questions follows q |
-	"first we collect all of the questions from all of the topics relevant to the user"
+	"PARA UN USUARIO SE PIDEN LOS TOPICOS DE INTERES Y A ESOS TOPICOS 
+	SE LES PIDEN LAS PREGUNTAS RELACIONADAS"
 	questions := aUser getInterests collect: [ :t | t relatedQuestions ].
-	"then we need to get all their followers and for each one get their questions"
+	"LUEGO LE PEDIMOS AL USUARIO TODOS LOS USUARIOS QUE SIGUE"
 	follows := aUser followsUsers.
+	"LUEGO LE PEDIMOS A ESOS USUARIOS SUS PREGUNTAS"
 	q := follows collect: [ :u | u getQuestions ].
 	questions addAll: q.
-	^ questions flattened asSet
+	"SE DEVUELVE AS SET PORQUE SEGURO SE REPITEN Y FLATTENED POR SER 
+	COLECCION DE COLECCIONES"
+	^ questions flattened asSet 
 ]
 
 { #category : #reordering }
 CuOOraSystem >> relevantQuestionsForUserOrderedByDate: aUser [
+"DEVUELE LAS PREGUNTAS RELEVANTES DE UN USUARIO ORDENADOS POR FECHA Y HORA
+MAYOR A MENOR"
 	^ (self relevantQuestionsForUser: aUser)
 		asSortedCollection: [ :a :b | a postTimeDate > b postTimeDate ]
 ]
@@ -333,9 +343,9 @@ CuOOraSystem >> sampleData [
 
 { #category : #collection }
 CuOOraSystem >> topicsForQuestion: aQuestion [
+	"tengo que para topico preguntar si tiene esa pregunta en su coleccionn"
 
-	"tengo que para topico preguntar si tiene esa pregunta en su coleccionn y si es asi "
-	^ (topics select: [ :t | t hasRelatedQuestion: aQuestion ]) asSet.
+	^ (topics select: [ :t | t hasRelatedQuestion: aQuestion ]) asSet
 ]
 
 { #category : #'private-helpers' }
