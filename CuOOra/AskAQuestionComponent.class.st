@@ -32,15 +32,20 @@ Class {
 	#instVars : [
 		'questionName',
 		'questionContent',
-		'questionTopics'
+		'questionTopics',
+		'message'
 	],
 	#category : #'CuOOra-UI'
 }
 
 { #category : #adding }
-AskAQuestionComponent >> addQuestion [ 
-
-self session user addQuestionForTopic: questionTopics  name: questionName  description: questionContent 
+AskAQuestionComponent >> addQuestion [
+	questionTopics
+		ifNotNil: [ self session user
+				addQuestionForTopic: questionTopics
+				name: questionName
+				description: questionContent ]
+		ifNil: [ self answer]
 ]
 
 { #category : #adding }
@@ -62,9 +67,10 @@ AskAQuestionComponent >> homeButton: aCanvas [
 ]
 
 { #category : #initialization }
-AskAQuestionComponent >> initialize [ 
+AskAQuestionComponent >> initialize [
 	super initialize.
 	questionTopics := Set new.
+	message := ''
 ]
 
 { #category : #accessing }
@@ -95,9 +101,10 @@ AskAQuestionComponent >> renderContent: aCanvas [
 	aCanvas horizontalRule.
 	aCanvas
 		form: [ self renderTopicos: aCanvas.
+								aCanvas small: message.
+					aCanvas break.
 			aCanvas
 				paragraph: [ aCanvas label: 'Titulo de Pregunta: '.
-					aCanvas break.
 					aCanvas break.
 					aCanvas textInput on: #questionName of: self ].
 			aCanvas break.
@@ -129,10 +136,13 @@ AskAQuestionComponent >> renderTopicos: aCanvas [
 
 { #category : #actions }
 AskAQuestionComponent >> save [
-	(question := Question
-		newWithName: questionName
-		topics: questionTopics
-		andContent: questionContent) ifNil: [ ^ self ].
-	self session user addQuestion: question.
-	self answer
+	questionTopics
+		ifNotEmpty: [ question := Question
+				newWithName: questionName
+				topics: questionTopics
+				andContent: questionContent.
+			self session user addQuestion: question . 	self answer]
+		ifEmpty: [ question := nil.
+			message := 'debe ingresar un topico' ].
+
 ]
