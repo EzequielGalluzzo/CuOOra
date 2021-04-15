@@ -29,18 +29,24 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'time',
-		'date'
+		'date',
+		'timedate'
 	],
 	#category : #'CuOOra-Model'
 }
 
 { #category : #accessing }
 Post >> date [
-	^ date asString , ' ' , time print24.
+	^ date asString , ' ' , time print24
 ]
 
 { #category : #initialization }
 Post >> initialize [
 	time := Time now.
 	date := Date today.
+]
+
+{ #category : #accessing }
+Post >> postTimeDate [
+	^ (date + time )asDateAndTime 
 ]

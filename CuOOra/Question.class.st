@@ -46,6 +46,11 @@ Question >> allAnswers [
 ^ answers
 ]
 
+{ #category : #reordering }
+Question >> allAnswersOrderedByDate [
+	^ answers sort: [ :a :b | a postTimeDate > b postTimeDate ].
+]
+
 { #category : #accessing }
 Question >> answers: anObject [
 	answers := anObject
