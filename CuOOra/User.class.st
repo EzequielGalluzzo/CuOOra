@@ -133,16 +133,16 @@ User >> getMyReplies [
 
 { #category : #action }
 User >> getPointsFromUser [
-	| userPoints temp questionScore answerScore |
+	| userPoints temp "questionScore answerScore" |
 	userPoints := 0.
 	userPoints := userPoints + (questions size * 20).
-	questionScore := questions
-		sumNumbers: [ :q | CuOOraSystem soleInstance getPostBalance: q ].
+	"	questionScore := questions
+		sumNumbers: [ :q | CuOOraSystem soleInstance getPostBalance: q ]."
 	temp := self getMyReplies.
 	userPoints := userPoints + (temp size * 50).
-	answerScore := temp
-		sumNumbers: [ :q | CuOOraSystem soleInstance getPostBalance: q ].
-	userPoints := userPoints + answerScore + questionScore.
+	"answerScore := temp
+		sumNumbers: [ :q | CuOOraSystem soleInstance getPostBalance: q ]."
+	"userPoints := userPoints + answerScore + questionScore."
 	^ userPoints
 ]
 

@@ -142,8 +142,13 @@ UserTest >> testGetPointsFromUser [
 	self assert: user1 getPointsFromUser equals: 60.
 	self assert: user2 getPointsFromUser equals: 20.
 	self assert: user3 getPointsFromUser equals: 0.
+	"responde su propia pregunta"
 	a := user1 addAnswerTo: question1 withText: 'something or other'.
+	"responde pregunta ajena"
 	self assert: user1 getPointsFromUser equals: 60.
+	a := user1 addAnswerTo: question4 withText: 'something or other'.
+	self assert: user1 getPointsFromUser equals: 110.
+
 ]
 
 { #category : #tests }

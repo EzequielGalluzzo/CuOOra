@@ -97,7 +97,7 @@ CuOOraSystem >> getAllTopics [
 	"^ (users flatCollect: [ :u | u getInterests  ]) asSet."
 ]
 
-{ #category : #accessing }
+{ #category : #reordering }
 CuOOraSystem >> getAnswers: aQuestion [
 	| aCol aColSorted |
 	"given a question, I  need to ask the question for it's answers"
