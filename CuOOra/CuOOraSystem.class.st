@@ -128,7 +128,7 @@ CuOOraSystem >> getPostBalance: aPost [
 	| temp |
 	temp := (self getPostLikes: aPost) asNumber.
 	temp := temp - (self getPostDislikes: aPost) asNumber.
-	^temp
+	^ temp
 ]
 
 { #category : #'math functions' }
@@ -176,15 +176,15 @@ CuOOraSystem >> getUserPoints: aUser [
 	total := 0.
 	total := total + aUser getPointsFromUser.
 	posts := aUser getQuestions.
-	posts addAll: (aUser getAllAnswers).
+	posts addAll: aUser getAllAnswers.
 	"now from all users to get the posts from all of their interactions,
 	if the posts of those interactions correspond to the user posts collected above, sum
 	points of the interactions"
-	interactions  := ((users
-		collect: [ :u | u getInteractions ]) flattened) asOrderedCollection.
+	interactions := (users collect: [ :u | u getInteractions ]) flattened
+		asOrderedCollection.
 	interactions copy do: [ :i | posts do: [ :p | i isOfPost: p ] ].
-	 total := total + (self getInteractionPoints: interactions).
-	^ total.
+	total := total + (self getInteractionPoints: interactions).
+	^ total
 ]
 
 { #category : #accessing }

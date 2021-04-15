@@ -18,6 +18,15 @@ Class {
 	#category : #'CuOOra-Tests'
 }
 
+{ #category : #adding }
+UserTest >> addQuestionsToUsers [
+	user1
+		addQuestion: question1;
+		addQuestion: question2;
+		addQuestion: question3.
+	user2 addQuestion: question4.
+]
+
 { #category : #setUps }
 UserTest >> makeInteractions [
 	"three likes for q1"
@@ -48,27 +57,22 @@ UserTest >> makeInterestsForUser [
 { #category : #setUps }
 UserTest >> makeQuestions [
 	question1 := Question
-		newWithName: 'Q1'
+		new"WithName: 'Q1'
 		topics: topicCollection
-		andContent: 'How are Java and Python different?'.
+		andContent: 'How are Java and Python different?'".
 	question2 := Question
-		newWithName: 'Q2'
+		new"WithName: 'Q2'
 		topics: topic3
-		andContent: 'What are some uses for Rust?'.
+		andContent: 'What are some uses for Rust?'".
 	question3 := Question
-		newWithName: 'Q3'
+		new"WithName: 'Q3'
 		topics: topic1
-		andContent: 'What is a lambda function in Python?'.
+		andContent: 'What is a lambda function in Python?'".
 	question4 := Question
-		newWithName: 'Q4'
+		new"WithName: 'Q4'
 		topics: topic2
-		andContent: 'Can I work with memory in Java?'.
-	user1
-		addQuestion: question1;
-		addQuestion: question2;
-		addQuestion: question3.
-		user2
-		addQuestion: question4
+		andContent: 'Can I work with memory in Java?'".
+
 ]
 
 { #category : #setUps }
@@ -86,9 +90,9 @@ UserTest >> makeTopics [
 UserTest >> makeUsers [
 	"Add any changes to posts constuctor here"
 
-	user1 := User newWithUsername: 'Elio' andPassword: '123'.
-	user2 := User newWithUsername: 'Marco' andPassword: 'abc'.
-	user3 := User newWithUsername: 'Pablo' andPassword: '900'
+	user1 := User new" WithUsername: 'Elio' andPassword: '123'".
+	user2 := User new "WithUsername: 'Marco' andPassword: 'abc'".
+	user3 := User new "WithUsername: 'Pablo' andPassword: '900'"
 ]
 
 { #category : #running }
@@ -96,18 +100,14 @@ UserTest >> setUp [
 	"Hooks that subclasses may override to define the fixture of test."
 
 	super setUp.
-	self makeTopics.
+	cuoora := CuOOraSystem new.
+	"	self makeTopics."
 	self makeUsers.
 	self makeQuestions.
-		self makeInteractions.
-	cuoora := CuOOraSystem new.
-	cuoora
+		cuoora
 		addUser: user1;
 		addUser: user2;
 		addUser: user3.
-	cuoora
-		addTopic: topicCollection;
-		addTopic: topic3
 ]
 
 { #category : #tests }
@@ -137,10 +137,13 @@ UserTest >> testFollow [
 
 { #category : #tests }
 UserTest >> testGetPointsFromUser [
-	self makeQuestions .
-	self assert: user1 getPointsFromUser equals: 65.
-	self assert: user2 getPointsFromUser equals: 17.
-	self assert: user3 getPointsFromUser equals: 0
+	| a |
+	self addQuestionsToUsers.
+	self assert: user1 getPointsFromUser equals: 60.
+	self assert: user2 getPointsFromUser equals: 20.
+	self assert: user3 getPointsFromUser equals: 0.
+	a := user1 addAnswerTo: question1 withText: 'something or other'.
+	self assert: user1 getPointsFromUser equals: 60.
 ]
 
 { #category : #tests }
