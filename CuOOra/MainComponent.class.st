@@ -173,8 +173,8 @@ MainComponent >> renderContentOn: aCanvas [
 ]
 
 { #category : #hooks }
-MainComponent >> style [ 
-^ '
+MainComponent >> style [
+	^ '
 .det 
 { color: grey; }'
 ]

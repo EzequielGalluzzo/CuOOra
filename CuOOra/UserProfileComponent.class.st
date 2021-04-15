@@ -77,6 +77,28 @@ UserProfileComponent >> renderContent: aCanvas [
 	self mostrarPreguntas: aCanvas
 ]
 
+{ #category : #hooks }
+UserProfileComponent >> style [ 
+^
+'
+.topicsmall  { 
+  color: grey;
+  font-size: small;
+  list-style-type: none;
+  display: inline-block;
+  padding-right: 5px;
+}
+.topic:hover{
+cursor: grab;
+}
+.list { 
+  list-style-type: none;
+  display: inline;
+  float:right;
+  margin: 0;
+  padding: 0; }'
+]
+
 { #category : #accessing }
 UserProfileComponent >> user: aUser [
 	user:= aUser
