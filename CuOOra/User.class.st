@@ -41,7 +41,7 @@ User class >> newWithUsername: aUsername andPassword: aPassword [
 	^ self new initializeWith: aUsername and: aPassword.
 ]
 
-{ #category : #adding }
+{ #category : #'instance creation' }
 User >> addAnswerTo: aQuestion withText: aText [
 	| a |
 	a := Answer newWithText: aText.
@@ -60,7 +60,7 @@ User >> addQuestion: aQuestion [
 	questions add: aQuestion
 ]
 
-{ #category : #adding }
+{ #category : #'instance creation' }
 User >> addQuestionForTopic: aTopicOrMore name: aName description: aDescription [
 	| q |
 	q := Question
@@ -71,12 +71,12 @@ User >> addQuestionForTopic: aTopicOrMore name: aName description: aDescription 
 	^ q
 ]
 
-{ #category : #boolean }
+{ #category : #'evaluating-private' }
 User >> askedQuestion: aQuestion [
  ^ questions includes:  aQuestion 
 ]
 
-{ #category : #action }
+{ #category : #deleting }
 User >> deleteQuestion: aQuestion [
 	(self askedQuestion: aQuestion)
 		ifTrue: [ questions remove: aQuestion. ^true ]
@@ -122,7 +122,7 @@ User >> getInterests [
 	^ interests
 ]
 
-{ #category : #action }
+{ #category : #collection }
 User >> getMyReplies [
 	| temp temp1 temp2 |
 	temp := (questions collect: [ :q | q allAnswers ]) flattened asSet.
@@ -131,7 +131,7 @@ User >> getMyReplies [
 	^ temp2
 ]
 
-{ #category : #action }
+{ #category : #numeric }
 User >> getPointsFromUser [
 	| userPoints temp "questionScore answerScore" |
 	userPoints := 0.
@@ -151,22 +151,12 @@ User >> getQuestions [
  ^ questions 
 ]
 
-{ #category : #testing }
-User >> hasName: aName [
-	^ username = aName
-]
-
-{ #category : #testing }
+{ #category : #'private-helpers' }
 User >> hasName: aName hasPassword: aPassword [
 ^ username = aName & (password = aPassword )
 ]
 
-{ #category : #testing }
-User >> hasPassword: aPassword [
-	^ password = aPassword
-]
-
-{ #category : #boolean }
+{ #category : #'evaluating-private' }
 User >> hasPost: aPost [
 	^ ((questions includes: aPost) or: (answers includes: aPost))
 ]
@@ -189,7 +179,7 @@ User >> initializeWith: aUsername and: aPassword [
 	password := aPassword.
 ]
 
-{ #category : #boolean }
+{ #category : #'evaluating-private' }
 User >> isFollower: aUser [
 	^ follows includes: aUser
 ]
@@ -216,7 +206,7 @@ User >> password [
 	
 ]
 
-{ #category : #removing }
+{ #category : #deleting }
 User >> removeInterest: aTopic [
 	interests remove: aTopic ifAbsent: [ false ]
 ]

@@ -87,10 +87,17 @@ CuOOraSystemTest >> testGetAllQuestions [
 
 { #category : #tests }
 CuOOraSystemTest >> testGetAnswers [
-	self assertEmpty: (cuoora getAnswers: question1).
+	self assertEmpty: (cuoora getOrderedAnswers: question1).
 	user2 addAnswerTo: question1 withText: 'Python is interpreted'.
-	self denyEmpty: (cuoora getAnswers: question1).
+	self denyEmpty: (cuoora getOrderedAnswers: question1).
 
+]
+
+{ #category : #tests }
+CuOOraSystemTest >> testGetOrderedAnswers [
+	self assertEmpty: (cuoora getOrderedAnswers: question1).
+	user2 addAnswerTo: question1 withText: 'Python is interpreted'.
+	self denyEmpty: (cuoora getOrderedAnswers: question1)
 ]
 
 { #category : #tests }

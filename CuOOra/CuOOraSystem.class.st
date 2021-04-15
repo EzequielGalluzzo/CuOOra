@@ -47,21 +47,21 @@ CuOOraSystem class >> soleInstance [
 	^ soleInstance ifNil: [ soleInstance := self new sampleData ].
 ]
 
-{ #category : #testing }
+{ #category : #adding }
 CuOOraSystem >> addTopic: aTopic [
 	(aTopic isCollection) 
 	ifFalse: [ topics add: aTopic  ]
 	ifTrue: [ topics addAll: aTopic ]
 ]
 
-{ #category : #testing }
+{ #category : #adding }
 CuOOraSystem >> addTopic: aTopic forUser: aUser [
 	(topics includes: aTopic)
 	ifTrue: [ aUser addInterest: aTopic ] 
 	ifFalse: [ ^ false ] 
 ]
 
-{ #category : #testing }
+{ #category : #adding }
 CuOOraSystem >> addUser: aUser [
 	users add: aUser 
 ]
@@ -74,7 +74,7 @@ CuOOraSystem >> addUser: aName pass: aPassword [
 ^ u
 ]
 
-{ #category : #action }
+{ #category : #deleting }
 CuOOraSystem >> deleteQuestion: aQuestion [
 	| user |
 	aQuestion deleteAnswers.
@@ -83,7 +83,7 @@ CuOOraSystem >> deleteQuestion: aQuestion [
 	
 ]
 
-{ #category : #accessing }
+{ #category : #collection }
 CuOOraSystem >> getAllQuestions [
  ^ users flatCollect: [ :u | u getQuestions]
 ]
@@ -97,8 +97,33 @@ CuOOraSystem >> getAllTopics [
 	"^ (users flatCollect: [ :u | u getInterests  ]) asSet."
 ]
 
+{ #category : #'private-helpers' }
+CuOOraSystem >> getInteractionPoints: aCollectionOfInteractions [
+	| totalLikes totalDislikes |
+	aCollectionOfInteractions isNotNil
+		ifTrue: [ totalLikes := aCollectionOfInteractions
+				sumNumbers: [ :each  | each isLike asBit ].
+			totalDislikes := aCollectionOfInteractions
+				sumNumbers: [ :each | each isDislike asBit ].
+			^ totalLikes + (totalDislikes * -1) ]
+		ifFalse: [ ^ 0 ]
+]
+
+{ #category : #'private-helpers' }
+CuOOraSystem >> getNumberOfDislikes: aPost [
+	^ (self getPostInteractions: aPost)
+		sumNumbers: [ :each | each isDislike asBit ]
+]
+
+{ #category : #'private-helpers' }
+CuOOraSystem >> getNumberOfLikes: aPost [
+
+	^ (self getPostInteractions: aPost)
+		sumNumbers: [ :each | each isLike asBit ]
+]
+
 { #category : #reordering }
-CuOOraSystem >> getAnswers: aQuestion [
+CuOOraSystem >> getOrderedAnswers: aQuestion [
 	| aCol aColSorted |
 	"given a question, I  need to ask the question for it's answers"
 	aCol := aQuestion allAnswers.
@@ -111,33 +136,15 @@ CuOOraSystem >> getAnswers: aQuestion [
 	^ aColSorted
 ]
 
-{ #category : #'math functions' }
-CuOOraSystem >> getInteractionPoints: aCollectionOfInteractions [
-	| totalLikes totalDislikes |
-	aCollectionOfInteractions isNotNil
-		ifTrue: [ totalLikes := aCollectionOfInteractions
-				sumNumbers: [ :each  | each isLike asBit ].
-			totalDislikes := aCollectionOfInteractions
-				sumNumbers: [ :each | each isDislike asBit ].
-			^ totalLikes + (totalDislikes * -1) ]
-		ifFalse: [ ^ 0 ]
-]
-
-{ #category : #'math functions' }
+{ #category : #'private-helpers' }
 CuOOraSystem >> getPostBalance: aPost [
 	| temp |
-	temp := (self getPostLikes: aPost) asNumber.
-	temp := temp - (self getPostDislikes: aPost) asNumber.
+	temp := (self getNumberOfLikes: aPost) asNumber.
+	temp := temp - (self getNumberOfDislikes: aPost) asNumber.
 	^ temp
 ]
 
-{ #category : #'math functions' }
-CuOOraSystem >> getPostDislikes: aPost [
-	^ (self getPostInteractions: aPost)
-		sumNumbers: [ :each | each isDislike asBit ]
-]
-
-{ #category : #accessing }
+{ #category : #'private-helpers' }
 CuOOraSystem >> getPostInteractions: aPost [
 	| intCol newCol |
 	"for this post, I need to collect all users interactions,
@@ -151,21 +158,14 @@ CuOOraSystem >> getPostInteractions: aPost [
 	^ newCol
 ]
 
-{ #category : #'math functions' }
-CuOOraSystem >> getPostLikes: aPost [
-
-	^ (self getPostInteractions: aPost)
-		sumNumbers: [ :each | each isLike asBit ]
-]
-
-{ #category : #accessing }
+{ #category : #'private-helpers' }
 CuOOraSystem >> getUserForPost: aPost [
 	^ users
 		detect: [ :each | each hasPost: aPost ]
 		ifNone: [ nil ]
 ]
 
-{ #category : #accessing }
+{ #category : #'private-helpers' }
 CuOOraSystem >> getUserForQuestion: aQuestion [
 	^ users detect: [ :each | each askedQuestion: aQuestion ] ifNone: [ nil ]	
 ]
@@ -219,12 +219,12 @@ CuOOraSystem >> newTopic: aName description: aDescription [
 
 ]
 
-{ #category : #accessing }
+{ #category : #delegation }
 CuOOraSystem >> questionsForTopic: aTopic [
 	^ aTopic relatedQuestions 
 ]
 
-{ #category : #refactoring }
+{ #category : #collection }
 CuOOraSystem >> relevantQuestionsForUser: aUser [
 	| questions follows q |
 	"first we collect all of the questions from all of the topics relevant to the user"
@@ -237,59 +237,94 @@ CuOOraSystem >> relevantQuestionsForUser: aUser [
 ]
 
 { #category : #initialization }
-CuOOraSystem >> sampleData [ 
-| pedro diego juan python java rust cpp javascript smalltalk OOP TDU OO1 PreguntaPedro RespuestaPedro PreguntaDiego RespuestaDiego| 
-"topicos"
-			python := Topic newWith: 'Python' desc: 'about Python language'.
-			java := Topic newWith: 'Java' desc: 'about Java language'.
-			rust := Topic newWith: 'Rust' desc: 'about Rust language'.
-			javascript := Topic newWith: 'Javascript' desc: 'about Javascript language'.
-			cpp := Topic newWith: 'C++' desc: 'about C++ language'.
-			smalltalk  := Topic newWith: 'Smalltalk' desc: 'about Smalltalk language'.
-			OOP := Topic newWith: 'OOP' desc: 'about Object Oriented Programming'.
-			TDU := Topic newWith: 'Test De Unidad' desc: 'about Unit Testing'.
-			OO1 := Topic newWith: 'OO1' desc: 'about Object Oriented 1'.
- topics addAll:  {python. java. rust. cpp. javascript. smalltalk. OOP. TDU. OO1}.
+CuOOraSystem >> sampleData [
+| pedro diego juan python java rust cpp javascript smalltalk OOP TDU OO1 PreguntaPedro PreguntaDiego |
+	"topicos"
+	python := Topic newWith: 'Python' desc: 'about Python language'.
+	java := Topic newWith: 'Java' desc: 'about Java language'.
+	rust := Topic newWith: 'Rust' desc: 'about Rust language'.
+	javascript := Topic
+		newWith: 'Javascript'
+		desc: 'about Javascript language'.
+	cpp := Topic newWith: 'C++' desc: 'about C++ language'.
+	smalltalk := Topic
+		newWith: 'Smalltalk'
+		desc: 'about Smalltalk language'.
+	OOP := Topic newWith: 'OOP' desc: 'about Object Oriented Programming'.
+	TDU := Topic newWith: 'Test De Unidad' desc: 'about Unit Testing'.
+	OO1 := Topic newWith: 'OO1' desc: 'about Object Oriented 1'.
+	topics
+		addAll:
+			{python.
+			java.
+			rust.
+			cpp.
+			javascript.
+			smalltalk.
+			OOP.
+			TDU.
+			OO1}.
 
-"topicos"
-
-
-"users"
-			pedro := User newWithUsername: 'pedro@cuoora.com' andPassword: 'pedro'.
-			diego := User newWithUsername: 'diego@cuoora.com' andPassword: 'diego'.
-			juan := User newWithUsername: 'juan@cuoora.com' andPassword: 'juan'.
-			juan follow: diego.
-			pedro follow: juan.
- users addAll: { pedro. diego. juan }.
-"users"
-
-"preguntas"
-			PreguntaPedro := Question new.
-			PreguntaPedro initializeWith:'¿Para que sirve el método SetUp?' topics: {OO1. TDU} and: 'No se para que sirve el metodo setUp.' .
-			pedro addQuestion: PreguntaPedro .
-			PreguntaDiego := Question new.
-			PreguntaDiego initializeWith: '¿Qué significa #mesageNotUnderstood?' topics: {OO1. smalltalk } and: 'salta ese error y no se que significa.' .
-			diego addQuestion: PreguntaDiego .
-"preguntas"
-
-"respuestas"
-			pedro addAnswerTo: PreguntaDiego  withText: 'Sirve para instanciar los objetos que son evaluados por el test en un único método y que se ejecute siempre antes de cada test'.
-			diego addAnswerTo: PreguntaPedro  withText: 'Singifica que el objeto que recibió el mensaje no encontró ningún método para ejecutar en respuesta'.
-
-"respuestas"
+	"topicos"
 
 
+	"users"
+	pedro := User
+		newWithUsername: 'pedro@cuoora.com'
+		andPassword: 'pedro'.
+	diego := User
+		newWithUsername: 'diego@cuoora.com'
+		andPassword: 'diego'.
+	juan := User newWithUsername: 'juan@cuoora.com' andPassword: 'juan'.
+	juan follow: diego.
+	pedro follow: juan.
+	users
+		addAll:
+			{pedro.
+			diego.
+			juan}.
+	"users"
 
+	"preguntas"
+	PreguntaPedro := Question new.
+	PreguntaPedro
+		initializeWith: '¿Para que sirve el método SetUp?'
+		topics:
+			{OO1.
+			TDU}
+		and: 'No se para que sirve el metodo setUp.'.
+	pedro addQuestion: PreguntaPedro.
+	PreguntaDiego := Question new.
+	PreguntaDiego
+		initializeWith: '¿Qué significa #mesageNotUnderstood?'
+		topics:
+			{OO1.
+			smalltalk}
+		and: 'salta ese error y no se que significa.'.
+	diego addQuestion: PreguntaDiego.
+	"preguntas"
+
+	"respuestas"
+	pedro
+		addAnswerTo: PreguntaDiego
+		withText:
+			'Sirve para instanciar los objetos que son evaluados por el test en un único método y que se ejecute siempre antes de cada test'.
+	diego
+		addAnswerTo: PreguntaPedro
+		withText:
+			'Singifica que el objeto que recibió el mensaje no encontró ningún método para ejecutar en respuesta'
+
+	"respuestas"
 ]
 
-{ #category : #accessing }
+{ #category : #collection }
 CuOOraSystem >> topicsForQuestion: aQuestion [
 
 	"tengo que para topico preguntar si tiene esa pregunta en su coleccionn y si es asi "
 	^ (topics select: [ :t | t hasRelatedQuestion: aQuestion ]) asSet.
 ]
 
-{ #category : #utility }
+{ #category : #'private-helpers' }
 CuOOraSystem >> userWithName: aName protectedBy: aPassword [
 	^ users
 		detect: [ :each | each hasName: aName hasPassword: aPassword ]

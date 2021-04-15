@@ -54,7 +54,7 @@ Topic >> description: anObject [
 	description := anObject
 ]
 
-{ #category : #testing }
+{ #category : #evaluating }
 Topic >> hasRelatedQuestion: aQuestion [
 	^ (questions includes: aQuestion)
 ]
@@ -85,7 +85,7 @@ Topic >> questions: anObject [
 	questions := anObject
 ]
 
-{ #category : #accessing }
+{ #category : #collection }
 Topic >> relatedQuestions [
  questions ifNil: [ ^ OrderedCollection new ]
 ifNotNil: [ ^questions ]

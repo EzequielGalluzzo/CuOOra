@@ -41,7 +41,7 @@ Question >> addAnswer: anAnswer [
 	answers add: anAnswer 
 ]
 
-{ #category : #obsolete }
+{ #category : #accessing }
 Question >> allAnswers [
 ^ answers
 ]

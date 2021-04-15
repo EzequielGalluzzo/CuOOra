@@ -1,5 +1,5 @@
 Class {
-	#name : #CuOOraTestInteractions,
+	#name : #CuOOraSystemTestInteractions,
 	#superclass : #TestCase,
 	#instVars : [
 		'user1',
@@ -15,13 +15,13 @@ Class {
 }
 
 { #category : #setUps }
-CuOOraTestInteractions >> makeDislikes [
+CuOOraSystemTestInteractions >> makeDislikes [
 	user1 dislikePost: question1.
 	 user2 dislikePost: question1
 ]
 
 { #category : #setUps }
-CuOOraTestInteractions >> makeLikes [
+CuOOraSystemTestInteractions >> makeLikes [
 	"twolikes for q1"
 
 	user1 likePost: question1.
@@ -29,14 +29,14 @@ CuOOraTestInteractions >> makeLikes [
 ]
 
 { #category : #setUps }
-CuOOraTestInteractions >> makeQuestions [
+CuOOraSystemTestInteractions >> makeQuestions [
 	question1 := Question new.
 	question2 := Question new.
 	question3 := Question new
 ]
 
 { #category : #setUps }
-CuOOraTestInteractions >> makeUsers [
+CuOOraSystemTestInteractions >> makeUsers [
 	"Add any changes to posts constuctor here"
 
 	user1 := User new.	"WithUsername: 'Elio' andPassword: '123'"
@@ -45,10 +45,8 @@ CuOOraTestInteractions >> makeUsers [
 ]
 
 { #category : #running }
-CuOOraTestInteractions >> setUp [
+CuOOraSystemTestInteractions >> setUp [
 	"Hooks that subclasses may override to define the fixture of test."
-
-	super setUp.
 	cuoora := CuOOraSystem new.
 	"genera 3 usuarios"
 	self makeUsers.
@@ -66,7 +64,7 @@ CuOOraTestInteractions >> setUp [
 ]
 
 { #category : #tests }
-CuOOraTestInteractions >> testGetPostInteractions [
+CuOOraSystemTestInteractions >> testGetPostInteractions [
 	self assertEmpty: (cuoora getPostInteractions: question1).
 	self makeLikes.
 	self denyEmpty: (cuoora getPostInteractions: question1).
@@ -74,7 +72,7 @@ CuOOraTestInteractions >> testGetPostInteractions [
 ]
 
 { #category : #tests }
-CuOOraTestInteractions >> testGetUserPoints [
+CuOOraSystemTestInteractions >> testGetUserPoints [
 	| user |
 	self makeLikes.
 	self assert: (cuoora getUserPoints: user3) equals: 42.	"20 * 2 questions + 2 likes"
