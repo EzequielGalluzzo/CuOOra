@@ -61,7 +61,7 @@ CuOOraSystem >> addTopic: aTopic forUser: aUser [
 	ifFalse: [ ^ false ] 
 ]
 
-{ #category : #adding }
+{ #category : #'private-helpers' }
 CuOOraSystem >> addUser: aUser [
 	users add: aUser 
 ]
@@ -203,15 +203,6 @@ CuOOraSystem >> initialize [
 	users := Set new.
 	topics := Set
 		new.
-]
-
-{ #category : #'instance creation' }
-CuOOraSystem >> newTopic: aName desc: aDescription forUser: aUser [
-	| t |
-	t := self newTopic: aName description: aDescription.
-	aUser addInterest: t.
-	topics add: t.
-	^ t
 ]
 
 { #category : #'instance creation' }

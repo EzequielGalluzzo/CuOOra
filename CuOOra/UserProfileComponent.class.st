@@ -23,9 +23,6 @@ Internal Representation and Key Implementation Points.
 Class {
 	#name : #UserProfileComponent,
 	#superclass : #MainComponent,
-	#instVars : [
-		'user'
-	],
 	#category : #'CuOOra-UI'
 }
 

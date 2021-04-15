@@ -29,7 +29,6 @@ Class {
 	#name : #AnswerComponent,
 	#superclass : #MainComponent,
 	#instVars : [
-		'question',
 		'answer',
 		'text'
 	],

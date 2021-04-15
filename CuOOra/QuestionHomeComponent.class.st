@@ -26,9 +26,6 @@ Internal Representation and Key Implementation Points.
 Class {
 	#name : #QuestionHomeComponent,
 	#superclass : #MainComponent,
-	#instVars : [
-		'question'
-	],
 	#category : #'CuOOra-UI'
 }
 

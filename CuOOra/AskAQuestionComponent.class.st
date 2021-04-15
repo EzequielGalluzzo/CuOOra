@@ -30,7 +30,6 @@ Class {
 	#name : #AskAQuestionComponent,
 	#superclass : #MainComponent,
 	#instVars : [
-		'question',
 		'questionName',
 		'questionContent',
 		'questionTopics'

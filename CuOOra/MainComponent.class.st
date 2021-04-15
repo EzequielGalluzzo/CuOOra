@@ -28,7 +28,9 @@ Class {
 	#superclass : #WAComponent,
 	#instVars : [
 		'header',
-		'questions'
+		'questions',
+		'question',
+		'user'
 	],
 	#category : #'CuOOra-UI'
 }

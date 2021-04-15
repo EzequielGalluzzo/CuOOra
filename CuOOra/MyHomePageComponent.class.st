@@ -28,7 +28,6 @@ Class {
 	#name : #MyHomePageComponent,
 	#superclass : #MainComponent,
 	#instVars : [
-		'user',
 		'topics'
 	],
 	#category : #'CuOOra-UI'

@@ -74,8 +74,7 @@ Class {
 	#superclass : #MainComponent,
 	#instVars : [
 		'userName',
-		'password',
-		'user'
+		'password'
 	],
 	#category : #'CuOOra-UI'
 }
@@ -102,11 +101,6 @@ LandingComponent >> autorizar: aCanvas [
 { #category : #visiting }
 LandingComponent >> irACasa [
 	self call: MyHomePageComponent new.
-]
-
-{ #category : #visiting }
-LandingComponent >> listUsers: someUsers [
-	self call: (ListUsersComponent users: someUsers)
 ]
 
 { #category : #'private protocol' }
