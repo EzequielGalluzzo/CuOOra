@@ -252,14 +252,6 @@ CuOOraSystem >> relevantQuestionsForUser: aUser [
 	^ questions flattened asSet 
 ]
 
-{ #category : #reordering }
-CuOOraSystem >> relevantQuestionsForUserOrderedByDate: aUser [
-"DEVUELE LAS PREGUNTAS RELEVANTES DE UN USUARIO ORDENADOS POR FECHA Y HORA
-MAYOR A MENOR"
-	^ (self relevantQuestionsForUser: aUser)
-		asSortedCollection: [ :a :b | a postTimeDate > b postTimeDate ]
-]
-
 { #category : #initialization }
 CuOOraSystem >> sampleData [
 | pedro diego juan python java rust cpp javascript smalltalk OOP TDU OO1 PreguntaPedro PreguntaDiego |

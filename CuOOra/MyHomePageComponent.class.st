@@ -50,7 +50,7 @@ MyHomePageComponent >> front [
 
 { #category : #accessing }
 MyHomePageComponent >> getQuestions [
-	^ self model relevantQuestionsForUserOrderedByDate:  self session user
+	^ (self model relevantQuestionsForUser: self session user) asSortedCollection: [ :a :b | a postTimeDate > b postTimeDate ]
 ]
 
 { #category : #visiting }

@@ -76,7 +76,7 @@ QuestionHomeComponent >> renderContent: aCanvas [
 { #category : #rendering }
 QuestionHomeComponent >> respuestas: aCanvas [
 	aCanvas
-		unorderedList: [ question allAnswersOrderedByDate
+		unorderedList: [ question allAnswers
 				do: [ :each | 
 					aCanvas paragraph: each gettext.
 					aCanvas small

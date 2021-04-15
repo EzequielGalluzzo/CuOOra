@@ -46,7 +46,7 @@ TopicComponent >> back [
 
 { #category : #accessing }
 TopicComponent >> getQuestions [
-	^ topico relatedQuestionsOrderedByDate
+	^ topico relatedQuestions 		asSortedCollection: [ :a :b | a postTimeDate > b postTimeDate ]
 ]
 
 { #category : #accessing }

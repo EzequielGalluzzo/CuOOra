@@ -89,7 +89,8 @@ MainComponent >> detalles: aCanvas dePost: each [
 
 { #category : #accessing }
 MainComponent >> getQuestions [
-	^ self model allQuestionsOrderedByDate 
+	^ self model getAllQuestions
+		asSortedCollection: [ :a :b | a postTimeDate > b postTimeDate ]
 ]
 
 { #category : #initialization }
@@ -113,11 +114,12 @@ MainComponent >> mostrarPreguntas: aCanvas [
 								callback: [ self preguntaConRespuestas: each ];
 								with: [ aCanvas heading
 										level: 3;
-										with: each name ].
+										with: each name.
+									 ].
 							aCanvas space.
 							self detalles: aCanvas dePost: each.
 							aCanvas
-								small: ' | respuestas: ' , (each allAnswers) size asString.
+								small: ' | respuestas: ' , each allAnswers size asString.
 							self topicos: aCanvas dePost: each.
 							aCanvas paragraph: each content.
 							self reacciones: aCanvas conPost: each.
