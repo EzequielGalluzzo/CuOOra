@@ -206,12 +206,6 @@ User >> name [
 	^ username
 ]
 
-{ #category : #accessing }
-User >> password [ 	
-	^password
-	
-]
-
 { #category : #deleting }
 User >> removeInterest: aTopic [
 	interests remove: aTopic ifAbsent: [ false ]

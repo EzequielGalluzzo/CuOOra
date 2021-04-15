@@ -44,10 +44,14 @@ aCanvas
 
 { #category : #rendering }
 UserHeaderComponent >> mostrarTopicos: aCanvas [
-	aCanvas
-		unorderedList  class: 'left'; with: [ aCanvas label: 'Mis intereses: '. self session user getInterests 
+	aCanvas unorderedList
+		class: 'left';
+		with: [ aCanvas label: 'Mis intereses: '.
+			self session user getInterests
 				do: [ :each | 
-					aCanvas label class:'em'; with: ' ' , each name , ' ' ] ]
+					aCanvas label
+						class: 'em';
+						with: ' ' , each name , ' ' ] ]
 ]
 
 { #category : #rendering }

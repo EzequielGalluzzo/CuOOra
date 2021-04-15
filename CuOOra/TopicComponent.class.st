@@ -71,21 +71,6 @@ TopicComponent >> mostrarBotones: aCanvas [
 ]
 
 { #category : #rendering }
-TopicComponent >> preguntas: aCanvas [
-	aCanvas
-		unorderedList: [ topico relatedQuestions
-				do: [ :each | 
-					aCanvas
-						render: [ aCanvas heading
-								level: 4;
-								with: each name.
-							self detalles: aCanvas dePost: each.
-							aCanvas paragraph: each content.
-							self reacciones: aCanvas conPost: each.
-							aCanvas horizontalRule ] ] ]
-]
-
-{ #category : #rendering }
 TopicComponent >> renderContent: aCanvas [
 	self header: aCanvas.
 	aCanvas horizontalRule.
