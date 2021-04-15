@@ -185,12 +185,12 @@ CuOOraSystem >> getUserPoints: aUser [
 	total := total + aUser getPointsFromUser.
 	posts := aUser getQuestions.
 	posts addAll: aUser getAllAnswers.
-	"now from all users to get the posts from all of their interactions,
-	if the posts of those interactions correspond to the user posts collected above, sum
-	points of the interactions"
+	"BUSCA TODOS LOS LIKES Y DISLIKES DE TODOS LOS USUARIOS"
 	interactions := (users collect: [ :u | u getInteractions ]) flattened
 		asOrderedCollection.
+	"PARA CADA REACCION LE PREGUNTA POR CADA POST DE USUARIO SI PERTENECE A ESE POST"
 	interactions copy do: [ :i | posts do: [ :p | i isOfPost: p ] ].
+	"SACA CUENTA DE LOS PUNTOS POR CADA INTERACCION RELEVANTE AL USUARIO"
 	total := total + (self getInteractionPoints: interactions).
 	^ total
 ]
