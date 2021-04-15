@@ -55,8 +55,9 @@ UserProfileComponent >> follow [
 ]
 
 { #category : #accessing }
-UserProfileComponent >> getQuestions [
-	^ user getQuestions asSortedCollection: [ :a :b | a postTimeDate > b postTimeDate ]
+UserProfileComponent >> myQuestions [
+	^ user getQuestions
+
 ]
 
 { #category : #rendering }

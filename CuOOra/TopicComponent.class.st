@@ -45,11 +45,6 @@ TopicComponent >> back [
 ]
 
 { #category : #accessing }
-TopicComponent >> getQuestions [
-	^ topico relatedQuestions 		asSortedCollection: [ :a :b | a postTimeDate > b postTimeDate ]
-]
-
-{ #category : #accessing }
 TopicComponent >> header: aCanvas [
 	aCanvas
 		form: [ aCanvas button
@@ -68,6 +63,11 @@ TopicComponent >> mostrarBotones: aCanvas [
 			aCanvas button
 				callback: [ self session user removeInterest: topico ];
 				with: 'dejar de seguir' ].
+]
+
+{ #category : #accessing }
+TopicComponent >> myQuestions [
+	^ topico relatedQuestions
 ]
 
 { #category : #rendering }

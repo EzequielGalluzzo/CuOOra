@@ -89,8 +89,9 @@ MainComponent >> detalles: aCanvas dePost: each [
 
 { #category : #accessing }
 MainComponent >> getQuestions [
-	^ self model getAllQuestions
-		asSortedCollection: [ :a :b | a postTimeDate > b postTimeDate ]
+	^ (self myQuestions
+		asSortedCollection: [ :a :b | a postTimeDate > b postTimeDate ])
+		first: self quantity
 ]
 
 { #category : #initialization }
@@ -145,9 +146,21 @@ MainComponent >> mostrarTopicos: aCanvas [
 								with: [ aCanvas button: each name ] ] ] ]
 ]
 
+{ #category : #accessing }
+MainComponent >> myQuestions [
+^ self model getAllQuestions
+]
+
 { #category : #visiting }
 MainComponent >> preguntaConRespuestas: aQuestion [
 	self call: (QuestionHomeComponent question: aQuestion)
+]
+
+{ #category : #size }
+MainComponent >> quantity [
+	^ (self myQuestions size > 4)
+	ifTrue: [5]
+	ifFalse: [self myQuestions size ]
 ]
 
 { #category : #rendering }

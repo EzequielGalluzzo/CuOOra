@@ -48,11 +48,6 @@ MyHomePageComponent >> front [
 	self call: LandingComponent new
 ]
 
-{ #category : #accessing }
-MyHomePageComponent >> getQuestions [
-	^ (self model relevantQuestionsForUser: self session user) asSortedCollection: [ :a :b | a postTimeDate > b postTimeDate ]
-]
-
 { #category : #visiting }
 MyHomePageComponent >> logout [
 	self session logout.
@@ -73,6 +68,12 @@ MyHomePageComponent >> menu: aCanvas [
 							aCanvas anchor
 								callback: [ self mostrarPreguntasDeTopico: each ];
 								with: [ aCanvas button: each name ] ] ] ]
+]
+
+{ #category : #accessing }
+MyHomePageComponent >> myQuestions [
+	^ (self model relevantQuestionsForUser: self session user)
+		
 ]
 
 { #category : #visiting }
