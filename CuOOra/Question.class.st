@@ -47,11 +47,6 @@ Question >> allAnswers [
 ]
 
 { #category : #accessing }
-Question >> answers: anObject [
-	answers := anObject
-]
-
-{ #category : #accessing }
 Question >> content [
 	^ content
 ]
