@@ -83,6 +83,20 @@ CuOOraSystemTest >> setUp [
 ]
 
 { #category : #tests }
+CuOOraSystemTest >> testAnswerRelated [
+	| newQ answ1 answ2 sorted |
+	self setUp.
+	newQ := Question new.
+	answ1 := Answer newMockWith: Date today and: '12:00' asTime.
+	answ2 := Answer newMockWith: Date today and: '12:01' asTime.
+	newQ addAnswer: answ1.
+	newQ addAnswer: answ2.
+	sorted:= cuoora getOrderedAnswers: newQ.
+	self assert: sorted first equals: answ2.
+	self assert: sorted second equals: answ1
+]
+
+{ #category : #tests }
 CuOOraSystemTest >> testPostRelated [
 	self setUp;
 	assert: ((cuoora getInteractionPoints: (cuoora getPostInteractions: q1)) = (cuoora getPostBalance: q1)).

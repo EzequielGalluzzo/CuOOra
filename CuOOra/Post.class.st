@@ -29,11 +29,15 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'time',
-		'date',
-		'timedate'
+		'date'
 	],
 	#category : #'CuOOra-Model'
 }
+
+{ #category : #'private - testing' }
+Post class >> newMockWith: aDate and: aTime [
+   ^ self new  initializeWithDate: aDate and: aTime; yourself
+]
 
 { #category : #accessing }
 Post >> date [
@@ -44,6 +48,12 @@ Post >> date [
 Post >> initialize [
 	time := Time now.
 	date := Date today.
+]
+
+{ #category : #'private - testing' }
+Post >> initializeWithDate: aDate and: aTime [ 
+	date := aDate.
+	time:= aTime.
 ]
 
 { #category : #accessing }
