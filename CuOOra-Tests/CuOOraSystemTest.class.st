@@ -2,57 +2,66 @@ Class {
 	#name : #CuOOraSystemTest,
 	#superclass : #TestCase,
 	#instVars : [
-		'user1',
-		'user2',
-		'user3',
-		'topic1',
-		'topic2',
-		'topic3',
-		'question1',
-		'question2',
-		'question3',
-		'question4',
+		'u1',
+		'u2',
+		'u3',
+		't1',
+		't2',
+		'q1',
+		'q2',
+		'q3',
 		'cuoora',
-		'answer1'
+		'a1'
 	],
 	#category : #'CuOOra-Tests'
 }
 
 { #category : #setUps }
-CuOOraSystemTest >> makeAnswers [
-	user2 addAnswerTo: question1 withText: 'blah blah'.
-		user1 addAnswerTo: question1 withText: 'something'
-]
-
-{ #category : #setUps }
 CuOOraSystemTest >> makeInterestsForUser [
-	cuoora addTopic: topic1 forUser: user1.
-	cuoora addTopic: topic2 forUser: user2
+	cuoora addTopic: t1 forUser: u1.
+	cuoora addTopic: {t1 . t2} forUser: u2.
 ]
 
 { #category : #setUps }
 CuOOraSystemTest >> makeQuestionsAndAddToUsers [
-	question1 := Question newWithName: '' topics: topic1 andContent: ''.
-	question2 := Question
-		newWithName: ''
-		topics: topic2
-		andContent: ''.
-	question3 := Question newWithName: '' topics: topic1 andContent: ''
+	q1 := Question new.
+	q2 := Question new.
+	q3 := Question new.
+	
+	u1 addQuestion: q1.
+	u2 addQuestion: q2.
+	u3 addQuestion: q3.	
+		
+	u2 likePost: q1.
+	u3 likePost: q1.
+
+	u3 dislikePost: q2.
+	u1 dislikePost: q2.
+	
+	u2 addAnswerTo: q3 withText: 'a1'.
+	u2 addAnswerTo: q1 withText: 'a3'.
+	
+	u3 addAnswerTo: q1 withText: 'a2'.
+	
+
 ]
 
 { #category : #setUps }
 CuOOraSystemTest >> makeTopics [
-	topic1 := Topic new.	"With: 'Python' desc: 'about Python language'"
-	topic2 := Topic new.	"With: 'Java' desc: 'about Java language'"
-	topic3 := Topic new.	"With: 'Rust' desc: 'about Rustn language'"
+	t1 := Topic newWith: 'Python' desc: 'about Python language'.
+	t2 := Topic newWith: 'Java' desc: 'about Java language'.
 ]
 
 { #category : #setUps }
 CuOOraSystemTest >> makeUsers [
 	"Add any changes to posts constuctor here"
 
-	user1 := User new.	"WithUsername: 'Elio' andPassword: '123'"
-	user2 := User new.	"WithUsername: 'Marco' andPassword: 'abc'"
+	u1 := User new" WithUsername: 'Elio' andPassword: '123'".
+	u2 := User new "WithUsername: 'Marco' andPassword: 'abc'".
+	u3 := User new "WithUsername: 'Pablo' andPassword: '900'".
+	
+	u1 follow: u2.
+	u3 follow: u2.
 ]
 
 { #category : #running }
@@ -60,59 +69,69 @@ CuOOraSystemTest >> setUp [
 	"Hooks that subclasses may override to define the fixture of test."
 	super setUp.
 	cuoora := CuOOraSystem new.
-	self makeTopics.
+	self makeTopics;
+	makeUsers ;
+	makeInterestsForUser ;
+	makeQuestionsAndAddToUsers .
 	cuoora
-		addTopic: topic1;
-		addTopic: topic2;
-		addTopic: topic3.
-		self makeUsers.
-	self makeQuestionsAndAddToUsers.
-	user1
-		addQuestion: question1;
-		addQuestion: question2.
-	user2 addQuestion: question3.
-	cuoora
-		addUser: user1;
-		addUser: user2.
-]
-
-{ #category : #tests }
-CuOOraSystemTest >> testDeleteQuestion [
-	self makeAnswers.
-	self assert: (cuoora deleteQuestion: question1)
-]
-
-{ #category : #tests }
-CuOOraSystemTest >> testGetAllQuestions [
-]
-
-{ #category : #tests }
-CuOOraSystemTest >> testGetAnswers [
-	self assertEmpty: (cuoora getOrderedAnswers: question1).
-	user2 addAnswerTo: question1 withText: 'Python is interpreted'.
-	self denyEmpty: (cuoora getOrderedAnswers: question1).
+		addTopic: t1;
+		addTopic: t2;
+		addUser: u1;
+		addUser: u2;
+		addUser: u3
 
 ]
 
 { #category : #tests }
-CuOOraSystemTest >> testGetOrderedAnswers [
-	self assertEmpty: (cuoora getOrderedAnswers: question1).
-	user2 addAnswerTo: question1 withText: 'Python is interpreted'.
-	self denyEmpty: (cuoora getOrderedAnswers: question1)
+CuOOraSystemTest >> testPostRelated [
+	self setUp;
+	assert: ((cuoora getInteractionPoints: (cuoora getPostInteractions: q1)) = (cuoora getPostBalance: q1)).
+	"El assert previo chequea los siguientes mensajes: getInteractionPoints:, getPostInteractions:, getPostBalance:, getNumberOfLikes:, getNumberOfDislikes:, dado que estan embebidos unos en otros, y si estos no funcionan, no andaria el assert"
+	self assert: ((cuoora getUserForPost: q1) = u1 );
+	deny: ((cuoora getUserForQuestion: q1) = u3);
+	deny: ((cuoora getUserForPost: q1) = u3);
+	assert: ((cuoora getUserForQuestion: q2) = u2)
 ]
 
 { #category : #tests }
-CuOOraSystemTest >> testQuestionsForTopic [
-	self denyEmpty: (cuoora questionsForTopic: topic1).
-	self assertCollection:  (cuoora questionsForTopic: topic1) hasSameElements: { question1. question3 }
+CuOOraSystemTest >> testQuestionsRelated [
+	self setUp;
+	assert: (cuoora getAllQuestions size = 3).
+	cuoora deleteQuestion: q2.
+	self assert: (cuoora getAllQuestions size = 2);
+	assert: ((cuoora topicsForQuestion: q1) size = 0).
+	t1 addQuestion: q1.
+	self assert: ((cuoora topicsForQuestion: q1)size = 1)
 ]
 
 { #category : #tests }
-CuOOraSystemTest >> testRelevantQuestionsForUser [
-	cuoora addTopic: topic1 forUser: user1.
-	self
-		assertCollection: (cuoora relevantQuestionsForUser: user1)
-		hasSameElements:
-			{question1.
-			question3} asSet
+CuOOraSystemTest >> testTopicRelated [
+	| tempT tempCant|
+	self setUp.
+	tempT:= Topic new.
+	self deny: (cuoora getAllTopics includes: tempT).
+	cuoora addTopic: tempT.
+	self assert: (cuoora getAllTopics includes: tempT).
+	tempCant := cuoora getAllTopics size.
+	cuoora newTopic: 'prueba' description: 'prueba'.
+	self assert: (cuoora getAllTopics size = (tempCant+1))
+]
+
+{ #category : #tests }
+CuOOraSystemTest >> testUserRelated [
+	| tempCont |
+	self setUp;
+	deny: ((cuoora userWithName: 'testUser' protectedBy: 'test')isNotNil  ).
+	cuoora addUser: 'testUser' pass: 'test'.
+	self assert: ((cuoora userWithName: 'testUser' protectedBy: 'test')isNotNil  );
+	assert: ( ((cuoora relevantQuestionsForUser: u3) size) = 1);
+	assert: ( ((cuoora relevantQuestionsForUser: u2) size) = 0);
+	assert: ( (cuoora getUserPoints: u1) = 20);
+	deny: ((cuoora getUserPoints: u2)= 600).
+	tempCont := (u1 getInterests )size.
+	cuoora addTopic: t1 forUser: u1 .
+	self assert: (u1 getInterests size = (tempCont +1))
+	
+	
+	
 ]

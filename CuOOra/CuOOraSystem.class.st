@@ -224,7 +224,7 @@ CuOOraSystem >> relevantQuestionsForUser: aUser [
 	| questions follows q |
 	"PARA UN USUARIO SE PIDEN LOS TOPICOS DE INTERES Y A ESOS TOPICOS 
 	SE LES PIDEN LAS PREGUNTAS RELACIONADAS"
-	questions := aUser getInterests collect: [ :t | t relatedQuestions ].
+	questions := aUser getInterests collect:  [ :t | t relatedQuestions ].
 	"LUEGO LE PEDIMOS AL USUARIO TODOS LOS USUARIOS QUE SIGUE"
 	follows := aUser followsUsers.
 	"LUEGO LE PEDIMOS A ESOS USUARIOS SUS PREGUNTAS"
