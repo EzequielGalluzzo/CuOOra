@@ -2,36 +2,36 @@ Class {
 	#name : #TopicTest,
 	#superclass : #TestCase,
 	#instVars : [
-		'topic1',
-		'topic2',
-		'question1',
-		'question2',
-		'question3'
+		't1',
+		't2',
+		'q1',
+		'q2',
+		'q3'
 	],
 	#category : #'CuOOra-Tests'
 }
 
 { #category : #setUps }
 TopicTest >> makeQuestionsAndAddToUsers [
-	question1 := Question
+	q1 := Question
 		newWithName: 'Q1'
-		topics: topic2
+		topics: t1
 		andContent: 'How are Java and Python different?'.
-	question2 := Question
+	q2 := Question
 		newWithName: 'Q2'
-		topics: topic2
+		topics: t2
 		andContent: 'What are some uses for Rust?'.
-	question3 := Question
+	q3 := Question
 		newWithName: 'Q3'
-		topics: topic2
+		topics: {t1 . t2}
 		andContent: 'What is a lambda function in Python?'.
 	
 ]
 
 { #category : #setUps }
 TopicTest >> makeTopics [
-	topic1 := Topic newWith: 'Python' desc: 'about Python language'.
-	topic2 := Topic newWith: 'Java' desc: 'about Java language'.
+	t1 := Topic newWith: 'Python' desc: 'about Python language'.
+	t2 := Topic newWith: 'Java' desc: 'about Java language'.
 ]
 
 { #category : #running }
@@ -45,13 +45,28 @@ super setUp.
 ]
 
 { #category : #tests }
+TopicTest >> testAddQuestion [
+	| tempQ |
+	tempQ := Question new.
+	self deny: (t1 hasRelatedQuestion: tempQ).
+	t1 addQuestion: tempQ .
+	self assert: (t1 hasRelatedQuestion: tempQ).
+]
+
+{ #category : #tests }
+TopicTest >> testHasRelatedQuestion [
+	self setUp;
+	assert: (t1 hasRelatedQuestion: q1);
+	deny: (t1 hasRelatedQuestion: q2);
+	assert: (t2 hasRelatedQuestion: q2)
+]
+
+{ #category : #tests }
 TopicTest >> testRelatedQuestions [
-	| col | 
-	self assertEmpty: topic1 relatedQuestions.
-	self denyEmpty: topic2 relatedQuestions.
-
-	col:= Set new.
-	col add: question1; add: question2; add: question3.
-	self assertCollection: topic2 relatedQuestions equals: col.
-
+	self setUp;
+	assert: (t1 relatedQuestions includes: q1);
+	deny: (t1 relatedQuestions includes: q2);
+	assert: (t2 relatedQuestions includes: q2);
+	assert: (t2 relatedQuestions includes: q3);
+	deny: (t2 relatedQuestions includes: q1)
 ]
