@@ -167,10 +167,10 @@ User >> hasPost: aPost [
 User >> initialize [
 	"solo se puede tener una interaccion para cada posteo, un Set evita repeticiones"
 
-	timeAndDate := Date today.
+	timeAndDate := DateAndTime today.
 	answers := OrderedCollection new.
 	questions := OrderedCollection new.
-	follows:= Set new.
+	follows := Set new.
 	interests := Set new.
 	interactions := Set new
 ]
