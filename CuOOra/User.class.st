@@ -41,6 +41,13 @@ User class >> newWithUsername: aUsername andPassword: aPassword [
 	^ self new initializeWith: aUsername and: aPassword.
 ]
 
+{ #category : #'private - testing' }
+User >> addAnswer: anAnswer to: aQuestion [
+	aQuestion addAnswer: anAnswer.
+	answers add: anAnswer .
+	^ anAnswer 
+]
+
 { #category : #'instance creation' }
 User >> addAnswerTo: aQuestion withText: aText [
 	| a |
@@ -133,16 +140,11 @@ User >> getMyReplies [
 
 { #category : #numeric }
 User >> getPointsFromUser [
-	| userPoints temp "questionScore answerScore" |
+	| userPoints temp |
 	userPoints := 0.
 	userPoints := userPoints + (questions size * 20).
-	"	questionScore := questions
-		sumNumbers: [ :q | CuOOraSystem soleInstance getPostBalance: q ]."
 	temp := self getMyReplies.
 	userPoints := userPoints + (temp size * 50).
-	"answerScore := temp
-		sumNumbers: [ :q | CuOOraSystem soleInstance getPostBalance: q ]."
-	"userPoints := userPoints + answerScore + questionScore."
 	^ userPoints
 ]
 

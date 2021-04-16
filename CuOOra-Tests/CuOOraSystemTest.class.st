@@ -56,12 +56,11 @@ CuOOraSystemTest >> makeTopics [
 CuOOraSystemTest >> makeUsers [
 	"Add any changes to posts constuctor here"
 
-	u1 := User new" WithUsername: 'Elio' andPassword: '123'".
-	u2 := User new "WithUsername: 'Marco' andPassword: 'abc'".
-	u3 := User new "WithUsername: 'Pablo' andPassword: '900'".
-	
+	u1 := User new.	
+	u2 := User new.
+	u3 := User new.
 	u1 follow: u2.
-	u3 follow: u2.
+	u3 follow: u2
 ]
 
 { #category : #running }

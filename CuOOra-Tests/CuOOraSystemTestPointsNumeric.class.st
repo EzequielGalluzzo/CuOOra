@@ -1,5 +1,5 @@
 Class {
-	#name : #CuOOraSystemTestInteractions,
+	#name : #CuOOraSystemTestPointsNumeric,
 	#superclass : #TestCase,
 	#instVars : [
 		'user1',
@@ -15,27 +15,31 @@ Class {
 }
 
 { #category : #setUps }
-CuOOraSystemTestInteractions >> makeDislikes [
+CuOOraSystemTestPointsNumeric >> makeDislikes [
 	user1 dislikePost: question1.
 	 user2 dislikePost: question1
 ]
 
 { #category : #setUps }
-CuOOraSystemTestInteractions >> makeLikes [
+CuOOraSystemTestPointsNumeric >> makeLikes [
 
 	user1 likePost: question1.
 	user2 likePost: question1
 ]
 
 { #category : #setUps }
-CuOOraSystemTestInteractions >> makeQuestionsAndAddToUsers [
+CuOOraSystemTestPointsNumeric >> makeQuestionsAndAddToUsers [
 	question1 := Question new.
 	question2 := Question new.
-	question3 := Question new
+	question3 := Question new.
+		user3
+		addQuestion: question1;
+		addQuestion: question2.
+	user2 addQuestion: question3.
 ]
 
 { #category : #setUps }
-CuOOraSystemTestInteractions >> makeUsers [
+CuOOraSystemTestPointsNumeric >> makeUsers [
 
 	user1 := User new.	
 	user2 := User new.	
@@ -43,19 +47,13 @@ CuOOraSystemTestInteractions >> makeUsers [
 ]
 
 { #category : #running }
-CuOOraSystemTestInteractions >> setUp [
+CuOOraSystemTestPointsNumeric >> setUp [
 	"Hooks that subclasses may override to define the fixture of test."
+
 	super setUp.
 	cuoora := CuOOraSystem new.
-	"genera 3 usuarios"
 	self makeUsers.
-	"agrega 3 preguntas"
 	self makeQuestionsAndAddToUsers.
-	user3
-		addQuestion: question1;
-		addQuestion: question2.
-	"40 points"
-	user2 addQuestion: question3.
 	cuoora
 		addUser: user1;
 		addUser: user2;
@@ -63,17 +61,7 @@ CuOOraSystemTestInteractions >> setUp [
 ]
 
 { #category : #tests }
-CuOOraSystemTestInteractions >> testGetPostInteractions [
-	self assertEmpty: (cuoora getPostInteractions: question1).
-	self makeLikes.
-	self denyEmpty: (cuoora getPostInteractions: question1).
-	self assert: (cuoora getPostInteractions: question1) size equals: 2.
-
-
-]
-
-{ #category : #tests }
-CuOOraSystemTestInteractions >> testGetUserPoints [
+CuOOraSystemTestPointsNumeric >> testGetUserPoints [
 	| user |
 	self makeLikes.
 	self assert: (cuoora getUserPoints: user3) equals: 42.	"20 * 2 questions + 2 likes"
@@ -82,6 +70,11 @@ CuOOraSystemTestInteractions >> testGetUserPoints [
 	user := User new.
 	cuoora addUser: user.
 	user likePost: question1.
-	self assert: (cuoora getUserPoints: user3) equals: 39	"20 * 2 questions - 2 dislikes"
-
+	self assert: (cuoora getUserPoints: user3) equals: 39.	"20 * 2 questions - 2 dislikes + 1 like"
+	user1 addAnswerTo: question2 withText: 'first post'.
+	self assert: (cuoora getUserPoints: user1) equals: 50.	"tiene una respuesta = 50"
+	user1 dislikePost: question2.
+	self assert: (cuoora getUserPoints: user3) equals: 38.	"un nuevo dislike a su post"
+	user3 addAnswerTo: question2 withText: 'reply my own post'.
+	self assert: (cuoora getUserPoints: user3) equals: 38.	"respuestas a propias preguntas no suman"
 ]
