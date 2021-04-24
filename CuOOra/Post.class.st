@@ -55,7 +55,17 @@ Post >> dislikePost: aUser [
 	
 ]
 
-{ #category : #'math functions' }
+{ #category : #numeric }
+Post >> getNumberOfDislikes [
+	^ dislikes size
+]
+
+{ #category : #numeric }
+Post >> getNumberOfLikes [
+	^ likes size 
+]
+
+{ #category : #numeric }
 Post >> getPoints [
 	^ likes size - dislikes size
 ]
