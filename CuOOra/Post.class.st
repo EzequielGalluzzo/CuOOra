@@ -29,7 +29,9 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'time',
-		'date'
+		'date',
+		'likes',
+		'dislikes'
 	],
 	#category : #'CuOOra-Model'
 }
@@ -44,16 +46,41 @@ Post >> date [
 	^ date asString , ' ' , time print24
 ]
 
+{ #category : #action }
+Post >> dislikePost: aUser [
+	| like | 
+	dislikes add: (Dislike newFor: aUser).
+	like := likes detect: [ :l | l isOfUser: aUser ] ifNone: [ nil ].
+	like ifNotNil: [ likes remove: like ]
+	
+]
+
+{ #category : #'math functions' }
+Post >> getPoints [
+	^ likes size - dislikes size
+]
+
 { #category : #initialization }
 Post >> initialize [
 	time := Time now.
 	date := Date today.
+	likes := Set new.
+	dislikes := Set new.
 ]
 
-{ #category : #'private - testing' }
-Post >> initializeWithDate: aDate and: aTime [ 
+{ #category : #initialization }
+Post >> initializeWithDate: aDate and: aTime [
 	date := aDate.
-	time:= aTime.
+	time := aTime
+]
+
+{ #category : #action }
+Post >> likePost: aUser [
+	| dislike | 
+	likes add: (Like newFor: aUser).
+	dislike := dislikes detect: [ :d | d isOfUser: aUser ] ifNone: [ nil ].
+	dislike ifNotNil: [ dislikes remove: dislike ]
+	
 ]
 
 { #category : #accessing }

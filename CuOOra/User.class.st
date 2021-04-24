@@ -41,7 +41,7 @@ User class >> newWithUsername: aUsername andPassword: aPassword [
 	^ self new initializeWith: aUsername and: aPassword.
 ]
 
-{ #category : #'evaluating-private' }
+{ #category : #'old - deprecated' }
 User >> addAnswer: anObject [ 
 	answers add: anObject .
 ]
@@ -95,7 +95,7 @@ User >> deleteQuestion: aQuestion [
 		ifFalse: [ ^ false ]
 ]
 
-{ #category : #action }
+{ #category : #'old - deprecated' }
 User >> dislikePost: aPost [
 	| i interaction |
 	interaction := Dislike newFor: aPost.
@@ -124,7 +124,7 @@ User >> getAllAnswers [
 	^ answers 
 ]
 
-{ #category : #accessing }
+{ #category : #'old - deprecated' }
 User >> getInteractions [
 	^ interactions
 ]
@@ -191,7 +191,7 @@ User >> isFollower: aUser [
 	^ follows includes: aUser
 ]
 
-{ #category : #action }
+{ #category : #'old - deprecated' }
 User >> likePost: aPost [
 	| i like |
 	i := interactions

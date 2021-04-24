@@ -97,7 +97,7 @@ CuOOraSystem >> getAllTopics [
 
 ]
 
-{ #category : #'private-helpers' }
+{ #category : #'old - deprecated' }
 CuOOraSystem >> getInteractionPoints: aCollectionOfInteractions [
 	| totalLikes totalDislikes |
 		"SE TRANSFORMA EL BOOLEANO QUE DEVUELVE isLike A UN 
@@ -114,13 +114,13 @@ CuOOraSystem >> getInteractionPoints: aCollectionOfInteractions [
 
 ]
 
-{ #category : #'private-helpers' }
+{ #category : #'old - deprecated' }
 CuOOraSystem >> getNumberOfDislikes: aPost [
 	^ (self getPostInteractions: aPost)
 		sumNumbers: [ :each | each isDislike asBit ]
 ]
 
-{ #category : #'private-helpers' }
+{ #category : #'old - deprecated' }
 CuOOraSystem >> getNumberOfLikes: aPost [
 
 	^ (self getPostInteractions: aPost)
@@ -141,7 +141,18 @@ CuOOraSystem >> getOrderedAnswers: aQuestion [
 	^ aColSorted
 ]
 
-{ #category : #'private-helpers' }
+{ #category : #reordering }
+CuOOraSystem >> getOrderedAnswersNew: aQuestion [
+	| aCol aColSorted |
+	aCol := aQuestion allAnswers.
+	aColSorted := aCol
+		sort: [ :a :b | 
+			(a getPoints)
+				> (b getPoints) ].
+	^ aColSorted
+]
+
+{ #category : #'old - deprecated' }
 CuOOraSystem >> getPostBalance: aPost [
 	| temp |
 	"DEVUELVE PUNTOS TOTALES PARA UN POST"
@@ -150,7 +161,7 @@ CuOOraSystem >> getPostBalance: aPost [
 	^ temp
 ]
 
-{ #category : #'private-helpers' }
+{ #category : #'old - deprecated' }
 CuOOraSystem >> getPostInteractions: aPost [
 	| intCol newCol |
 	"DADO UN POST (PREGUNTA O RESPUESTA) NECESITO TODAS LAS INTERACCIONES
@@ -190,6 +201,18 @@ CuOOraSystem >> getUserPoints: aUser [
 	^ total
 ]
 
+{ #category : #numeric }
+CuOOraSystem >> getUserPointsNew: aUser [
+	| total posts reactionPoints |
+	total := 0.
+	total := total + aUser getPointsFromUser.
+	posts := aUser getQuestions.
+	posts addAll: aUser getAllAnswers.
+	reactionPoints := posts sumNumbers: [ :p | p getPoints ].
+	total := total + reactionPoints.
+	^ total
+]
+
 { #category : #accessing }
 CuOOraSystem >> getUsers [
 	^ users
@@ -216,7 +239,7 @@ CuOOraSystem >> questionsForTopic: aTopic [
 	^ aTopic relatedQuestions 
 ]
 
-{ #category : #collection }
+{ #category : #'old - deprecated' }
 CuOOraSystem >> relevantQuestionsForUser: aUser [
 
 	| questions q follows |

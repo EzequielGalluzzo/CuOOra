@@ -30,24 +30,36 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'post',
-		'timeAndDate'
+		'timeAndDate',
+		'user'
 	],
 	#category : #'CuOOra-Model'
 }
 
 { #category : #'instance creation' }
-Interaction class >> newFor: aPost [
-	^ self new initializeForPost: aPost
+Interaction class >> newFor: aUser [
+	^ self new initializeForUser: aUser
 ]
 
-{ #category : #initialization }
+{ #category : #'old - deprecated' }
 Interaction >> initializeForPost: aPost [
 	post := aPost.
 	timeAndDate := DateAndTime now.
 ]
 
-{ #category : #testing }
+{ #category : #initialization }
+Interaction >> initializeForUser: aUser [
+	post := aUser.
+	timeAndDate := DateAndTime now
+]
+
+{ #category : #'old - deprecated' }
 Interaction >> isOfPost: aPost [
 	^ (aPost == post)
 
+]
+
+{ #category : #testing }
+Interaction >> isOfUser: aUser [
+	^ aUser == user
 ]
