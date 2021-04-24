@@ -111,7 +111,7 @@ UserTest >> testAddAndRemoveInterest [
 
 { #category : #tests }
 UserTest >> testAddAnswers [
-	self setUp;
+	self
 	assert: ( u2 getAllAnswers size > 0 );
 	assert: ( u1 getAllAnswers size = 0 );
 	deny: ( u3 getAllAnswers size = 0 )
@@ -119,7 +119,7 @@ UserTest >> testAddAnswers [
 
 { #category : #tests }
 UserTest >> testAllQuestions [
-	self setUp;
+	self 
 	assert: (u1 getQuestions  includes: q1  );
 	deny: (u1 getQuestions includes: q2);
 	makeQuestionsForUsers ;
@@ -133,7 +133,7 @@ UserTest >> testAllQuestions [
 
 { #category : #tests }
 UserTest >> testFollowing [
-	self setUp;
+	self 
 	assert: ( u1 isFollower: u2 );
 	deny: ( u2 isFollower: u1 ).
 	u2 follow: u1.
@@ -142,7 +142,7 @@ UserTest >> testFollowing [
 
 { #category : #tests }
 UserTest >> testLikeDislikeYPuntos [
-	self setUp;
+	self 
 	assert: ( u1 getInteractions size = 1 );
 	deny: ( u2 getInteractions size = 0)
 ]

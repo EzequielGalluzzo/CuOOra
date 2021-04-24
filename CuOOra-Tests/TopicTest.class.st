@@ -55,7 +55,7 @@ TopicTest >> testAddQuestion [
 
 { #category : #tests }
 TopicTest >> testHasRelatedQuestion [
-	self setUp;
+	self 
 	assert: (t1 hasRelatedQuestion: q1);
 	deny: (t1 hasRelatedQuestion: q2);
 	assert: (t2 hasRelatedQuestion: q2)
@@ -63,7 +63,7 @@ TopicTest >> testHasRelatedQuestion [
 
 { #category : #tests }
 TopicTest >> testRelatedQuestions [
-	self setUp;
+	self 
 	assert: (t1 relatedQuestions includes: q1);
 	deny: (t1 relatedQuestions includes: q2);
 	assert: (t2 relatedQuestions includes: q2);

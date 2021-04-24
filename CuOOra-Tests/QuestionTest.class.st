@@ -39,14 +39,14 @@ self makeQuestionsForAnswerTesting .
 
 { #category : #tests }
 QuestionTest >> testAddAnswer [
-	self setUp;
+	self 
 	assert: ( q1 allAnswers includes: a1);
 	deny: ( q1 allAnswers includes: a3)
 ]
 
 { #category : #tests }
 QuestionTest >> testDeleteAnswers [
-	self setUp;
+	self 
 	assert: ( q1 allAnswers includes: a1).
 	q1 deleteAnswers.
 	self deny: ( q1 allAnswers includes: a1)
