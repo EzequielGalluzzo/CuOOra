@@ -87,48 +87,89 @@ UserTest >> setUp [
 	cuoora := CuOOraSystem new.
 	self makeTopics.
 	self makeUsers.
-	self makeInterestsForUser .
-	self makeQuestionsAndAddToUsers.
-	self makeAnswersFromUsers .
 		cuoora
 		addUser: u1;
 		addUser: u2;
 		addUser: u3;
 		addTopic: t1;
 		addTopic: t2.
+	self makeInterestsForUser .
+	self makeQuestionsAndAddToUsers.
+	self makeAnswersFromUsers .
 ]
 
 { #category : #tests }
-UserTest >> testAddAndRemoveInterest [
-	| u t |
-	u := User new.
-	t := Topic new.
-	u addInterest: t.
-	self assert: (u getInterests includes: t ).
-	u removeInterest: t.
-	self deny: (u getInterests includes: t).
+UserTest >> testAddAnswer [
+	| tempAnsw |
+	self assert: ( u1 getAllAnswers size)equals: 0.
+	tempAnsw:= Answer new.
+	u1 addAnswer: tempAnsw .
+	self assert: ( u1 getAllAnswers size)equals: 1.
 ]
 
 { #category : #tests }
-UserTest >> testAddAnswers [
-	self
-	assert: ( u2 getAllAnswers size > 0 );
-	assert: ( u1 getAllAnswers size = 0 );
-	deny: ( u3 getAllAnswers size = 0 )
+UserTest >> testAddAnswerToWithText [
+	self assert: ( u1 getAllAnswers size)equals: 0.
+	u1 addAnswerTo: q2 withText: 'prueba'.
+	self assert: ( u1 getAllAnswers size)equals: 1.
 ]
 
 { #category : #tests }
-UserTest >> testAllQuestions [
-	self 
-	assert: (u1 getQuestions  includes: q1  );
-	deny: (u1 getQuestions includes: q2);
-	makeQuestionsForUsers ;
-   assert: ( t1 relatedQuestions size > 0 ).
+UserTest >> testAddInterest [ 
+	self assert: ( u1 getInterests includes: t1);
+	deny: ( u1 getInterests includes: t2).
+	u1 addInterest: t2.
+	self assert: ( u1 getInterests includes: t2).
+]
+
+{ #category : #tests }
+UserTest >> testAddQuestion [
+	self assert: (u1 getQuestions size)equals: 1.
+	u1 addQuestionForTopic: t1 name: 'q1' description: 'this is q1'.
+	self assert: (u1 getQuestions size)equals: 2.
+]
+
+{ #category : #tests }
+UserTest >> testAddQuestionForTopicNameDescription [
+	self assert: ( u1 getQuestions size)equals: 1.
+	u1 addQuestionForTopic: t1 name: 'ques1' description: 'desc1' .
+	self assert: ( u1 getQuestions size)equals: 2.
+]
+
+{ #category : #tests }
+UserTest >> testAskedQuestion [
+	self assert: ( u1 askedQuestion: q1);
+	deny: ( u1 askedQuestion: q2).
+]
+
+{ #category : #tests }
+UserTest >> testDeleteAnswer [
+	| tempAnsw |
+	tempAnsw:= Answer new.
+	u1 addAnswer: tempAnsw .
+	self assert: ( u1 getAllAnswers size)equals: 1.
+	u1 deleteAnswer: tempAnsw.
+	self assert: ( u1 getAllAnswers size)equals: 0.
+]
+
+{ #category : #tests }
+UserTest >> testDeleteQuestion [
+	self assert: ( u1 getQuestions includes: q1).
 	u1 deleteQuestion: q1.
-	self deny: (u1 getQuestions includes: q1);
-	assert: ( u2 hasPost: q2);
-	deny: ( u3 hasPost: q1)
-	
+	self deny: ( u1 getQuestions includes: q1)
+]
+
+{ #category : #tests }
+UserTest >> testDislikePost [
+	"hacerlo una vez reformado el modelo respecto a likes-dislikes"
+]
+
+{ #category : #tests }
+UserTest >> testFollow [ 
+	self assert: ( u3 followsUsers includes: u2 );
+	deny: ( u3 followsUsers includes: u1).
+	u3 follow: u1.
+	self assert: ( u3 followsUsers includes: u1)
 ]
 
 { #category : #tests }
@@ -141,8 +182,55 @@ UserTest >> testFollowing [
 ]
 
 { #category : #tests }
-UserTest >> testLikeDislikeYPuntos [
-	self 
-	assert: ( u1 getInteractions size = 1 );
-	deny: ( u2 getInteractions size = 0)
+UserTest >> testGetMyReplies [
+	self assert: ( u1 getMyReplies size)equals: 0.
+	u1 addAnswerTo: q2 withText: 'prueba'.
+	self assert: ( u1 getMyReplies size)equals: 1.
+	u1 addAnswerTo: q1 withText: 'prueba'.
+	self assert: ( u1 getMyReplies size)equals: 1.
+]
+
+{ #category : #tests }
+UserTest >> testGetPointsFromUser [ 
+	"a definir luego de reformar el sistema de interacciones"
+]
+
+{ #category : #tests }
+UserTest >> testHasNameHasPassword [
+	| tempUser |
+	tempUser:= User new.
+	tempUser initializeWith: 'prueba' and: 'prueba'.
+	self assert: ( tempUser hasName: 'prueba' hasPassword: 'prueba' ). 
+]
+
+{ #category : #tests }
+UserTest >> testHasPost [
+	self assert: (u1 hasPost: q1);
+	deny: (u1 hasPost: q3).
+]
+
+{ #category : #tests }
+UserTest >> testIsFollower [
+	self assert: ( u1 isFollower: u2);
+	deny: (u1 isFollower: u3).
+]
+
+{ #category : #tests }
+UserTest >> testLikePost [
+	"hacerlo una vez reformado el modelo respecto a likes-dislikes"
+]
+
+{ #category : #tests }
+UserTest >> testRelevantQuestions [
+	self assert: ( u1 relevantQuestions size)equals: 1.
+	"agregamos un follow para que la cantidad de preguntas relevantes para el usuario cambie a 2"
+	u1 follow: u3.
+	self assert: ( u1 relevantQuestions size)equals: 2.
+]
+
+{ #category : #tests }
+UserTest >> testRemoveInterest [ 
+	self assert: ( u1 getInterests includes: t1).
+	u1 removeInterest: t1.
+	self deny: ( u1 getInterests includes: t1).
 ]
