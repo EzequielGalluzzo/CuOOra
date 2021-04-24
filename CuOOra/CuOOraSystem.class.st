@@ -76,11 +76,12 @@ CuOOraSystem >> addUser: aName pass: aPassword [
 
 { #category : #deleting }
 CuOOraSystem >> deleteQuestion: aQuestion [
-	| user |
+	| user answers |
+	answers := aQuestion allAnswers.
+	users do: [ :u | answers do: [ :a | u deleteAnswer: a ] ].
 	aQuestion deleteAnswers.
 	user := users detect: [ :u | u askedQuestion: aQuestion ].
-	^ user deleteQuestion: aQuestion.
-	
+	^ user deleteQuestion: aQuestion
 ]
 
 { #category : #collection }
@@ -217,18 +218,13 @@ CuOOraSystem >> questionsForTopic: aTopic [
 
 { #category : #collection }
 CuOOraSystem >> relevantQuestionsForUser: aUser [
-	| questions follows q |
-	"PARA UN USUARIO SE PIDEN LOS TOPICOS DE INTERES Y A ESOS TOPICOS 
-	SE LES PIDEN LAS PREGUNTAS RELACIONADAS"
-	questions := aUser getInterests collect:  [ :t | t relatedQuestions ].
-	"LUEGO LE PEDIMOS AL USUARIO TODOS LOS USUARIOS QUE SIGUE"
+
+	| questions q follows |
+	questions := aUser getInterests collect: [ :t | t relatedQuestions ].
 	follows := aUser followsUsers.
-	"LUEGO LE PEDIMOS A ESOS USUARIOS SUS PREGUNTAS"
 	q := follows collect: [ :u | u getQuestions ].
-	questions addAll: q.
-	"SE DEVUELVE AS SET PORQUE SEGURO SE REPITEN Y FLATTENED POR SER 
-	COLECCION DE COLECCIONES"
-	^ questions flattened asSet 
+   questions addAll: q.
+	^ questions flattened asSet
 ]
 
 { #category : #initialization }

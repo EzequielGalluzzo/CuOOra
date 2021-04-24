@@ -3,8 +3,6 @@ Para registrar:
 |app |
 app := WAAdmin register: LandingComponent  asApplicationAt: 'cuoora'.
 app sessionClass: AUserSession.
-
-
 "
 Class {
 	#name : #LandingComponent,

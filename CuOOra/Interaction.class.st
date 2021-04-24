@@ -30,8 +30,7 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'post',
-		'timeAndDate',
-		'reaction'
+		'timeAndDate'
 	],
 	#category : #'CuOOra-Model'
 }
@@ -45,7 +44,6 @@ Interaction class >> newFor: aPost [
 Interaction >> initializeForPost: aPost [
 	post := aPost.
 	timeAndDate := DateAndTime now.
-	reaction := self.
 ]
 
 { #category : #testing }

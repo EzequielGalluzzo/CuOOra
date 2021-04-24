@@ -41,13 +41,6 @@ User class >> newWithUsername: aUsername andPassword: aPassword [
 	^ self new initializeWith: aUsername and: aPassword.
 ]
 
-{ #category : #'private - testing' }
-User >> addAnswer: anAnswer to: aQuestion [
-	aQuestion addAnswer: anAnswer.
-	answers add: anAnswer .
-	^ anAnswer 
-]
-
 { #category : #'instance creation' }
 User >> addAnswerTo: aQuestion withText: aText [
 	| a |
@@ -81,6 +74,13 @@ User >> addQuestionForTopic: aTopicOrMore name: aName description: aDescription 
 { #category : #'evaluating-private' }
 User >> askedQuestion: aQuestion [
  ^ questions includes:  aQuestion 
+]
+
+{ #category : #deleting }
+User >> deleteAnswer: anAnswer [
+	(answers includes: anAnswer)
+		ifTrue: [ answers remove: anAnswer.  ^ true ]
+		ifFalse: [ ^false  ]
 ]
 
 { #category : #deleting }
@@ -200,6 +200,16 @@ User >> likePost: aPost [
 { #category : #accessing }
 User >> name [
 	^ username
+]
+
+{ #category : #collection }
+User >> relevantQuestions [
+
+	| relevantQuestions followed |
+	relevantQuestions := self getInterests collect: [ :t | t relatedQuestions ].
+	followed := follows collect: [ :u | u getQuestions ].
+   relevantQuestions addAll: followed.
+	^ relevantQuestions flattened asSet
 ]
 
 { #category : #deleting }

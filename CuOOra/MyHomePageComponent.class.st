@@ -71,8 +71,7 @@ MyHomePageComponent >> menu: aCanvas [
 
 { #category : #accessing }
 MyHomePageComponent >> myQuestions [
-	^ (self model relevantQuestionsForUser: self session user)
-		
+	^ (self  session user) relevantQuestions
 ]
 
 { #category : #visiting }

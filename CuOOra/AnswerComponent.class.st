@@ -29,7 +29,7 @@ Class {
 	#name : #AnswerComponent,
 	#superclass : #MainComponent,
 	#instVars : [
-		'answer',
+		'anAnswer',
 		'text'
 	],
 	#category : #'CuOOra-UI'
@@ -42,12 +42,12 @@ AnswerComponent class >> paraPregunta: aQuestion [
 
 { #category : #adding }
 AnswerComponent >> addAnswer [
-self session user addAnswerTo: question withText: answer
+	self session user addAnswerTo: question withText: anAnswer
 ]
 
 { #category : #delegation }
-AnswerComponent >> answer [ 
-	^ answer
+AnswerComponent >> answer [
+	^ anAnswer
 ]
 
 { #category : #accessing }
@@ -87,7 +87,7 @@ AnswerComponent >> renderContent: aCanvas [
 
 { #category : #actions }
 AnswerComponent >> save [
-	(answer := Answer newWithText: text) ifNil: [ ^ self ].
+	(anAnswer := Answer newWithText: text) ifNil: [ ^ self ].
 	self session user addAnswerTo: question withText: text.
-	self call: MyHomePageComponent new
+	self "answer	"call: MyHomePageComponent new
 ]

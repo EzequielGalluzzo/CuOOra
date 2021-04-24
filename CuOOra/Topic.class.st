@@ -87,6 +87,7 @@ Topic >> questions: anObject [
 
 { #category : #collection }
 Topic >> relatedQuestions [
- questions ifNil: [ ^ OrderedCollection new ]
-ifNotNil: [ ^questions ]
+	questions
+		ifNil: [ ^ OrderedCollection new ]
+		ifNotNil: [ ^ questions ]
 ]
