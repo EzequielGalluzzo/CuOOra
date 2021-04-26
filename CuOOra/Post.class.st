@@ -28,8 +28,7 @@ Class {
 	#name : #Post,
 	#superclass : #Object,
 	#instVars : [
-		'time',
-		'date',
+		'dateTime',
 		'likes',
 		'dislikes'
 	],
@@ -38,12 +37,17 @@ Class {
 
 { #category : #'private - testing' }
 Post class >> newMockWith: aDate and: aTime [
-   ^ self new  initializeWithDate: aDate and: aTime; yourself
+   ^ self new  initializeWith: aDate and: aTime
 ]
 
 { #category : #accessing }
 Post >> date [
-	^ date asString , ' ' , time print24
+	^ (dateTime asDate asString,' ', dateTime asTime printMinutes asString) .
+]
+
+{ #category : #'private testing' }
+Post >> dateTime: aDateTime [
+	dateTime := aDateTime.
 ]
 
 { #category : #action }
@@ -74,16 +78,16 @@ Post >> getPoints [
 
 { #category : #initialization }
 Post >> initialize [
-	time := Time now.
-	date := Date today.
+	dateTime := DateAndTime now.
 	likes := OrderedCollection new.
 	dislikes := OrderedCollection new
 ]
 
 { #category : #initialization }
-Post >> initializeWithDate: aDate and: aTime [
-	date := aDate.
-	time := aTime
+Post >> initializeWith: aDate and: aTime [ 
+	self initialize;
+ 	dateTime: ( aDate, aTime)asDateAndTime .
+	
 ]
 
 { #category : #action }
@@ -100,5 +104,5 @@ Post >> likePost: aUser [
 
 { #category : #accessing }
 Post >> postTimeDate [
-	^ (date + time )asDateAndTime 
+	^dateTime
 ]
