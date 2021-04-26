@@ -49,7 +49,7 @@ Interaction >> initializeForPost: aPost [
 
 { #category : #initialization }
 Interaction >> initializeForUser: aUser [
-	post := aUser.
+	user := aUser.
 	timeAndDate := DateAndTime now
 ]
 

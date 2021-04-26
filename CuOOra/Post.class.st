@@ -48,11 +48,13 @@ Post >> date [
 
 { #category : #action }
 Post >> dislikePost: aUser [
-	| like | 
-	dislikes add: (Dislike newFor: aUser).
+	| like dislike |
 	like := likes detect: [ :l | l isOfUser: aUser ] ifNone: [ nil ].
-	like ifNotNil: [ likes remove: like ]
-	
+	like ifNotNil: [ likes remove: like ].
+	dislike := dislikes
+		detect: [ :l | l isOfUser: aUser ]
+		ifNone: [ nil ].
+	dislike ifNil: [ dislikes add: (Dislike newFor: aUser) ]
 ]
 
 { #category : #numeric }
@@ -86,11 +88,14 @@ Post >> initializeWithDate: aDate and: aTime [
 
 { #category : #action }
 Post >> likePost: aUser [
-	| dislike | 
-	likes add: (Like newFor: aUser).
-	dislike := dislikes detect: [ :d | d isOfUser: aUser ] ifNone: [ nil ].
-	dislike ifNotNil: [ dislikes remove: dislike ]
+	| like dislike |
+	dislike := dislikes
+		detect: [ :d | d isOfUser: aUser ]
+		ifNone: [ nil ].
+	dislike ifNotNil: [ dislikes remove: dislike ].
 	
+	like := likes detect: [ :l | l isOfUser: aUser ] ifNone: [ nil ].
+	like ifNil: [ likes add: (Like newFor: aUser) ]
 ]
 
 { #category : #accessing }
