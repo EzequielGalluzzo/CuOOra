@@ -45,11 +45,6 @@ AnswerComponent >> addAnswer [
 	self session user addAnswerTo: question withText: anAnswer
 ]
 
-{ #category : #delegation }
-AnswerComponent >> answer [
-	^ anAnswer
-]
-
 { #category : #accessing }
 AnswerComponent >> answerText [
 	^ text

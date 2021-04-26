@@ -29,7 +29,6 @@ Class {
 	#name : #Interaction,
 	#superclass : #Object,
 	#instVars : [
-		'post',
 		'timeAndDate',
 		'user'
 	],
@@ -41,22 +40,10 @@ Interaction class >> newFor: aUser [
 	^ self new initializeForUser: aUser
 ]
 
-{ #category : #'old - deprecated' }
-Interaction >> initializeForPost: aPost [
-	post := aPost.
-	timeAndDate := DateAndTime now.
-]
-
 { #category : #initialization }
 Interaction >> initializeForUser: aUser [
 	user := aUser.
 	timeAndDate := DateAndTime now
-]
-
-{ #category : #'old - deprecated' }
-Interaction >> isOfPost: aPost [
-	^ (aPost == post)
-
 ]
 
 { #category : #testing }

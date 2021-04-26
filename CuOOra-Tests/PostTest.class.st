@@ -43,21 +43,11 @@ PostTest >> makePostAndUsers [
 	p3 initialize.
 	p4 := Post new.
 	p4 initialize.
-		
-	
-	
-	u1 := User new.
-	u1 initializeWith: 'u1' and: '' .
-	u2 := User new.
-	u2 initializeWith: 'u2' and: ''.
-	u3 := User new.
-	u3 initializeWith: 'u3' and: ''.
-	u4 := User new.
-	u4 initializeWith: 'u4' and: ''.
-	u5 := User new.
-	u5 initializeWith: 'u5' and: ''.
-	
-
+	u1 := User newWith: 'u1' andPass: ''.
+	u2 := User newWith: 'u2' andPass: ''.
+	u3 := User newWith: 'u3' andPass: ''.
+	u4 := User newWith: 'u4' andPass: ''.
+	u5 := User newWith: 'u5' andPass: ''
 ]
 
 { #category : #setUps }

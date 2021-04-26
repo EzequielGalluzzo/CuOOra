@@ -195,9 +195,8 @@ UserTest >> testGetPointsFromUser [
 { #category : #tests }
 UserTest >> testHasNameHasPassword [
 	| tempUser |
-	tempUser:= User new.
-	tempUser initializeWith: 'prueba' and: 'prueba'.
-	self assert: ( tempUser hasName: 'prueba' hasPassword: 'prueba' ). 
+	tempUser := User newWith: 'prueba' andPass: 'prueba'.
+	self assert: (tempUser hasName: 'prueba' hasPassword: 'prueba')
 ]
 
 { #category : #tests }

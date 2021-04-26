@@ -69,7 +69,7 @@ CuOOraSystem >> addUser: aUser [
 { #category : #adding }
 CuOOraSystem >> addUser: aName pass: aPassword [
  | u |
- u := User newWithUsername: aName andPassword: aPassword.
+ u := User newWith: aName andPass: aPassword.
  users add: u.
 ^ u
 ]
@@ -97,85 +97,6 @@ CuOOraSystem >> getAllTopics [
 
 ]
 
-{ #category : #'old - deprecated' }
-CuOOraSystem >> getInteractionPoints: aCollectionOfInteractions [
-	| totalLikes totalDislikes |
-		"SE TRANSFORMA EL BOOLEANO QUE DEVUELVE isLike A UN 
-	UNO O UN CERO CON asBit PARA CADA INTERACCION Y LO MISMO PARA
-	isDislike"
-	aCollectionOfInteractions isNotNil
-		ifTrue: [ totalLikes := aCollectionOfInteractions
-				sumNumbers: [ :each | each isLike asBit ].
-			totalDislikes := aCollectionOfInteractions
-				sumNumbers: [ :each | each isDislike asBit ].
-			"LA CANTIDAD DE DISLIKES LA CONVIERTO EN NEGATIVA"
-			^ totalLikes + (totalDislikes * -1) ]
-		ifFalse: [ ^ 0 ]
-
-]
-
-{ #category : #'old - deprecated' }
-CuOOraSystem >> getNumberOfDislikes: aPost [
-	^ (self getPostInteractions: aPost)
-		sumNumbers: [ :each | each isDislike asBit ]
-]
-
-{ #category : #'old - deprecated' }
-CuOOraSystem >> getNumberOfLikes: aPost [
-
-	^ (self getPostInteractions: aPost)
-		sumNumbers: [ :each | each isLike asBit ]
-]
-
-{ #category : #'old - deprecated' }
-CuOOraSystem >> getOrderedAnswers: aQuestion [
-	| aCol aColSorted |
-	"DADA UNA PREGUNTA LE PIDO TODAS SUS RESPUESTAS"
-	aCol := aQuestion allAnswers.
-	"LUEGO NECESITO ORDENAR CADA RESPUESTA POR LA CANTIDAD DE PUNTOS QUE 
-	TIENE POR INTERACCIONES DE MAYOR A MENOR"
-	aColSorted := aCol
-		sort: [ :a :b | 
-			(self getInteractionPoints: (self getPostInteractions: a))
-				> (self getInteractionPoints: (self getPostInteractions: b)) ].
-	^ aColSorted
-]
-
-{ #category : #'old - deprecated' }
-CuOOraSystem >> getOrderedAnswersNew: aQuestion [
-	| aCol aColSorted |
-	aCol := aQuestion allAnswers.
-	aColSorted := aCol
-		sort: [ :a :b | 
-			(a getPoints)
-				> (b getPoints) ].
-	^ aColSorted
-]
-
-{ #category : #'old - deprecated' }
-CuOOraSystem >> getPostBalance: aPost [
-	| temp |
-	"DEVUELVE PUNTOS TOTALES PARA UN POST"
-	temp := (self getNumberOfLikes: aPost) asNumber.
-	temp := temp - (self getNumberOfDislikes: aPost) asNumber.
-	^ temp
-]
-
-{ #category : #'old - deprecated' }
-CuOOraSystem >> getPostInteractions: aPost [
-	| intCol newCol |
-	"DADO UN POST (PREGUNTA O RESPUESTA) NECESITO TODAS LAS INTERACCIONES
-	DE TODOS LOS USUARIOS Y LUEGO ENCONTRAR CUALES INTERACCIONES CORRESPONDEN
-	A ESE POST" 
-	intCol := users
-		flatCollect: [ :u | 
-			u getInteractions
-				ifNotEmpty: [ u getInteractions ]
-				ifEmpty: [ OrderedCollection new ] ].
-	newCol := (intCol select: [ :i | i isOfPost: aPost ]) asSet.
-	^ newCol
-]
-
 { #category : #'private-helpers' }
 CuOOraSystem >> getUserForPost: aPost [
 	^ users
@@ -186,19 +107,6 @@ CuOOraSystem >> getUserForPost: aPost [
 { #category : #'private-helpers' }
 CuOOraSystem >> getUserForQuestion: aQuestion [
 	^ users detect: [ :each | each askedQuestion: aQuestion ] ifNone: [ nil ]	
-]
-
-{ #category : #'old - deprecated' }
-CuOOraSystem >> getUserPoints: aUser [
-	| total posts reactionPoints |
-	total := 0.
-	total := total + aUser getPointsFromUser.
-	posts := aUser getQuestions.
-	posts addAll: aUser getAllAnswers.
-
-	reactionPoints := posts sumNumbers: [ :p | self getPostBalance: p ].
-	total := total + reactionPoints.
-	^ total
 ]
 
 { #category : #numeric }
@@ -239,20 +147,9 @@ CuOOraSystem >> questionsForTopic: aTopic [
 	^ aTopic relatedQuestions 
 ]
 
-{ #category : #'old - deprecated' }
-CuOOraSystem >> relevantQuestionsForUser: aUser [
-
-	| questions q follows |
-	questions := aUser getInterests collect: [ :t | t relatedQuestions ].
-	follows := aUser followsUsers.
-	q := follows collect: [ :u | u getQuestions ].
-   questions addAll: q.
-	^ questions flattened asSet
-]
-
 { #category : #initialization }
 CuOOraSystem >> sampleData [
-| pedro diego juan python java rust cpp javascript smalltalk OOP TDU OO1 PreguntaPedro PreguntaDiego |
+	| pedro diego juan python java rust cpp javascript smalltalk OOP TDU OO1 PreguntaPedro PreguntaDiego |
 	"topicos"
 	python := Topic newWith: 'Python' desc: 'about Python language'.
 	java := Topic newWith: 'Java' desc: 'about Java language'.
@@ -283,13 +180,9 @@ CuOOraSystem >> sampleData [
 
 
 	"users"
-	pedro := User
-		newWithUsername: 'pedro@cuoora.com'
-		andPassword: 'pedro'.
-	diego := User
-		newWithUsername: 'diego@cuoora.com'
-		andPassword: 'diego'.
-	juan := User newWithUsername: 'juan@cuoora.com' andPassword: 'juan'.
+	pedro := User newWith: 'pedro@cuoora.com' andPass: 'pedro'.
+	diego := User newWith: 'diego@cuoora.com' andPass: 'diego'.
+	juan := User newWith: 'juan@cuoora.com' andPass: 'juan'.
 	juan follow: diego.
 	pedro follow: juan.
 	users
@@ -302,19 +195,17 @@ CuOOraSystem >> sampleData [
 	"preguntas"
 	PreguntaPedro := Question new.
 	PreguntaPedro
-		initializeWith: '¿Para que sirve el método SetUp?'
+		newWithName: '¿Para que sirve el método SetUp?'
 		topics:
 			{OO1.
 			TDU}
-		and: 'No se para que sirve el metodo setUp.'.
+		andContent: 'No se para que sirve el metodo setUp.'.
 	pedro addQuestion: PreguntaPedro.
-	PreguntaDiego := Question new.
-	PreguntaDiego
-		initializeWith: '¿Qué significa #mesageNotUnderstood?'
+	PreguntaDiego := Question newWithName: '¿Qué significa #mesageNotUnderstood?'
 		topics:
 			{OO1.
 			smalltalk}
-		and: 'salta ese error y no se que significa.'.
+		andContent: 'salta ese error y no se que significa.'.
 	diego addQuestion: PreguntaDiego.
 	"preguntas"
 

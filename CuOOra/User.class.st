@@ -37,13 +37,8 @@ Class {
 }
 
 { #category : #'instance creation' }
-User class >> newWithUsername: aUsername andPassword: aPassword [
+User class >> newWith: aUsername andPass: aPassword [
 	^ self new initializeWith: aUsername and: aPassword.
-]
-
-{ #category : #'old - deprecated' }
-User >> addAnswer: anObject [ 
-	answers add: anObject .
 ]
 
 { #category : #'instance creation' }
@@ -95,16 +90,6 @@ User >> deleteQuestion: aQuestion [
 		ifFalse: [ ^ false ]
 ]
 
-{ #category : #'old - deprecated' }
-User >> dislikePost: aPost [
-	| i interaction |
-	interaction := Dislike newFor: aPost.
-	i := interactions
-		detect: [ :inter | inter isOfPost: aPost ] ifNone:[ nil ].
-	i ifNotNil:[ interactions remove: i ].
-	interactions add: interaction
-]
-
 { #category : #action }
 User >> follow: aUser [
  (aUser = self)
@@ -122,11 +107,6 @@ User >> followsUsers [
 { #category : #accessing }
 User >> getAllAnswers [
 	^ answers 
-]
-
-{ #category : #'old - deprecated' }
-User >> getInteractions [
-	^ interactions
 ]
 
 { #category : #accessing }
@@ -189,17 +169,6 @@ User >> initializeWith: aUsername and: aPassword [
 { #category : #'evaluating-private' }
 User >> isFollower: aUser [
 	^ follows includes: aUser
-]
-
-{ #category : #'old - deprecated' }
-User >> likePost: aPost [
-	| i like |
-	i := interactions
-		detect: [ :inter | inter isOfPost: aPost ]
-		ifNone: [nil].
-	i ifNotNil:[ interactions remove: i ].
-	like:= Like newFor: aPost.
-	interactions add: like
 ]
 
 { #category : #accessing }
