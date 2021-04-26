@@ -144,10 +144,12 @@ CuOOraSystemTest >> testGetUserForQuestion [
 ]
 
 { #category : #tests }
-CuOOraSystemTest >> testGetUserPointsNew [
+CuOOraSystemTest >> testGetUserPoints [
+
 	self
-		assert: (cuoora getUserPoints: u1)equals: 20;
-		deny: (cuoora getUserPoints: u2)equals: 600.
+			assert: (cuoora getUserPoints: User new) equals: 0;
+		assert: (cuoora getUserPoints: u1) equals: 22;
+		deny: (cuoora getUserPoints: u2) equals: 600
 ]
 
 { #category : #tests }

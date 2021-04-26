@@ -186,10 +186,12 @@ UserTest >> testGetMyReplies [
 ]
 
 { #category : #tests }
-UserTest >> testGetPointsFromUser [ 
-	self assert: ( u1 getPointsFromUser )equals: 20;
-	assert: ( u2 getPointsFromUser )equals: 220;
-	assert: ( u3 getPointsFromUser )equals: 120
+UserTest >> testGetPointsFromUser [
+	self
+		assert: User new getPointsFromUser equals: 0;
+		assert: u1 getPointsFromUser equals: 20;
+		assert: u2 getPointsFromUser equals: 220;
+		assert: u3 getPointsFromUser equals: 120
 ]
 
 { #category : #tests }
