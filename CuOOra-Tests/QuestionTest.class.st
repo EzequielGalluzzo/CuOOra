@@ -19,13 +19,19 @@ QuestionTest >> makeQuestionsForAnswerTesting [
 	q2 initialize.
 	
 	a1:= Answer new.
-	a1 initialize .
+	a1 initialize.
 	a2:= Answer new.
-	a2 initialize .
+	a2 initialize.
 	a3:= Answer new.
-	a3 initialize .
+	a3 initialize.
+	
+	a1 likes: 2.
+	a1 dislikes: 3.
+	a2 likes: 1.
+	a2 dislikes: 0.
 	
 	q1 addAnswer: a1.
+	q1 addAnswer: a2.
 	q2 addAnswer: a3.
 ]
 
@@ -50,4 +56,9 @@ QuestionTest >> testDeleteAnswers [
 	assert: ( q1 allAnswers includes: a1).
 	q1 deleteAnswers.
 	self deny: ( q1 allAnswers includes: a1)
+]
+
+{ #category : #tests }
+QuestionTest >> testgetOrderedAnswers [
+	self assert: ( q1 getOrderedAnswers at: 1)equals: a2.
 ]
