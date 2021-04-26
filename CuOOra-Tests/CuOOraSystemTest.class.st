@@ -101,6 +101,14 @@ CuOOraSystemTest >> testAddTopicForUser [
 ]
 
 { #category : #tests }
+CuOOraSystemTest >> testAddUser [
+	|tempU|
+	tempU:= User new.
+	cuoora addUser: tempU.
+	self assert: (cuoora getUsers includes: tempU)
+]
+
+{ #category : #tests }
 CuOOraSystemTest >> testAddUserPass [
 	self		
 		deny: (cuoora userWithName: 'testUser' protectedBy: 'test') isNotNil.
@@ -131,6 +139,11 @@ CuOOraSystemTest >> testGetUserForPost [
 ]
 
 { #category : #tests }
+CuOOraSystemTest >> testGetUserForQuestion [
+	self assert: ( cuoora getUserForQuestion: q1)equals: u1 
+]
+
+{ #category : #tests }
 CuOOraSystemTest >> testGetUserPointsNew [
 	self
 		assert: (cuoora getUserPointsNew: u1)equals: 20;
@@ -143,6 +156,14 @@ CuOOraSystemTest >> testNewTopicDescription [
 	tempCant := cuoora getAllTopics size.
 	cuoora newTopic: 'prueba' description: 'prueba'.
 	self assert: (cuoora getAllTopics size )equals: (tempCant+1)
+]
+
+{ #category : #tests }
+CuOOraSystemTest >> testQuestionsForTopic [ 
+	self assert: ((cuoora questionsForTopic: t1)size ) equals: 0.
+	t1 addQuestion: q1.
+	t1 addQuestion: q2.
+	self assert: ((cuoora questionsForTopic: t1)size ) equals: 2.
 ]
 
 { #category : #tests }
