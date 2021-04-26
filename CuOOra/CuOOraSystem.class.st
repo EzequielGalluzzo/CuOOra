@@ -110,7 +110,7 @@ CuOOraSystem >> getUserForQuestion: aQuestion [
 ]
 
 { #category : #numeric }
-CuOOraSystem >> getUserPointsNew: aUser [
+CuOOraSystem >> getUserPoints: aUser [
 	| total posts reactionPoints |
 	total := 0.
 	total := total + aUser getPointsFromUser.
@@ -193,9 +193,7 @@ CuOOraSystem >> sampleData [
 	"users"
 
 	"preguntas"
-	PreguntaPedro := Question new.
-	PreguntaPedro
-		newWithName: '¿Para que sirve el método SetUp?'
+	PreguntaPedro := Question newWithName: '¿Para que sirve el método SetUp?'
 		topics:
 			{OO1.
 			TDU}

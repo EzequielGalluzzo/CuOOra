@@ -19,6 +19,6 @@ InteractionTest >> setUp [
 
 { #category : #tests }
 InteractionTest >> testIsOfUser [
-	i1 newFor: u1.
+	i1 := Interaction newFor: u1.
 	self assert: (i1 isOfUser: u1)
 ]

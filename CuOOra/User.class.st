@@ -41,6 +41,11 @@ User class >> newWith: aUsername andPass: aPassword [
 	^ self new initializeWith: aUsername and: aPassword.
 ]
 
+{ #category : #'private-helpers' }
+User >> addAnswer: anAnswer [
+	answers add: anAnswer.
+]
+
 { #category : #'instance creation' }
 User >> addAnswerTo: aQuestion withText: aText [
 	| a |

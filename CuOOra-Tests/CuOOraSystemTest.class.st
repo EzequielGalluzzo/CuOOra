@@ -32,11 +32,11 @@ CuOOraSystemTest >> makeQuestionsAndAddToUsers [
 	u2 addQuestion: q2.
 	u3 addQuestion: q3.	
 		
-	u2 likePost: q1.
-	u3 likePost: q1.
+	q1 likePost: u2.
+	q1 likePost: u3.
 
-	u3 dislikePost: q2.
-	u1 dislikePost: q2.
+	q2 dislikePost: u3.
+	q2 dislikePost: u1.
 	
 	u2 addAnswerTo: q3 withText: 'a1'.
 	u2 addAnswerTo: q1 withText: 'a3'.
@@ -146,8 +146,8 @@ CuOOraSystemTest >> testGetUserForQuestion [
 { #category : #tests }
 CuOOraSystemTest >> testGetUserPointsNew [
 	self
-		assert: (cuoora getUserPointsNew: u1)equals: 20;
-		deny: (cuoora getUserPointsNew: u2)equals: 600.
+		assert: (cuoora getUserPoints: u1)equals: 20;
+		deny: (cuoora getUserPoints: u2)equals: 600.
 ]
 
 { #category : #tests }
