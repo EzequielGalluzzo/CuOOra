@@ -63,7 +63,8 @@ Post >> dislikePost: aUser [
 
 { #category : #'private accessing' }
 Post >> dislikes: aNumber [
-	dislikes:= OrderedCollection new: aNumber withAll: Dislike new. 
+	dislikes := OrderedCollection new: aNumber withAll: Dislike new
+	
 ]
 
 { #category : #numeric }
@@ -109,7 +110,8 @@ Post >> likePost: aUser [
 
 { #category : #'private accessing' }
 Post >> likes: aNumber [
-   likes := OrderedCollection new: aNumber withAll: Like new
+	likes := OrderedCollection new: aNumber withAll: Like new
+	
 ]
 
 { #category : #accessing }
