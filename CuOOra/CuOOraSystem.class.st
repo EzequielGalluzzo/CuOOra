@@ -188,7 +188,7 @@ CuOOraSystem >> getUserForQuestion: aQuestion [
 	^ users detect: [ :each | each askedQuestion: aQuestion ] ifNone: [ nil ]	
 ]
 
-{ #category : #numeric }
+{ #category : #'old - deprecated' }
 CuOOraSystem >> getUserPoints: aUser [
 	| total posts reactionPoints |
 	total := 0.
