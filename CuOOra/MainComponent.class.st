@@ -31,7 +31,7 @@ MainComponent >> agregarPregunta: aCanvas [
 
 { #category : #visiting }
 MainComponent >> agregarRespuesta: aPost [
-self call: (AnswerComponent paraPregunta: aPost)
+self show: (AnswerComponent paraPregunta: aPost) onAnswer: [  ].
 ]
 
 { #category : #rendering }

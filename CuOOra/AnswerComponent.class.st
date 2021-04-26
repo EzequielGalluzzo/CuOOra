@@ -89,5 +89,5 @@ AnswerComponent >> renderContent: aCanvas [
 AnswerComponent >> save [
 	(anAnswer := Answer newWithText: text) ifNil: [ ^ self ].
 	self session user addAnswerTo: question withText: text.
-	self answer
+	self answer: true.
 ]
