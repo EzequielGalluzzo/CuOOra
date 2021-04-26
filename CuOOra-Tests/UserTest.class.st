@@ -160,11 +160,6 @@ UserTest >> testDeleteQuestion [
 ]
 
 { #category : #tests }
-UserTest >> testDislikePost [
-	"hacerlo una vez reformado el modelo respecto a likes-dislikes"
-]
-
-{ #category : #tests }
 UserTest >> testFollow [ 
 	self assert: ( u3 followsUsers includes: u2 );
 	deny: ( u3 followsUsers includes: u1).
@@ -192,7 +187,9 @@ UserTest >> testGetMyReplies [
 
 { #category : #tests }
 UserTest >> testGetPointsFromUser [ 
-	"a definir luego de reformar el sistema de interacciones"
+	self assert: ( u1 getPointsFromUser )equals: 20;
+	assert: ( u2 getPointsFromUser )equals: 220;
+	assert: ( u3 getPointsFromUser )equals: 120
 ]
 
 { #category : #tests }
@@ -213,11 +210,6 @@ UserTest >> testHasPost [
 UserTest >> testIsFollower [
 	self assert: ( u1 isFollower: u2);
 	deny: (u1 isFollower: u3).
-]
-
-{ #category : #tests }
-UserTest >> testLikePost [
-	"hacerlo una vez reformado el modelo respecto a likes-dislikes"
 ]
 
 { #category : #tests }

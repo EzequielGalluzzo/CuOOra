@@ -45,7 +45,7 @@ Post >> date [
 	^ (dateTime asDate asString,' ', dateTime asTime printMinutes asString) .
 ]
 
-{ #category : #'private testing' }
+{ #category : #'private accessing' }
 Post >> dateTime: aDateTime [
 	dateTime := aDateTime.
 ]
@@ -59,6 +59,11 @@ Post >> dislikePost: aUser [
 		detect: [ :l | l isOfUser: aUser ]
 		ifNone: [ nil ].
 	dislike ifNil: [ dislikes add: (Dislike newFor: aUser) ]
+]
+
+{ #category : #'private accessing' }
+Post >> dislikes: aNumber [ 	
+	dislikes := aNumber
 ]
 
 { #category : #numeric }
@@ -100,6 +105,11 @@ Post >> likePost: aUser [
 	
 	like := likes detect: [ :l | l isOfUser: aUser ] ifNone: [ nil ].
 	like ifNil: [ likes add: (Like newFor: aUser) ]
+]
+
+{ #category : #'private accessing' }
+Post >> likes: aNumber [ 	
+	likes := aNumber
 ]
 
 { #category : #accessing }
