@@ -63,7 +63,11 @@ Question >> deleteAnswers [
 
 { #category : #reordering }
 Question >> getOrderedAnswers [
-^ answers sort: [ :a :b | a getPoints > b getPoints ].
+	^ answers
+		sort: [ :a :b | 
+			a getPoints = b getPoints
+				ifTrue: [ a postTimeDate > b postTimeDate ]
+				ifFalse: [ a getPoints > b getPoints ] ]
 ]
 
 { #category : #initialization }
