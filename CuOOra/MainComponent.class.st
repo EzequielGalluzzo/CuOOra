@@ -65,9 +65,9 @@ MainComponent >> detalles: aCanvas dePost: each [
 		small: ' | ';
 		small: each date;
 		small: ' | ';
-		small: (self model getNumberOfLikes: each) asString , ' likes';
+		small: each getNumberOfLikes asString , ' likes';
 		small: ' ';
-		small: (self model getNumberOfDislikes: each) asString , ' dislikes'.
+		small: each getNumberOfDislikes asString , ' dislikes'
 ]
 
 { #category : #accessing }
@@ -98,8 +98,7 @@ MainComponent >> mostrarPreguntas: aCanvas [
 								callback: [ self preguntaConRespuestas: each ];
 								with: [ aCanvas heading
 										level: 3;
-										with: each name.
-									 ].
+										with: each name ].
 							aCanvas space.
 							self detalles: aCanvas dePost: each.
 							aCanvas
@@ -150,11 +149,11 @@ MainComponent >> quantity [
 MainComponent >> reacciones: aCanvas conPost: aPost [
 	self session user
 		ifNotNil: [ aCanvas anchor
-				callback: [ self session user likePost: aPost ];
+				callback: [ aPost likePost:  self session user ];
 				with: 'like'.
 			aCanvas space.
 			aCanvas anchor
-				callback: [ self session user dislikePost: aPost ];
+				callback: [  aPost dislikePost: self session user ];
 				with: 'dislike' ]
 		ifNil: [ aCanvas small: '' ]
 ]

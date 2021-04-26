@@ -59,12 +59,12 @@ Post >> dislikePost: aUser [
 
 { #category : #numeric }
 Post >> getNumberOfDislikes [
-	^ dislikes size
+	^ dislikes size 
 ]
 
 { #category : #numeric }
 Post >> getNumberOfLikes [
-	^ likes size 
+	^ likes size
 ]
 
 { #category : #numeric }
@@ -76,8 +76,8 @@ Post >> getPoints [
 Post >> initialize [
 	time := Time now.
 	date := Date today.
-	likes := Set new.
-	dislikes := Set new.
+	likes := OrderedCollection new.
+	dislikes := OrderedCollection new
 ]
 
 { #category : #initialization }

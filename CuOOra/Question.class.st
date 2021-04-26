@@ -61,6 +61,11 @@ Question >> deleteAnswers [
  answers removeAll.
 ]
 
+{ #category : #reordering }
+Question >> getOrderedAnswers [
+^ answers sort: [ :a :b | a getPoints > b getPoints ].
+]
+
 { #category : #initialization }
 Question >> initialize [
 	super initialize.

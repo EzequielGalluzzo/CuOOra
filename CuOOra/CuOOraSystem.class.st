@@ -127,7 +127,7 @@ CuOOraSystem >> getNumberOfLikes: aPost [
 		sumNumbers: [ :each | each isLike asBit ]
 ]
 
-{ #category : #reordering }
+{ #category : #'old - deprecated' }
 CuOOraSystem >> getOrderedAnswers: aQuestion [
 	| aCol aColSorted |
 	"DADA UNA PREGUNTA LE PIDO TODAS SUS RESPUESTAS"
@@ -141,7 +141,7 @@ CuOOraSystem >> getOrderedAnswers: aQuestion [
 	^ aColSorted
 ]
 
-{ #category : #reordering }
+{ #category : #'old - deprecated' }
 CuOOraSystem >> getOrderedAnswersNew: aQuestion [
 	| aCol aColSorted |
 	aCol := aQuestion allAnswers.
